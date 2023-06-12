@@ -69,7 +69,7 @@ def training(activation,n_layers,n_neurons,trainset,trainloader,testset,testload
         for data in testloader:
             inputs, labels = data
             outputs = net(inputs)
-            _, predicted = torch.max(outputs, 1)
+            _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
 
@@ -154,7 +154,7 @@ class neural_network(nn.Module):
         self.fc_hidden = nn.ModuleList(
             [nn.Linear(in_features  = n_neurons if i!= 0 else n_input,
                        out_features = n_neurons if i!= (n_layers-1) else n_output) for i in range(n_layers)])
-        if activation == 'softplus':
+        if activation == 'softplus': 
             self.softplus = nn.Softplus()
 
     def forward(self, x):
@@ -164,7 +164,7 @@ class neural_network(nn.Module):
                 x = torch.relu(self.fc_hidden[i](x))
             elif self.activation == 'softplus':
                 x = self.softplus(self.fc_hidden[i](x))
-        x = nn.functional.softmax(x, dim=1)  # Aplicar Softmax al output    
+        #x = nn.functional.softmax(x, dim=1)  # Aplicar Softmax al output    
         return x
 
 ### Funcion que inicializa el modelo de la red, solo genera las variables de input
@@ -209,12 +209,12 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
             z = neuron_model.addVar(lb = None, ub = None,vtype = 'C', name = 'z{},{}'.format(l,i))
             all_vars['z{},{}'.format(l,i)] = z
             ## Variable de la parte positiva de la evaluacion
-            h = neuron_model.addVar(lb = 0, ub = bounds[l][i][1], vtype = 'C', name = 'h{},{}'.format(l,i))
+            h = neuron_model.addVar(lb = 0, ub = max(0,bounds[l][i][1]), vtype = 'C', name = 'h{},{}'.format(l,i))
             all_vars['h{},{}'.format(l,i)] = h
             ## Se guarda la variable h, para el input de la siguiente capa
             aux_input.append(h)
             ## Variable de la parte negativa de la evaluacion
-            not_h = neuron_model.addVar(lb = 0, ub = bounds[l][i][0], vtype = 'C', name = 'not_h{},{}'.format(l,i))
+            not_h = neuron_model.addVar(lb = 0, ub = max(0,bounds[l][i][0]), vtype = 'C', name = 'not_h{},{}'.format(l,i))
             all_vars['not_h{},{}'.format(l,i)] = not_h
             ## Variable binaria que indica la activacion de la neurona
             u = neuron_model.addVar(vtype = 'B', name = 'u{},{}'.format(l,i))
@@ -239,28 +239,39 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
             neuron_model.addCons(quicksum(float(W[i,k])*inpt[k] for k in range(n_input)) + float(b[i]) == z, name = 'eval{},{}'.format(l,i))
             ## Restriccion de evaluacion en la funcion de activacion
             if activation == 'softplus':
-                neuron_model.addCons(scip.log(1+scip.exp(z)) - a  == 0, name = 'actv{},{}'.format(l,i))
-              
+                neuron_model.addCons(scip.log(1+scip.exp(z)) == a, name = 'actv{},{}'.format(l,i)) 
+        
     return neuron_model,aux_input,all_vars
 
 
 ### Funcion que optimiza el problema de optimizacion asociado a la evaluacion de una neurona de la red
 ### El parametro neuron_model es el modelo de la neurona, sense es el sentido del problema de optimziacion, tol es la holgura que se añade a las cotas duales
 
-def solve_neuron_model(neuron_model,sense,tol = 1e-03, minutes = 10, print_output = False, digits = 4):
+def solve_neuron_model(neuron_model,sense,params,bounds,l,i,tol = 1e-03, minutes = 10, print_output = False, digits = 4):
     neuron_model.setParam('limits/time', int(60*minutes))
     ## Se resuelve el problema
     if print_output:
         neuron_model.redirectOutput()
     t0 = time.time()
-    neuron_model.optimize()
-    dt = time.time() - t0
+    try:
+        aux_t = time.time()
+        neuron_model.optimize()
+        aux_dt = time.time() - aux_t
+        model_status = neuron_model.getStatus()
+    except:
+        aux_dt = time.time() - t0
+        model_status = 'problem'
+    dt = aux_dt    
+    #print('\n Status',neuron_model.getStatus(),'\n')
     ## Caso de solucion optima
-    if neuron_model.getStatus() == 'optimal':
+    if model_status == 'optimal':
         ## Se entrega el valor objetivo optimo
         obj_val = neuron_model.getObjVal()
         sol = [True,obj_val]
-    ## Caso contrario
+    elif model_status in ['infeasible','unbounded','inforunbd','problem']:
+        dual_val = calculate_aprox_bound(params,bounds,l,i,sense)
+        sol = [False,dual_val]
+    ## Caso contrario    
     else:
         ## Se entrega la cota dual
         dual_val = neuron_model.getDualbound()
@@ -273,13 +284,33 @@ def solve_neuron_model(neuron_model,sense,tol = 1e-03, minutes = 10, print_outpu
     if sol[1] >= 0 and sol[1] < tol:
         ## Se entrega 0
         sol[1] = 0
-    ## Caso en que se entrega la cota dual
-    if not sol[0]:
-        ## Se añade la tolerancia
-        sol[1] = sol[1] + tol
+    ## Se añade la tolerancia
+    sol[1] = sol[1] + tol
     ## Se entrega la solucion
     sol[1] = np.around(sol[1],digits)
     return sol,dt
+
+###
+###
+
+def calculate_aprox_bound(params,bounds,l,i,sense):
+    weight,bias = get_w_b_names(l)
+    W,b = params[weight],params[bias]
+    input_bounds = bounds[l-1]
+    aprox_bound  = float(b[i])
+    for j in range(len(input_bounds)):
+        lb,ub = -input_bounds[j][0],input_bounds[j][1]
+        if float(W[i,j]) >= 0:
+            if sense == 'maximize':
+                aprox_bound += float(W[i,j])*ub
+            else:
+                aprox_bound += float(W[i,j])*lb
+        else:
+            if sense == 'maximize':
+                aprox_bound += float(W[i,j])*lb
+            else:
+                aprox_bound += float(W[i,j])*ub
+    return aprox_bound
 
 ###
 ###
@@ -290,7 +321,7 @@ def calculate_bounds(params,activation = 'relu'):
     ## Crear arreglo para guardar cotas de las capas
     ## Inicia con las cotas del input
     bounds     = OrderedDict()
-    bounds[-1] = [(-1,1) for i in range(784)]
+    bounds[-1] = [(0,1) for i in range(784)]
     ## Se inicializa el modelo
     neuron_model,inpt,all_vars = initialize_neuron_model(bounds)
     input_var  = inpt
@@ -309,11 +340,12 @@ def calculate_bounds(params,activation = 'relu'):
         for i in range(n_neurons):
             ## Se determina el valor maximo de la neurona i
             neuron_model = set_objective_function(neuron_model,inpt,params,bounds,l,i,'maximize')
-            sol_max,dt1  = solve_neuron_model(neuron_model,'maximize')
+            #print('\n ===== Capa {}, neurona {} ====='.format(l,i))
+            sol_max,dt1  = solve_neuron_model(neuron_model,'maximize',params,bounds,l,i)
             neuron_model.freeTransform()
             ## Se determina el minimo de la neurona i
             neuron_model = set_objective_function(neuron_model,inpt,params,bounds,l,i,'minimize')
-            sol_min,dt2  = solve_neuron_model(neuron_model,'minimize')
+            sol_min,dt2  = solve_neuron_model(neuron_model,'minimize',params,bounds,l,i)
             neuron_model.freeTransform()
             ## Se añaden las cotas de la neurona al arreglo de la capa
             aux.append((sol_min[1],sol_max[1]))
@@ -389,7 +421,7 @@ def calculate_variables(net_model,input_value,params,all_vars,activation = 'relu
 ###
 ###
 
-def create_verification_model(net_model,net_input_var,net_output_var,input_value,output_value,params,bounds,tol_distance = 1e-05):
+def create_verification_model(net_model,net_input_var,net_output_var,input_value,output_value,params,bounds,tol_distance = 100):
     ## Cantidad de neuronas del input
     n_input = len(net_input_var)
     ## Cantidad de neuronas del output
@@ -401,8 +433,8 @@ def create_verification_model(net_model,net_input_var,net_output_var,input_value
     ## Restriccion de proximidad
     for i in range(n_input):
         t = net_model.addVar(lb = 0, ub = None, vtype = 'C', name = 'inpt_dist{},0'.format(i))
-        net_model.addCons( net_input_var[i] - input_value[i] <= t, name = 'inpt_dist{},1'.format(i))
-        net_model.addCons( net_input_var[i] - input_value[i] >= -t, name = 'inpt_dist{},2')
+        net_model.addCons( net_input_var[i] - input_value[i] <= tol_distance, name = 'inpt_dist{},1'.format(i))
+        net_model.addCons( net_input_var[i] - input_value[i] >= -tol_distance, name = 'inpt_dist{},2')
         net_model.addCons( t <= tol_distance)
     ## Se genera la restriccion correspondiente a la funcion objetivo
     objective = net_model.addVar(lb = None, ub = None,vtype = 'C', name = 'obj_val')
