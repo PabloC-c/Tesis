@@ -262,7 +262,7 @@ def solve_neuron_model(neuron_model,sense,params,bounds,l,i,tol = 1e-03, minutes
         aux_dt = time.time() - t0
         model_status = 'problem'
     dt = aux_dt    
-    #print('\n Status',neuron_model.getStatus(),'\n')
+    print('\n Status',neuron_model.getStatus(),'\n')
     ## Caso de solucion optima
     if model_status == 'optimal':
         ## Se entrega el valor objetivo optimo
@@ -340,7 +340,7 @@ def calculate_bounds(params,activation = 'relu'):
         for i in range(n_neurons):
             ## Se determina el valor maximo de la neurona i
             neuron_model = set_objective_function(neuron_model,inpt,params,bounds,l,i,'maximize')
-            #print('\n ===== Capa {}, neurona {} ====='.format(l,i))
+            print('\n ===== Capa {}, neurona {} ====='.format(l,i))
             sol_max,dt1  = solve_neuron_model(neuron_model,'maximize',params,bounds,l,i)
             neuron_model.freeTransform()
             ## Se determina el minimo de la neurona i
@@ -421,7 +421,7 @@ def calculate_variables(net_model,input_value,params,all_vars,activation = 'relu
 ###
 ###
 
-def create_verification_model(net_model,net_input_var,net_output_var,input_value,output_value,params,bounds,tol_distance = 100):
+def create_verification_model(net_model,net_input_var,net_output_var,input_value,output_value,params,bounds,tol_distance = 100, softmax = True):
     ## Cantidad de neuronas del input
     n_input = len(net_input_var)
     ## Cantidad de neuronas del output
@@ -432,10 +432,18 @@ def create_verification_model(net_model,net_input_var,net_output_var,input_value
     digit_ub = bounds[n_layers-1][output_value][1]
     ## Restriccion de proximidad
     for i in range(n_input):
-        t = net_model.addVar(lb = 0, ub = None, vtype = 'C', name = 'inpt_dist{},0'.format(i))
         net_model.addCons( net_input_var[i] - input_value[i] <= tol_distance, name = 'inpt_dist{},1'.format(i))
-        net_model.addCons( net_input_var[i] - input_value[i] >= -tol_distance, name = 'inpt_dist{},2')
-        net_model.addCons( t <= tol_distance)
+        net_model.addCons( net_input_var[i] - input_value[i] >= -tol_distance, name = 'inpt_dist{},2'.format(i))
+    if softmax:
+        ## Se crean las nuevas variables para aplicar softmax
+        aux_list = []
+        for i in range(n_output):
+            soft_output = net_model.addVar(vtype = 'C', name = 'output{}'.format(i))
+            net_model.addCons(soft_output == scip.exp(net_output_var[i])/quicksum(scip.exp(net_output_var[k]) for k in range(n_output)),
+                              name = 'soft{}'.format(i))
+            aux_list.append(soft_output)
+        net_output_var = aux_list     
+        digit_ub = 1
     ## Se genera la restriccion correspondiente a la funcion objetivo
     objective = net_model.addVar(lb = None, ub = None,vtype = 'C', name = 'obj_val')
     net_model.addCons(quicksum(net_output_var[i]*net_output_var[i] if i!= output_value
