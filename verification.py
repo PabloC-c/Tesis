@@ -13,10 +13,10 @@ transform = transforms.Compose([
 
 ## Cargar los datos de entrenamiento y validación de MNIST
 trainset = datasets.MNIST(root='./data', train=True, download=True, transform=transform)
-trainloader = torch.utils.data.DataLoader(trainset, batch_size=64, shuffle=True)
+trainloader = torch.utils.data.DataLoader(trainset, batch_size=64)#, shuffle=True)
 
 testset = datasets.MNIST(root='./data', train=False, download=True, transform=transform)
-testloader = torch.utils.data.DataLoader(testset, batch_size=64, shuffle=True)
+testloader = torch.utils.data.DataLoader(testset, batch_size=64)#, shuffle=True)
 
 ## Obtener un solo par de entrada y salida correspondiente del conjunto de datos de entrenamiento
 input_example, output_example = next(iter(trainloader))
@@ -30,7 +30,7 @@ output_value = output_example[0]#.item()#.item()
 
 ## Crear la instancia de la red neuronal
 n_neurons = 10
-n_layers = 3
+n_layers = 2
 activation = 'relu'
 net = neural_network(n_neurons,n_layers,activation)
 
