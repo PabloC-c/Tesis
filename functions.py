@@ -443,7 +443,7 @@ def create_verification_model(net_model,net_input_var,net_output_var,input_value
         net_output_var = aux_list
     ## Se genera la restriccion correspondiente a la funcion objetivo
     objective = net_model.addVar(lb = None, ub = None,vtype = 'C', name = 'obj_val')
-    net_model.addCons(net_output_var[output_target] - output_value
+    net_model.addCons(net_output_var[output_target] - net_output_var[real_output]
                       >= objective, name = 'obj_cons')
     net_model.setObjective(objective, 'maximize')
     return net_model
