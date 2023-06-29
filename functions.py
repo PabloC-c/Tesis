@@ -421,20 +421,18 @@ def calculate_variables(net_model,input_value,params,all_vars,activation = 'relu
 ###
 ###
 
-def create_verification_model(net_model,net_input_var,net_output_var,input_value,output_value,params,bounds,tol_distance = 100, softmax = True):
+def create_verification_model(net_model,net_input_var,net_output_var,input_value,real_output,output_value,output_target,params,bounds,tol_distance = 0.5, apply_softmax = True):
     ## Cantidad de neuronas del input
     n_input = len(net_input_var)
     ## Cantidad de neuronas del output
     n_output = len(net_output_var)
     ## Calcular cantidad de capas
     n_layers = int(len(params)/2)
-    ## Obtener la cota superior de la neurona del output correspondiente al digito
-    digit_ub = bounds[n_layers-1][output_value][1]
     ## Restriccion de proximidad
     for i in range(n_input):
         net_model.addCons( net_input_var[i] - input_value[i] <= tol_distance, name = 'inpt_dist{},1'.format(i))
         net_model.addCons( net_input_var[i] - input_value[i] >= -tol_distance, name = 'inpt_dist{},2'.format(i))
-    if softmax:
+    if apply_softmax:
         ## Se crean las nuevas variables para aplicar softmax
         aux_list = []
         for i in range(n_output):
@@ -442,12 +440,10 @@ def create_verification_model(net_model,net_input_var,net_output_var,input_value
             net_model.addCons(soft_output == scip.exp(net_output_var[i])/quicksum(scip.exp(net_output_var[k]) for k in range(n_output)),
                               name = 'soft{}'.format(i))
             aux_list.append(soft_output)
-        net_output_var = aux_list     
-        digit_ub = 1
+        net_output_var = aux_list
     ## Se genera la restriccion correspondiente a la funcion objetivo
     objective = net_model.addVar(lb = None, ub = None,vtype = 'C', name = 'obj_val')
-    net_model.addCons(quicksum(net_output_var[i]*net_output_var[i] if i!= output_value
-                               else net_output_var[i]*net_output_var[i]- 2*digit_ub*net_output_var[i] + digit_ub*digit_ub for i in range(n_output))
-                         >= objective, name = 'obj_cons')
+    net_model.addCons(net_output_var[output_target] - output_value
+                      >= objective, name = 'obj_cons')
     net_model.setObjective(objective, 'maximize')
     return net_model
