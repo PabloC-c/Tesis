@@ -4,6 +4,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
 import matplotlib.pyplot as plt
+from scipy.special import softmax 
 from functions import *
 
 ## Transformación para normalizar los datos
@@ -22,11 +23,13 @@ testloader = torch.utils.data.DataLoader(testset, batch_size=64)#, shuffle=True)
 input_example, output_example = next(iter(trainloader))
 
 ## Acceder al tensor de entrada con los valores de los píxeles
-input_value = input_example[0].view(-1,784).tolist()[0]#.view(-1, 784).tolist()
+choosen_digit = 1
+input_value = input_example[output_example == choosen_digit][0].view(-1,784).tolist()[0]#input_example[0].view(-1,784).tolist()[0]
 image_input = np.array(input_value).reshape(28, 28)
+output_target = 7
 
 ## Acceder al valor de salida correspondiente
-output_value = output_example[0]#.item()#.item()
+real_output = output_example[0]#.item()#.item()
 
 ## Crear la instancia de la red neuronal
 n_neurons = 10
@@ -44,8 +47,14 @@ bounds,layers_time,net_model,net_input_var,net_output_var,all_vars = calculate_b
 #solution = calculate_variables(net_model,input_value,filtered_params,all_vars,activation)
 
 #flag = net_model.trySol(solution)
+image = torch.tensor(input_value).view(1, 28, 28)
+aux   = net(image).tolist()[0]
+apply_softmax = True
+if apply_softmax:
+    aux   = softmax(np.array(aux))
+output_value = aux[choosen_digit]
 
-net_model = create_verification_model(net_model,net_input_var,net_output_var,input_value,output_value,params,bounds,tol_distance = 1e-6)
+net_model = create_verification_model(net_model,net_input_var,net_output_var,input_value,real_output,output_value,output_target,params,bounds,tol_distance = 0.2, apply_softmax = apply_softmax)
 net_model.redirectOutput()
 net_model.optimize()
 
