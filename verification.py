@@ -26,10 +26,7 @@ input_example, output_example = next(iter(trainloader))
 choosen_digit = 1
 input_value = input_example[output_example == choosen_digit][0].view(-1,784).tolist()[0]#input_example[0].view(-1,784).tolist()[0]
 image_input = np.array(input_value).reshape(28, 28)
-output_target = 7
-
-## Acceder al valor de salida correspondiente
-real_output = output_example[0]#.item()#.item()
+output_target = 9
 
 ## Crear la instancia de la red neuronal
 n_neurons = 10
@@ -49,26 +46,33 @@ bounds,layers_time,net_model,net_input_var,net_output_var,all_vars = calculate_b
 #flag = net_model.trySol(solution)
 image = torch.tensor(input_value).view(1, 28, 28)
 aux   = net(image).tolist()[0]
-apply_softmax = True
+apply_softmax = False
+tol_distance = 0.209
 if apply_softmax:
     aux   = softmax(np.array(aux))
 output_value = aux[choosen_digit]
 
-net_model = create_verification_model(net_model,net_input_var,net_output_var,input_value,real_output,output_value,output_target,params,bounds,tol_distance = 0.2, apply_softmax = apply_softmax)
+net_model = create_verification_model(net_model,net_input_var,net_output_var,input_value,choosen_digit,output_value,output_target,params,bounds,tol_distance, apply_softmax)
 net_model.redirectOutput()
 net_model.optimize()
 
-solution = [net_model.getVal(all_vars['h{},{}'.format(-1,i)]) for i in range(len(input_value)) ]
+solution = [net_model.getVal(all_vars['h{},{}'.format(-1,i)]) for i in range(len(input_value))]
 image_solution = np.array(solution).reshape(28, 28)
 
 # Crea una figura con dos subplots
-fig, axs = plt.subplots(1, 2)
+fig, axs = plt.subplots(1, 3)
+color_map = 'gray'
+input_lb=0 
+input_ub= 1
 
-axs[0].imshow(image_input, cmap='gray')
+axs[0].imshow(image_input, vmin = input_lb, vmax = input_ub,cmap=color_map)
 axs[0].axis('off')
 
-axs[1].imshow(image_solution, cmap='gray')
+axs[1].imshow(image_solution, vmin = input_lb, vmax = input_ub, cmap=color_map)
 axs[1].axis('off')
+
+axs[2].imshow(np.abs(image_solution-image_input), vmin = input_lb, vmax = input_ub, cmap=color_map) #np.abs(image_solution-image_input)
+axs[2].axis('off')
 
 # Ajusta el espaciado entre los subplots
 plt.tight_layout()
