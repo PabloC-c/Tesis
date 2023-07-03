@@ -247,7 +247,7 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
 ### Funcion que optimiza el problema de optimizacion asociado a la evaluacion de una neurona de la red
 ### El parametro neuron_model es el modelo de la neurona, sense es el sentido del problema de optimziacion, tol es la holgura que se añade a las cotas duales
 
-def solve_neuron_model(neuron_model,sense,params,bounds,l,i,tol = 1e-03, minutes = 10, print_output = False, digits = 4):
+def solve_neuron_model(neuron_model,sense,params,bounds,l,i,tol = 1e-03, minutes = 10, print_output = True, digits = 4):
     neuron_model.setParam('limits/time', int(60*minutes))
     ## Se resuelve el problema
     if print_output:
@@ -293,13 +293,21 @@ def solve_neuron_model(neuron_model,sense,params,bounds,l,i,tol = 1e-03, minutes
 ###
 ###
 
-def calculate_aprox_bound(params,bounds,l,i,sense):
+def calculate_aprox_bound(params,bounds,l,i,sense,activation = 'relu'):
     weight,bias = get_w_b_names(l)
     W,b = params[weight],params[bias]
     input_bounds = bounds[l-1]
     aprox_bound  = float(b[i])
     for j in range(len(input_bounds)):
         lb,ub = -input_bounds[j][0],input_bounds[j][1]
+        if activation == 'relu':
+            if lb < 0:
+                lb = 0
+            if ub < 0:
+                ub = 0
+        elif activation == 'softplus':
+            lb = np.log(1 + np.exp(lb))
+            ub = np.log(1 + np.exp(ub))
         if float(W[i,j]) >= 0:
             if sense == 'maximize':
                 aprox_bound += float(W[i,j])*ub
@@ -421,13 +429,11 @@ def calculate_variables(net_model,input_value,params,all_vars,activation = 'relu
 ###
 ###
 
-def create_verification_model(net_model,net_input_var,net_output_var,input_value,real_output,output_value,output_target,params,bounds,tol_distance = 0.5, apply_softmax = True):
+def create_verification_model(net_model,net_input_var,net_output_var,input_value,real_output,output_value,output_target,params,bounds,tol_distance = 0.1, apply_softmax = True):
     ## Cantidad de neuronas del input
     n_input = len(net_input_var)
     ## Cantidad de neuronas del output
     n_output = len(net_output_var)
-    ## Calcular cantidad de capas
-    n_layers = int(len(params)/2)
     ## Restriccion de proximidad
     for i in range(n_input):
         net_model.addCons( net_input_var[i] - input_value[i] <= tol_distance, name = 'inpt_dist{},1'.format(i))
@@ -442,8 +448,5 @@ def create_verification_model(net_model,net_input_var,net_output_var,input_value
             aux_list.append(soft_output)
         net_output_var = aux_list
     ## Se genera la restriccion correspondiente a la funcion objetivo
-    objective = net_model.addVar(lb = None, ub = None,vtype = 'C', name = 'obj_val')
-    net_model.addCons(net_output_var[output_target] - net_output_var[real_output]
-                      >= objective, name = 'obj_cons')
-    net_model.setObjective(objective, 'maximize')
+    net_model.setObjective(net_output_var[output_target] - net_output_var[real_output], 'maximize')
     return net_model
