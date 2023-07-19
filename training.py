@@ -63,7 +63,7 @@ def trainer(n_neurons,n_layers,activation,batch_size,learning_rate,epochs,weight
     return model,acc
 
 ## Configuración del entrenamiento
-batch_size = 64
+batch_size = 16
 learning_rate = 0.001
 epochs = 40
 weight_decay = 0.005
@@ -72,7 +72,7 @@ print_training_loss = True
 ## Redes a entrenar
 neuron_list = [10,25,50]
 layer_list  = [2,3,4]
-activation = 'relu'
+activation = 'sigmoid'
 
 acc_dict = {}
 batch_size_og = batch_size
@@ -80,7 +80,7 @@ for n_neurons in neuron_list:
     for n_layers in layer_list:
         if not os.path.exists('nn_parameters/'+activation + "_" + "model_weights_L{}_n{}.pth".format(n_layers, n_neurons)):
             acc = 0
-            while (acc<0.9 and batch_size < 1024 ):
+            while (acc<0.8 and batch_size <= 1024 ):
                 print('\n ===== Capas: ',n_layers,' Neuronas: ',n_neurons,'===== \n')
                 net,acc = trainer(n_neurons,n_layers,activation,batch_size,learning_rate,epochs,weight_decay,print_training_loss)
                 if acc < 0.9:
