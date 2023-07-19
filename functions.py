@@ -101,14 +101,17 @@ class neural_network(nn.Module):
             if self.activation == 'relu':
                 x = F.relu(x)
             elif self.activation == 'softplus':
-                x = F.softplus(x) 
+                x = F.softplus(x)
+            elif self.activation == 'sigmoid':
+                x = F.sigmoid(x)
         return x
 
 ### Funcion que inicializa el modelo de la red, solo genera las variables de input
 ###
 
-def initialize_neuron_model(bounds,n_input = 784):
+def initialize_neuron_model(bounds):
     neuron_model = Model()
+    n_input = len(bounds[-1])
     inpt = [neuron_model.addVar(lb = bounds[-1][k][0], ub = bounds[-1][k][1], name = 'h{},{}'.format(-1,k)) for k in range(n_input)]
     all_vars = {}
     for i in range(n_input):
@@ -131,7 +134,7 @@ def set_objective_function(neuron_model,inpt,params,bounds,l,i,sense):
 ### Funcion que dada una capa l y las cotas de sus neuronas, genera las restricciones correspondientes
 ###
 
-def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 'relu', exact = 'no_exact'):
+def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 'relu',exact = 'no_exact', apply_bounds = True):
     n_input = len(inpt)
     ## Parametros de la capa l   
     weight,bias = get_w_b_names(l)
@@ -141,9 +144,13 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
     ## Arreglo auxiliar para guardar el input de la siguiente capa
     aux_input = []
     for i in range(n_neurons):
+        ## Formulacion exacta
         if exact == 'exact':
             ## Variable de la evaluacion del input en la funcion lineal
-            z = neuron_model.addVar(lb = -bounds[l][i][0], ub = bounds[l][i][1],vtype = 'C', name = 'z{},{}'.format(l,i))
+            if apply_bounds:
+                z = neuron_model.addVar(lb = -bounds[l][i][0], ub = bounds[l][i][1],vtype = 'C', name = 'z{},{}'.format(l,i))
+            else:
+                z = neuron_model.addVar(lb = None, ub = None,vtype = 'C', name = 'z{},{}'.format(l,i))
             all_vars['z{},{}'.format(l,i)] = z
             ## Variable de evaluacion en la funcion de activacion
             a = neuron_model.addVar(lb = 0, ub = None,vtype = 'C', name = 'a{},{}'.format(l,i))
@@ -157,6 +164,9 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
                 neuron_model.addCons((z+abs(z))/2 == a, name = 'actv{},{}'.format(l,i))
             if activation == 'softplus':
                 neuron_model.addCons(scip.log(1+scip.exp(z)) == a, name = 'actv{},{}'.format(l,i))
+            if activation == 'sigmoid':
+                neuron_model.addCons((1/(1+scip.exp(-z))) == a, name = 'actv{},{}'.format(l,i))
+        ## Formulacion alternativa/relajacion
         else:
             if activation == 'relu':
                 ## Variable de la evaluacion del input en la funcion lineal
@@ -193,7 +203,9 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
                 neuron_model.addCons(quicksum(float(W[i,k])*inpt[k] for k in range(n_input)) + float(b[i]) == z, name = 'eval{},{}'.format(l,i))
                 ## Restriccion de evaluacion en la funcion de activacion
                 if activation == 'softplus':
-                    neuron_model.addCons(scip.log(1+scip.exp(z)) == a, name = 'actv{},{}'.format(l,i)) 
+                    neuron_model.addCons(scip.log(1+scip.exp(z)) == a, name = 'actv{},{}'.format(l,i))
+                if activation == 'sigmoid':
+                    neuron_model.addCons((1/(1+scip.exp(-z))) == a, name = 'actv{},{}'.format(l,i))
         
     return neuron_model,aux_input,all_vars
 
@@ -301,12 +313,14 @@ def calculate_bounds(params,activation = 'relu',exact = 'exact'):
         ## Se recorren las neuronas de la capa l
         for i in range(n_neurons):
             #print('\n ===== Capa {}, neurona {} ====='.format(l,i))
+            ## Caso solo propagacion
             if exact == 'prop':
                 t_aux   = time.time()
                 sol_max = calculate_aprox_bound(params,bounds,l,i,'maximize',activation)
                 sol_min = calculate_aprox_bound(params,bounds,l,i,'minimize',activation)
                 tiempo += (time.time() - t_aux)
                 aux.append((-1*sol_min,sol_max))
+            ## Caso modelo de optimizacion
             else:
                 ## Se determina el valor maximo de la neurona i
                 neuron_model = set_objective_function(neuron_model,inpt,params,bounds,l,i,'maximize')
@@ -329,84 +343,27 @@ def calculate_bounds(params,activation = 'relu',exact = 'exact'):
     ## Se entregan las cotas
     return bounds,layers_time,neuron_model,input_var,output_var,all_vars
 
-
 #### Verificacion ########################################################################################################################################################
 
 ###
 ###
 
-def calculate_variables(net_model,input_value,params,all_vars,activation = 'relu'):
-    ## Arreglo solucion
-    solution = net_model.createSol()
-    ## Calcular la cantidad de capas
-    n_layers = int(len(params)/2)
-    ## Cantidad de neuronas iniciales
-    n_input = len(input_value)
-    ## Variable para guardar el input de la capa
-    input_layer = input_value
-    aux = []
-    ## Se recorren las capas
-    for l in range(-1,n_layers):
-        ## Caso capa input
-        if l == -1:
-            n_neurons = n_input
-            for i in range(n_neurons):
-                net_model.setSolVal(solution, all_vars['h{},{}'.format(-1,i)], input_value[i])
-            aux = input_layer
-        ## Resto de capas
-        else:
-            ## Parametros de la capa l
-            weight,bias = get_w_b_names(l)
-            W = params[weight]
-            b = params[bias]
-            n_neurons = W.size()[0]
-            for i in range(n_neurons):
-                ## Variable z de evaluacion en la funcion lineal
-                z = sum(float(W[i,j])*input_layer[j] for j in range(n_input)) + float(b[i])
-                net_model.setSolVal(solution, all_vars['z{},{}'.format(l,i)], z)
-                if activation == 'relu': 
-                    h = 0
-                    not_h = 0
-                    if z == 0:
-                        u = 0
-                    elif z > 0:
-                        h = z
-                        u = 1
-                    else:
-                        not_h = -z
-                        u = 0
-                    net_model.setSolVal(solution, all_vars['h{},{}'.format(l,i)], h)
-                    net_model.setSolVal(solution, all_vars['not_h{},{}'.format(l,i)], not_h)
-                    net_model.setSolVal(solution, all_vars['u{},{}'.format(l,i)], u)
-                    aux.append(h)
-                elif activation == 'softplus':
-                    a = np.log(1+np.exp(z))
-                    net_model.setSolVal(solution, all_vars['a{},{}'.format(l,i)], a)
-                    aux.append(a)
-        input_layer = aux
-        n_input = n_neurons
-        aux = []
-    return solution
-
-###
-###
-
-def create_verification_model(net_model,net_input_var,net_output_var,input_value,real_output,output_value,output_target,params,bounds,tol_distance = 0.1, apply_softmax = True):
+def set_verification_model(net_model,net_input_var,net_output_var,input_value,real_output,output_value,output_target,params,bounds,tol_distance = 0.1, apply_softmax = True):
     ## Cantidad de neuronas del input
     n_input = len(net_input_var)
     ## Cantidad de neuronas del output
     n_output = len(net_output_var)
     ## Restriccion de proximidad
     for i in range(n_input):
-        net_model.addCons( net_input_var[i] - input_value[i] <= tol_distance, name = 'inpt_dist{},1'.format(i))
-        net_model.addCons( net_input_var[i] - input_value[i] >= -tol_distance, name = 'inpt_dist{},2'.format(i))
+        net_model.addCons( net_input_var[i] - input_value[i] <= tol_distance, name = 'inpt_dist_{},1'.format(i))
+        net_model.addCons( net_input_var[i] - input_value[i] >= -tol_distance, name = 'inpt_dist_{},2'.format(i))
     if apply_softmax:
         ## Se crean las nuevas variables para aplicar softmax
         aux_list = []
         for i in range(n_output):
-            soft_output = net_model.addVar(vtype = 'C', name = 'output{}'.format(i))
+            soft_output = net_model.addVar(vtype = 'C', name = 'soft_output_{}'.format(i))
             net_model.addCons(soft_output == scip.exp(net_output_var[i])/quicksum(scip.exp(net_output_var[k]) for k in range(n_output)),
-                              name = 'soft{}'.format(i))
+                              name = 'soft_cons_{}'.format(i))
             aux_list.append(soft_output)
         net_output_var = aux_list
     ## Se genera la restriccion correspondiente a la funcion objetivo
@@ -446,3 +403,44 @@ def read_bounds(n_layers,n_neurons,activation,directory = 'nn_bounds/'):
                 value.append((float(lb), float(ub)))
         bounds[layer] = value
     return bounds
+
+###
+###
+
+def create_verification_model(params,bounds,activation,tol_distance,apply_softmax,image_list,output_target,real_output,exact = 'exact',apply_bounds = True):
+    ## Se calcula la cantidad de capas ocultas
+    n_layers = int(len(params)/2)
+    ## Se inicializa el modelo de verificacion
+    verif_model,inpt,all_vars = initialize_neuron_model(bounds)
+    ## Se crean las restricciones de proximidad en el input
+    for i in range(len(inpt)):
+        verif_model.addCons( inpt[i] - image_list[i] <= tol_distance, name = 'inpt_dist_{},1'.format(i))
+        verif_model.addCons( inpt[i] - image_list[i] >= -tol_distance, name = 'inpt_dist_{},2'.format(i))
+    ## Se crean la evaluacion de la red
+    ## Se recorren las capas
+    for l in range(n_layers):
+        ## Se crean las restricicones y variables
+        verif_model,aux_input,all_vars = update_neuron_model(verif_model,inpt,all_vars,params,bounds,l,activation,exact,apply_bounds)
+        inpt = aux_input
+    ## Caso en el que se aplica softmax
+    if apply_softmax:
+        ## Lista para guardar las nuevas variables
+        aux_list = []
+        for i in range(len(inpt)):
+            ## Variable post aplicacion de softmax
+            soft_output = verif_model.addVar(vtype = 'C', name = 'soft_output_{}'.format(i))
+            ## Restriccion de evaluacion en funcion softmax
+            verif_model.addCons(soft_output == scip.exp(inpt[i])/quicksum(scip.exp(inpt[k]) for k in range(len(inpt))),
+                                name = 'soft_cons_{}'.format(i))
+            ## Se guarda la variable ya evaluada
+            aux_list.append(soft_output)
+        ## Se guarda el output
+        output = aux_list
+    ## Caso en el que no se aplica softmax
+    else:
+        ## Se guarda el output
+        output = inpt
+    ## Se genera la funcion objetivo
+    verif_model.setObjective(output[output_target] - output[real_output], 'maximize')
+    ## Se retorna el modelo de verificacion
+    return verif_model,all_vars
