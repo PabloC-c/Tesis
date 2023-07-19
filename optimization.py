@@ -6,7 +6,7 @@ from pyscipopt import Model,quicksum
 from collections import OrderedDict
 from functions import *
 
-activation_list = ['softplus']
+activation_list = ['sigmoid']
 neuron_list = [10,25,50]
 layer_list  = [2,3,4]
 filter_tol = 1e-5
@@ -48,3 +48,4 @@ for activation in activation_list:
                     written = True
                 except:
                     time.sleep(5)
+        
