@@ -23,7 +23,7 @@ n_layers = 2
 activation = 'relu'
 exact = 'exact' #prop: propagacion, exact: exacto, no_exact: formulaciones o envolturas
 apply_softmax = False 
-tol_distance = 0.1
+tol_distance = 0.05
 apply_bounds = True
 minutes = 15
 net = neural_network(n_neurons,n_layers,activation)
@@ -66,5 +66,8 @@ axs[2].axis('off')
 # Ajusta el espaciado entre los subplots
 plt.tight_layout()
 
+# Guarda la figura con las imágenes en un archivo
+plt.savefig('imagen_resultado.png', dpi=300, bbox_inches='tight')
+
 # Muestra la figura con las dos imágenes
-plt.show()
+#plt.show()
