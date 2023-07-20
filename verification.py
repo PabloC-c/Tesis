@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from scipy.special import softmax 
 from functions import *
 
-test_dataset = datasets.MNIST(root='./data', train=False, transform=transforms.ToTensor())
+test_dataset = datasets.MNIST(root='./data', train=False, transform=transforms.ToTensor(),download=True)
 test_loader  = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=64, shuffle=False)
 
 ## Obtener un solo par de entrada y salida correspondiente del conjunto de datos de entrenamiento
