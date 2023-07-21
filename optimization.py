@@ -58,6 +58,7 @@ for activation in activation_list:
             dfs_list.append(pd.DataFrame([new_line]))
             df = pd.concat(dfs_list,ignore_index=True)
             written = False
+            df.to_excel('datos_{}.xlsx'.format(activation), header = False, index = False)
             while not written:
                 try:
                     df.to_excel('datos_{}.xlsx'.format(activation), header = False, index = False)
