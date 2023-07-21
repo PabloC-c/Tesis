@@ -1,5 +1,6 @@
 import time
 import torch
+import sys
 import torch.nn as nn
 import pandas as pd
 from pyscipopt import Model,quicksum
@@ -9,20 +10,22 @@ from functions import *
 if len(sys.argv) == 5:
   ## Activacion, capas, neuronas, tolerancia del filtro
   _, activation, n_layers, n_neurons, filter_tol = sys.argv
+  activation_list = [activation]
+  layer_list = [int(n_layers)]
+  neuron_list = [int(n_neurons)]
+  filter_tol = float(filter_tol)
 elif len(sys.argv) == 2:
   ## Activacion
   _, activation = sys.argv
+  layer_list    = [2,3,4]
+  neuron_list   = [10,25,50]
+  filter_tol = 1e-5
+  
 else:
   activation_list = ['sigmoid']
   layer_list  = [2,3,4]  
   neuron_list = [10,25,50]
   filter_tol = 1e-5
-  
-if len(sys.argv) > 0:
-  activation_list = [activation]
-  layer_list = [int(n_layers)]
-  neuron_list = [int(n_neurons)]
-  filter_tol = float(filter_tol)
   
 for activation in activation_list:
     dfs_list = []
