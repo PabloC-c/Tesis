@@ -6,16 +6,28 @@ from pyscipopt import Model,quicksum
 from collections import OrderedDict
 from functions import *
 
-activation_list = ['sigmoid']
-neuron_list = [10,25,50]
-layer_list  = [2,3,4]
-filter_tol = 1e-5
-print('Tolerancia del filtro: ',filter_tol)
-data = OrderedDict()
-df = pd.DataFrame()
-
+if len(sys.argv) == 5:
+  ## Activacion, capas, neuronas, tolerancia del filtro
+  _, activation, n_layers, n_neurons, filter_tol = sys.argv
+elif len(sys.argv) == 2:
+  ## Activacion
+  _, activation = sys.argv
+else:
+  activation_list = ['sigmoid']
+  layer_list  = [2,3,4]  
+  neuron_list = [10,25,50]
+  filter_tol = 1e-5
+  
+if len(sys.argv) > 0:
+  activation_list = [activation]
+  layer_list = [int(n_layers)]
+  neuron_list = [int(n_neurons)]
+  filter_tol = float(filter_tol)
+  
 for activation in activation_list:
     dfs_list = []
+    data = OrderedDict()
+    df = pd.DataFrame()
     for n_neurons in neuron_list:
         for n_layers in layer_list:
             print('\n Capas: ',n_layers,' Neuronas: ',n_neurons,'\n')
