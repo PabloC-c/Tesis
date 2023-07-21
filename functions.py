@@ -228,7 +228,7 @@ def solve_neuron_model(neuron_model,sense,params,bounds,l,i,tol = 1e-03, minutes
         aux_dt = time.time() - t0
         model_status = 'problem'
     dt = aux_dt    
-    #print('\n Status',neuron_model.getStatus(),'\n')
+    print('\n Status',neuron_model.getStatus(),'\n')
     ## Caso de solucion optima
     if model_status == 'optimal':
         ## Se entrega el valor objetivo optimo
@@ -312,7 +312,7 @@ def calculate_bounds(params,activation = 'relu',exact = 'exact'):
         tiempo = 0
         ## Se recorren las neuronas de la capa l
         for i in range(n_neurons):
-            #print('\n ===== Capa {}, neurona {} ====='.format(l,i))
+            print('\n ===== Capa {}, neurona {} ====='.format(l,i))
             ## Caso solo propagacion
             if exact == 'prop':
                 t_aux   = time.time()

@@ -17,6 +17,7 @@ if len(sys.argv) == 5:
 elif len(sys.argv) == 2:
   ## Activacion
   _, activation = sys.argv
+  activation_list = [activation]
   layer_list    = [2,3,4]
   neuron_list   = [10,25,50]
   filter_tol = 1e-5
@@ -37,7 +38,7 @@ for activation in activation_list:
             ## Crear la instancia de la red neuronal
             net = neural_network(n_neurons,n_layers)
             ## Cargar los parámetros de la red
-            net.load_state_dict(torch.load('nn_parameters/'+activation+"_"+"model_weights_L{}_n{}.pth".format(n_layers, n_neurons)))
+            net.load_state_dict(torch.load('nn_parameters/{}_model_weights_L{}_n{}.pth'.format(activation,n_layers, n_neurons)))
             ## Guardar los parametos de la red
             params = net.state_dict()
             filtered_params = filter_params(params,filter_tol)
