@@ -346,4 +346,4 @@ Presolving Time: 0.02
  time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
   0.0s|     1 |     0 |   141 |     - |    15M |   0 | 834 |  20 |  78 |   0 |  0 |   0 |   0 | 1.055803e+01 |      --      |    Inf | unknown
 L 0.1s|     1 |     0 |   141 |     - |undercov|   0 | 834 |  20 |  78 |   0 |  0 |   0 |   0 | 1.055803e+01 |-1.724784e+01 |    Inf | unknown
-L22.2s|     1 |     0 |   141 |     - |undercov|   0 | 834 |  20 |  78 |   0 |  0 |   0 |   0 | 1.055803e+01 |-5.341016e-01 |    Inf | unknown
+L22.3s|     1 |     0 |   141 |     - |undercov|   0 | 834 |  20 |  78 |   0 |  0 |   0 |   0 | 1.055803e+01 |-5.341016e-01 |    Inf | unknown

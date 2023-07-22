@@ -24,13 +24,13 @@ elif len(sys.argv) == 2:
   filter_tol = 1e-5
   
 else:
-  activation_list = ['sigmoid']
-  layer_list  = [2,3,4]  
-  neuron_list = [10,25,50]
+  activation_list = ['relu']
+  layer_list  = [2,3]  
+  neuron_list = [10,25]
   filter_tol = 1e-5
   
 for activation in activation_list:
-    if not os.path.exists('datos_{}.xlsx'.format(activation)):
+    if os.path.exists('datos_{}.xlsx'.format(activation)):
         df = pd.read_excel('datos_{}.xlsx'.format(activation))
     else:
         df = pd.DataFrame()

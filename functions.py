@@ -218,6 +218,8 @@ def solve_neuron_model(neuron_model,sense,params,bounds,l,i,tol = 1e-03, minutes
     ## Se resuelve el problema
     if print_output:
         neuron_model.redirectOutput()
+    else:
+        neuron_model.hideOutput()
     t0 = time.time()
     try:
         aux_t = time.time()
