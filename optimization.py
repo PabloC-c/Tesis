@@ -31,7 +31,7 @@ else:
   
 for activation in activation_list:
     if os.path.exists('datos_{}.xlsx'.format(activation)):
-        df = pd.read_excel('datos_{}.xlsx'.format(activation))
+        df = pd.read_excel('datos_{}.xlsx'.format(activation),header=None)
     else:
         df = pd.DataFrame()
     data = OrderedDict()
@@ -67,6 +67,7 @@ for activation in activation_list:
                         written = True
                     except:
                         time.sleep(5)
+                n = input('Escriba para continuar')    
             else:
                 print('Cotas previamente calculadas')
         
