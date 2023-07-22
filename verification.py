@@ -81,7 +81,7 @@ for activation in activation_list:
                     if verif_model.getStatus() == 'optimal':
                         gap = 0.0
                         solution = [verif_model.getVal(all_vars['h{},{}'.format(-1,i)]) for i in range(len(image_list))]
-                        output,probs = calculate_probs(net, solution, real_output)
+                        output,probs = calculate_probs(net, solution)
                         real_prob = probs[real_output]
                         target_prob = probs[target_output]
                         if save_image:
