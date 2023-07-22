@@ -1,6 +1,7 @@
+import os
+import sys
 import time
 import torch
-import sys
 import torch.nn as nn
 import pandas as pd
 from pyscipopt import Model,quicksum
@@ -58,7 +59,7 @@ for activation in activation_list:
                     new_line = [n_layers,n_neurons,layers_time[0],layers_time[1],layers_time[2],'-',avg_width[0],avg_width[1],avg_width[2],'-']
                 else:
                     new_line = [n_layers,n_neurons,layers_time[0],layers_time[1],layers_time[2],layers_time[3],avg_width[0],avg_width[1],avg_width[2],avg_width[3]]
-                df = df.append(new_line, ignore_index=True)
+                df = df._append(pd.Series(new_line), ignore_index=True)
                 written = False
                 while not written:
                     try:
