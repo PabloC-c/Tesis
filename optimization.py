@@ -22,7 +22,8 @@ elif len(sys.argv) == 2:
   layer_list    = [2,3,4]
   neuron_list   = [10,25,50]
   filter_tol = 1e-5
-  
+
+## Caso default
 else:
   activation_list = ['relu']
   layer_list  = [2,3]  
@@ -37,7 +38,7 @@ for activation in activation_list:
     data = OrderedDict()
     for n_neurons in neuron_list:
         for n_layers in layer_list:
-            if not os.path.exists('nn_bounds/{}_bounds_L{}_n{}.pth'.format(activation,n_layers,n_neurons)):
+            if not os.path.exists('nn_bounds/{}_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)):
                 print('\n Capas: ',n_layers,' Neuronas: ',n_neurons,'\n')
                 ## Crear la instancia de la red neuronal
                 net = neural_network(n_neurons,n_layers)
