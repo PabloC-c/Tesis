@@ -460,7 +460,7 @@ def calculate_softmax(vector):
 ###
 ###
 
-def calculate_probs(net,image_list,real_output,target_output = None,appy_softmax = True,xpix = 28,ypix = 28):
+def calculate_probs(net,image_list,xpix = 28,ypix = 28):
     ## Se convierte la lista en un tensor de torch
     image = torch.tensor(image_list).view(1, xpix, ypix)
     ## Se calcula el output de la red
