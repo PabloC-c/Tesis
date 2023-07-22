@@ -4,6 +4,7 @@ En este archivo se encuentran las funciones para training.py y optimizacion.py
 
 #### Librerias
 
+import torch
 import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
@@ -446,3 +447,24 @@ def create_verification_model(params,bounds,activation,tol_distance,apply_softma
     verif_model.setObjective(output[output_target] - output[real_output], 'maximize')
     ## Se retorna el modelo de verificacion
     return verif_model,all_vars
+
+###
+###
+
+def calculate_softmax(vector):
+    aux = [np.exp(vector[i]) for i in range(len(vector))]
+    aux_sum = sum(aux)
+    soft = [aux[i]/aux_sum for i in range(len(vector))]
+    return soft
+
+###
+###
+
+def calculate_probs(net,image_list,real_output,target_output = None,appy_softmax = True,xpix = 28,ypix = 28):
+    ## Se convierte la lista en un tensor de torch
+    image = torch.tensor(image_list).view(1, xpix, ypix)
+    ## Se calcula el output de la red
+    output = net(image).tolist()[0]
+    ## Se aplica softmax
+    soft_output = calculate_softmax(output)
+    return output,soft_output

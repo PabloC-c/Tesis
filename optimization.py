@@ -8,28 +8,20 @@ from pyscipopt import Model,quicksum
 from collections import OrderedDict
 from functions import *
 
-if len(sys.argv) == 5:
-  ## Activacion, capas, neuronas, tolerancia del filtro
-  _, activation, n_layers, n_neurons, filter_tol = sys.argv
-  activation_list = [activation]
-  layer_list = [int(n_layers)]
-  neuron_list = [int(n_neurons)]
-  filter_tol = float(filter_tol)
-elif len(sys.argv) == 2:
-  ## Activacion
-  _, activation = sys.argv
-  activation_list = [activation]
-  layer_list    = [2,3,4]
-  neuron_list   = [10,25,50]
-  filter_tol = 1e-5
+activation_list = ['relu']
+layer_list = [2,3,4] 
+neuron_list = [10,25,50]
+filter_tol = 1e-5
 
-## Caso default
-else:
-  activation_list = ['relu']
-  layer_list  = [2,3]  
-  neuron_list = [10,25]
-  filter_tol = 1e-5
-  
+if len(sys.argv) > 1:
+    activation_list = [sys.argv[1]]
+    if len(sys.argv) >= 3:
+        layer_list = [int(sys.argv[2])]
+    if len(sys.argv) >= 4:
+        neuron_list = [int(sys.argv[3])]
+    if len(sys.argv) >= 5:
+        filter_tol = float(sys.argv[4])
+       
 for activation in activation_list:
     if os.path.exists('datos_{}.xlsx'.format(activation)):
         df = pd.read_excel('datos_{}.xlsx'.format(activation),header=None)
