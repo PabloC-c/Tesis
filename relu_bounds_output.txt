@@ -1,0 +1,167 @@
+
+ Capas:  2  Neuronas:  10 
+
+
+ ===== Capa 0, neurona 0 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 1 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 2 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 3 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 4 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 5 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 6 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 7 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 8 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 9 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 1, neurona 0 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 1, neurona 1 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 1, neurona 2 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 1, neurona 3 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 1, neurona 4 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 1, neurona 5 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 1, neurona 6 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 1, neurona 7 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 1, neurona 8 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 1, neurona 9 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+Tiempos:  [0.006853365898132324, 2.7737399101257325]
+Tamaños:  [172.41645999999997, 244.70274]
+Estables:  0
+Escriba para continuar

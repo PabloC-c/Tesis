@@ -66,8 +66,7 @@ for activation in activation_list:
                         df.to_excel('datos_{}.xlsx'.format(activation), header = False, index = False)
                         written = True
                     except:
-                        time.sleep(5)
-                n = input('Escriba para continuar')    
+                        time.sleep(5) 
             else:
                 print('Cotas previamente calculadas')
         
