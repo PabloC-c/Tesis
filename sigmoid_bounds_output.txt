@@ -1,0 +1,8 @@
+[solve.c:3916] ERROR: (node 2604) unresolved numerical troubles in LP 30818 cannot be dealt with
+[solve.c:4197] ERROR: Error <-6> in function call
+[solve.c:4993] ERROR: Error <-6> in function call
+[scip_solve.c:2780] ERROR: Error <-6> in function call
+[solve.c:3916] ERROR: (node 11) unresolved numerical troubles in LP 350 cannot be dealt with
+[solve.c:4197] ERROR: Error <-6> in function call
+[solve.c:4993] ERROR: Error <-6> in function call
+[scip_solve.c:2780] ERROR: Error <-6> in function call

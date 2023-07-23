@@ -13,6 +13,13 @@ apply_bounds = True
 minutes = 15
 save_image = False
 apply_softmax = False
+real_output = 1
+target_output = 8
+input_lb =0 
+input_ub = 1
+tol_0 = 0.01
+tol_f = 0.05
+tol_step = 0.005
 
 if len(sys.argv) > 1:
     activation_list = [sys.argv[1]]
@@ -32,93 +39,108 @@ if len(sys.argv) > 1:
 ## Se cargan las imagenes
 test_dataset = datasets.MNIST(root='./data', train=False, transform=transforms.ToTensor(),download=True)
 test_loader  = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=64, shuffle=False)
-
-## Obtener un solo par de entrada y salida correspondiente del conjunto de datos de entrenamiento
+## Se selecciona un solo par de entrada y salida correspondiente del conjunto de datos
 input_example, output_example = next(iter(test_loader))
-
-## Acceder al tensor de entrada con los valores de los píxeles
-real_output = 1
-target_output = 8
-image_list = input_example[output_example == real_output][0].view(-1,784).tolist()[0]#input_example[0].view(-1,784).tolist()[0]
+## Se transforma el input en una lista
+image_list = input_example[output_example == real_output][0].view(-1,784).tolist()[0]
+## Se transforma el input en una imagen de numpy
 image_input = np.array(image_list).reshape(28, 28)
-input_lb =0 
-input_ub = 1
 
-tol_0 = 0.01
-tol_f = 0.05
-tol_step = 0.005
-
-steps = int((tol_f-tol_0)/tol_step)
-
+## Por cada activacion
 for activation in activation_list:
+    ## Se lee el archivo con los datos previos, en caso de haber
     if os.path.exists('datos_verificacion_{}.xlsx'.format(activation)):
         df = pd.read_excel('datos_verificacion_{}.xlsx'.format(activation),header=None)
+    ## Caso contrario se crea un df vacio
     else:
         df = pd.DataFrame()
+    ## Se recorren las capas
     for n_layers in layer_list:
+    ## Se recorren las neuronas 
         for n_neurons in neuron_list:
             try:
-                ## Crear la instancia de la red neuronal
+                ## Se crea la instancia de la red neuronal
                 net = neural_network(n_neurons,n_layers,activation)
-
-                ## Cargar los parámetros de la red
+                ## Se cargan los parámetros de la red
                 net.load_state_dict(torch.load('nn_parameters/{}_model_weights_L{}_n{}.pth'.format(activation,n_layers, n_neurons)))
                 params = net.state_dict()
+                ## Se filtran los parametros
                 filtered_params = filter_params(params)
-                    
                 ## Se cargan las cotas de la red
                 bounds = read_bounds(n_layers,n_neurons,activation)
-                for i in range(0,steps,1):
-                    tol_distance = tol_0 + tol_step*i
-
+                ## Datos para el ciclo
+                adv_ex = False
+                tol_distance = tol_0
+                ## Ciclo para busqueda de ejemplo adversarial
+                while not adv_ex and tol_distance <= tol_f:
+                    ## Se crea el modelo de verificacion
                     verif_model,all_vars = create_verification_model(params,bounds,activation,tol_distance,apply_softmax,image_list,target_output,real_output,exact,apply_bounds)
                     #verif_model.redirectOutput()
+                    ## Se limita el tiempo de resolucion
                     verif_model.setParam('limits/time', int(60*minutes))
+                    ## Se optimiza el modelo en busca del ejemplo adversarial
                     auxt = time.time()
                     verif_model.optimize()
                     dt = time.time() - auxt 
-                    
+                    ## Caso solucion optima
                     if verif_model.getStatus() == 'optimal':
                         gap = 0.0
-                        solution = [verif_model.getVal(all_vars['h{},{}'.format(-1,i)]) for i in range(len(image_list))]
-                        output,probs = calculate_probs(net, solution)
-                        real_prob = probs[real_output]
-                        target_prob = probs[target_output]
-                        if save_image:
-                            image_solution = np.array(solution).reshape(28, 28)
-                            # Crea una figura con dos subplots
-                            fig, axs = plt.subplots(1, 2)
-                            color_map = 'gray'
+                        solution      = [verif_model.getVal(all_vars['h{},{}'.format(-1,i)]) for i in range(len(image_list))]
+                        output,probs  = calculate_probs(net, solution)
+                        real_prob     = probs[real_output]
+                        target_prob   = probs[target_output]
+                        obj_val       = verif_model.getObjVal()
+                        if obj_val > 0:
+                            ## Se encontro un ejemplo adversarial
+                            adv_ex = True
+                            ## Caso en que se debe guardar la imagen
+                            if save_image:
+                                color_map = 'gray'
+                                ###################################################################### HACER FUNCION!!!!!! ##############################################################################
+                                image_solution = np.array(solution).reshape(28, 28)
+                                ## Crea una figura con los subplots
+                                fig, axs = plt.subplots(1, 2)
+                                axs[0].imshow(image_input, vmin = input_lb, vmax = input_ub,cmap=color_map)
+                                axs[0].axis('off')
                         
-                            axs[0].imshow(image_input, vmin = input_lb, vmax = input_ub,cmap=color_map)
-                            axs[0].axis('off')
+                                axs[1].imshow(image_solution, vmin = input_lb, vmax = input_ub, cmap=color_map)
+                                axs[1].axis('off')
                         
-                            axs[1].imshow(image_solution, vmin = input_lb, vmax = input_ub, cmap=color_map)
-                            axs[1].axis('off')
+                                #axs[2].imshow(np.abs(image_solution-image_input), vmin = input_lb, vmax = input_ub, cmap=color_map) #np.abs(image_solution-image_input)
+                                #axs[2].axis('off')
                         
-                            #axs[2].imshow(np.abs(image_solution-image_input), vmin = input_lb, vmax = input_ub, cmap=color_map) #np.abs(image_solution-image_input)
-                            #axs[2].axis('off')
-                        
-                            # Ajusta el espaciado entre los subplots
-                            plt.tight_layout()
+                                ## Ajusta el espaciado entre los subplots
+                                plt.tight_layout()
                             
-                            # Guarda la figura con las imágenes en un archivo
-                            plt.savefig('imagen_resultado.png', dpi=300, bbox_inches='tight')
+                                ## Guarda la figura con las imágenes en un archivo
+                                plt.savefig('imagen_resultado.png', dpi=300, bbox_inches='tight')
                     
-                            # Muestra la figura con las dos imágenes
-                            #plt.show()
-                        if verif_model.getObjVal() > 0:    
+                                # Muestra la figura con las dos imágenes
+                                #plt.show()
                             break
-                    
+                    ## Caso no alcanzo el tiempo
                     else:
                         primalb = verif_model.getDualbound()
                         dualb = verif_model.getPrimalbound()
                         gap = (dualb-primalb)/np.abs(dualb)
                         target_prob,real_prob = '-','-'
-                        if dualb > 0:
-                            break              
-                new_line = [n_layers,n_neurons,tol_distance,dt,gap,target_prob,real_prob]
+                        ## Caso en que no existe ejemplo adversarial
+                        if primalb < 0:
+                            obj_val = '<0'
+                            adv_ex = False
+                        ## Caso en que si existe un ejemplo adversarial
+                        elif dualb > 0:
+                            obj_val = '>0'
+                            adv_ex = True
+                            break
+                    ## Se aumenta la tolerancia
+                    tol_distance += tol_step
+                
+                ## Se genera la nueva linea del df                  
+                new_line = [n_layers,n_neurons,tol_distance,dt,gap,adv_ex,obj_val]
+                ## Se añade la linea al df
                 df = df._append(pd.Series(new_line), ignore_index=True)
+                ## Se intenta guardar el nuevo df actualizado
                 written = False
                 while not written:
                     try:
