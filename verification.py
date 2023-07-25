@@ -14,7 +14,7 @@ minutes = 15
 save_image = False
 apply_softmax = False
 
-print_output = False
+print_output = True
 real_output = 1
 target_output = 8
 input_lb =0 
