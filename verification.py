@@ -6,14 +6,15 @@ from functions import *
 
 activation_list = ['relu']
 layer_list = [2]
-neuron_list = [50]
-form_list = ['no_exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
+neuron_list = [10]
+form_list = ['exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
 apply_bounds_list = [True]
-type_bounds_list = ['prop','mix']
-minutes = 15
-save_image = False
+type_bounds_list = ['prop']
+minutes = 1
+save_image = True
 apply_softmax = False
 
+print_output = False
 real_output = 1
 target_output = 8
 input_lb =0 
@@ -67,7 +68,7 @@ for activation in activation_list:
                         type_bounds_list = ['-']
                     ## Se recorren los tipos de cotas
                     for type_bounds in type_bounds_list:
-                        try:
+                        if True:
                             ## Se crea la instancia de la red neuronal
                             net = neural_network(n_neurons,n_layers,activation)
                             ## Se cargan los parámetros de la red
@@ -83,7 +84,7 @@ for activation in activation_list:
                                     bounds_file = 'nn_bounds/{}_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
                                 ## Se cargan las cotas de la red
                                 if os.path.exists(bounds_file):
-                                    bounds = read_bounds(n_layers,n_neurons,activation)
+                                    bounds = read_bounds(n_layers,n_neurons,activation,bounds_file)
                                 else:
                                     break
                             else:
@@ -92,10 +93,14 @@ for activation in activation_list:
                             adv_ex = False
                             tol_distance = tol_0
                             ## Ciclo para busqueda de ejemplo adversarial
+                            print('\n===== Capas {} Neuronas {} =====\n'.format(n_layers,n_neurons))
                             while not adv_ex and tol_distance <= tol_f:
                                 ## Se crea el modelo de verificacion
                                 verif_model,all_vars = create_verification_model(params,bounds,activation,tol_distance,apply_softmax,image_list,target_output,real_output,exact,apply_bounds)
-                                #verif_model.redirectOutput()
+                                if print_output:
+                                    verif_model.redirectOutput()
+                                else:
+                                    verif_model.hideOutput()
                                 ## Se limita el tiempo de resolucion
                                 verif_model.setParam('limits/time', int(60*minutes))
                                 ## Se optimiza el modelo en busca del ejemplo adversarial
@@ -134,6 +139,7 @@ for activation in activation_list:
                                         adv_ex = True
                                         break
                                 ## Se aumenta la tolerancia
+                                print('Nuevo intento')
                                 tol_distance += tol_step
                             
                             ## Se lee el df existente o se genera uno nuevo
@@ -145,5 +151,5 @@ for activation in activation_list:
                             ## Se intenta guardar el nuevo df actualizado
                             file_name = 'datos_verificacion_{}.xlsx'.format(activation)
                             save_df(df,file_name)
-                        except:
+                        else:
                             print('error')

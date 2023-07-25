@@ -888,3 +888,887 @@ Estables:  0
 
  Status timelimit 
 
+
+ Status timelimit 
+
+
+ ===== Capa 1, neurona 24 =====
+
+ Status timelimit 
+
+
+ Status optimal 
+
+
+ ===== Capa 2, neurona 0 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 1 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 2 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 3 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 4 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 5 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 6 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 7 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 8 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 9 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 10 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 11 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 12 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 13 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 14 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 15 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 16 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 17 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 18 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 19 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 20 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 21 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 22 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 23 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 24 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 3, neurona 0 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 3, neurona 1 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 3, neurona 2 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 3, neurona 3 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 3, neurona 4 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 3, neurona 5 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 3, neurona 6 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 3, neurona 7 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 3, neurona 8 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 3, neurona 9 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+Tiempos:  [0.0068620586395263675, 1052.7669825458527, 1200.0544336605071, 1200.0063255310058]
+Tamaños:  [202.577952, 18.881952, 26.952764, 54.40656]
+Estables:  0
+
+ Capas:  2  Neuronas:  50 
+
+
+ ===== Capa 0, neurona 0 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 1 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 2 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 3 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 4 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 5 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 6 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 7 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 8 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 9 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 10 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 11 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 12 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 13 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 14 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 15 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 16 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 17 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 18 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 19 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 20 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 21 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 22 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 23 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 24 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 25 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 26 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 27 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 28 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 29 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 30 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 31 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 32 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 33 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 34 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 35 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 36 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 37 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 38 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 39 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 40 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 41 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 42 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 43 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 44 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 45 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 46 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 47 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 48 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 49 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 1, neurona 0 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 1, neurona 1 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 1, neurona 2 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 1, neurona 3 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 1, neurona 4 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 1, neurona 5 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 1, neurona 6 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 1, neurona 7 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 1, neurona 8 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 1, neurona 9 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+Tiempos:  [0.00623347282409668, 1200.0438606977464]
+Tamaños:  [306.27301, 85.36555]
+Estables:  0
+
+ Capas:  3  Neuronas:  50 
+
+
+ ===== Capa 0, neurona 0 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 1 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 2 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 3 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 4 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 5 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 6 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 7 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 8 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 9 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 10 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 11 =====
+
+ Status optimal 
+
+
+ Status optimal 
+
+
+ ===== Capa 0, neurona 12 =====
+
+ Status optimal 
+
