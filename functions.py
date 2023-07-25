@@ -517,7 +517,7 @@ def save_df(df,file_name,header = False,index = False):
     ## Se intenta guardar el df
     while True:
         try:
-            df.to_excel(file_name,header, index)
+            df.to_excel(file_name,header = header, index = index)
             break
         except:
             time.sleep(5)
@@ -531,7 +531,7 @@ def read_df(file_name,header = None):
         ## Se intenta leer el df
         while True:
             try:
-                df = pd.read_excel(file_name,header)
+                df = pd.read_excel(file_name,header = header)
                 break
             except:
                 time.sleep(5)

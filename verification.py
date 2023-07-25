@@ -5,13 +5,13 @@ from torchvision import datasets, transforms
 from functions import *
 
 activation_list = ['relu']
-layer_list = [2]
-neuron_list = [10]
-form_list = ['exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
-apply_bounds_list = [True]
-type_bounds_list = ['prop']
-minutes = 1
-save_image = True
+layer_list = [2,3,4]
+neuron_list = [10,25,50]
+form_list = ['exact','no_exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
+apply_bounds_list = [True,False]
+type_bounds_list = ['prop','mix']
+minutes = 15
+save_image = False
 apply_softmax = False
 
 print_output = False
@@ -139,17 +139,19 @@ for activation in activation_list:
                                         adv_ex = True
                                         break
                                 ## Se aumenta la tolerancia
-                                print('Nuevo intento')
+                                print('\n Nuevo intento \n')
                                 tol_distance += tol_step
                             
                             ## Se lee el df existente o se genera uno nuevo
                             df = read_df(file_name)
-                            ## Se genera la nueva linea del df                  
-                            new_line = [n_layers,n_neurons,type_bounds,tol_distance,dt,gap,adv_ex,obj_val]
+                            ## Se genera la nueva linea del df
+                            adv_aux = 'No'
+                            if adv_ex:
+                                adv_aux = 'Si'  
+                            new_line = [n_layers,n_neurons,type_bounds,tol_distance,dt,gap,adv_aux,obj_val]
                             ## Se añade la linea al df
                             df = df._append(pd.Series(new_line), ignore_index=True)
                             ## Se intenta guardar el nuevo df actualizado
-                            file_name = 'datos_verificacion_{}.xlsx'.format(activation)
                             save_df(df,file_name)
                         else:
                             print('error')
