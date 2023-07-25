@@ -64,10 +64,11 @@ for activation in activation_list:
                     aux_list = [True]
                 ## Se aplica o no se aplican las cotas
                 for apply_bounds in aux_list:
+                    aux_bounds_list = type_bounds_list
                     if not apply_bounds:
-                        type_bounds_list = ['-']
+                        aux_bounds_list = ['-']
                     ## Se recorren los tipos de cotas
-                    for type_bounds in type_bounds_list:
+                    for type_bounds in aux_bounds_list:
                         if True:
                             ## Se crea la instancia de la red neuronal
                             net = neural_network(n_neurons,n_layers,activation)
