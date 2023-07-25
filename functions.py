@@ -4,8 +4,10 @@ En este archivo se encuentran las funciones para training.py y optimizacion.py
 
 #### Librerias
 
+import os
 import torch
 import numpy as np
+import pandas as pd
 import torch.nn as nn
 import torch.nn.functional as F
 import pyscipopt.scip as scip
@@ -112,12 +114,15 @@ class neural_network(nn.Module):
 
 def initialize_neuron_model(bounds):
     neuron_model = Model()
+    if len(bounds) == 0:
+        bounds[-1] = [(0,1) for i in range(784)]
     n_input = len(bounds[-1])
     inpt = [neuron_model.addVar(lb = bounds[-1][k][0], ub = bounds[-1][k][1], name = 'h{},{}'.format(-1,k)) for k in range(n_input)]
     all_vars = {}
     for i in range(n_input):
         all_vars['h{},{}'.format(-1,i)] = inpt[i]
     return neuron_model,inpt,all_vars
+
 
 ### Funcion que dada una neurona i en una capa l, fija la funcion objetivo correspondiente 
 ###
@@ -481,7 +486,7 @@ def calculate_probs(net,image_list,xpix = 28,ypix = 28):
 ###
 ###
 
-def generate_png(solution,image_list,color_map,png_name):
+def generate_png(solution,image_list,color_map,png_name,input_lb,input_ub):
   image_solution = np.array(solution).reshape(28, 28)
   image_input    = np.array(image_list).reshape(28, 28)
   ## Crea una figura con los subplots
@@ -503,3 +508,33 @@ def generate_png(solution,image_list,color_map,png_name):
                     
   # Muestra la figura con las dos imágenes
   #plt.show()
+  
+###
+###
+
+def save_df(df,file_name,header = False,index = False):
+    ## Se intenta guardar el df
+    while True:
+        try:
+            df.to_excel(file_name,header, index)
+            break
+        except:
+            time.sleep(5)
+            
+###
+###
+
+def read_df(file_name,header = None):
+    ## Caso en que ya existe el df
+    if os.path.exists(file_name):
+        ## Se intenta leer el df
+        while True:
+            try:
+                df = pd.read_excel(file_name,header)
+                break
+            except:
+                time.sleep(5)
+    ## Caso contrario se crea un df vacio
+    else:
+        df = pd.DataFrame()
+    return df
