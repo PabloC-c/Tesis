@@ -43,8 +43,6 @@ test_loader  = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=64, 
 input_example, output_example = next(iter(test_loader))
 ## Se transforma el input en una lista
 image_list = input_example[output_example == real_output][0].view(-1,784).tolist()[0]
-## Se transforma el input en una imagen de numpy
-image_input = np.array(image_list).reshape(28, 28)
 
 ## Por cada activacion
 for activation in activation_list:
@@ -66,8 +64,17 @@ for activation in activation_list:
                 params = net.state_dict()
                 ## Se filtran los parametros
                 filtered_params = filter_params(params)
-                ## Se cargan las cotas de la red
-                bounds = read_bounds(n_layers,n_neurons,activation)
+                ## Caso donde se deben aplicar las cotas
+                if apply_bounds:
+                    if exact == 'prop':
+                        file_name = 'nn_bounds/{}_prop_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
+                    else:
+                        file_name = 'nn_bounds/{}_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
+                    ## Se cargan las cotas de la red
+                    if os.path.exists(file_name):
+                        bounds = read_bounds(n_layers,n_neurons,activation)
+                    else:
+                        break
                 ## Datos para el ciclo
                 adv_ex = False
                 tol_distance = tol_0
@@ -96,27 +103,8 @@ for activation in activation_list:
                             ## Caso en que se debe guardar la imagen
                             if save_image:
                                 color_map = 'gray'
-                                ###################################################################### HACER FUNCION!!!!!! ##############################################################################
-                                image_solution = np.array(solution).reshape(28, 28)
-                                ## Crea una figura con los subplots
-                                fig, axs = plt.subplots(1, 2)
-                                axs[0].imshow(image_input, vmin = input_lb, vmax = input_ub,cmap=color_map)
-                                axs[0].axis('off')
-                        
-                                axs[1].imshow(image_solution, vmin = input_lb, vmax = input_ub, cmap=color_map)
-                                axs[1].axis('off')
-                        
-                                #axs[2].imshow(np.abs(image_solution-image_input), vmin = input_lb, vmax = input_ub, cmap=color_map) #np.abs(image_solution-image_input)
-                                #axs[2].axis('off')
-                        
-                                ## Ajusta el espaciado entre los subplots
-                                plt.tight_layout()
-                            
-                                ## Guarda la figura con las imágenes en un archivo
-                                plt.savefig('imagen_resultado.png', dpi=300, bbox_inches='tight')
-                    
-                                # Muestra la figura con las dos imágenes
-                                #plt.show()
+                                png_name  = '{}_adv_exp.png'.format(activation) 
+                                generate_png(solution,image_list,color_map,png_name)
                             break
                     ## Caso no alcanzo el tiempo
                     else:

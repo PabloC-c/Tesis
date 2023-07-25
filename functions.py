@@ -214,31 +214,39 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
 ### Funcion que optimiza el problema de optimizacion asociado a la evaluacion de una neurona de la red
 ### El parametro neuron_model es el modelo de la neurona, sense es el sentido del problema de optimziacion, tol es la holgura que se añade a las cotas duales
 
-def solve_neuron_model(neuron_model,sense,params,bounds,l,i,tol = 1e-03, minutes = 10, print_output = False, digits = 4):
-    neuron_model.setParam('limits/time', int(60*minutes))
-    ## Se resuelve el problema
-    if print_output:
-        neuron_model.redirectOutput()
+def solve_neuron_model(neuron_model,sense,params,bounds,l,i,exact = 'no_exact',minutes = 10,tol = 1e-03,print_output = False,digits = 4):
+    if exact in ['exact','no_exact']:
+        neuron_model.setParam('limits/time', int(60*minutes))
+        ## Se resuelve el problema
+        if print_output:
+            neuron_model.redirectOutput()
+        else:
+            neuron_model.hideOutput()
+        t0 = time.time()
+        try:
+            aux_t = time.time()
+            neuron_model.optimize()
+            aux_dt = time.time() - aux_t
+            model_status = neuron_model.getStatus()
+        except:
+            aux_dt = time.time() - t0
+            model_status = 'problem'
+        dt = aux_dt    
+        print('\n Status',neuron_model.getStatus(),'\n')
     else:
-        neuron_model.hideOutput()
-    t0 = time.time()
-    try:
-        aux_t = time.time()
-        neuron_model.optimize()
-        aux_dt = time.time() - aux_t
-        model_status = neuron_model.getStatus()
-    except:
-        aux_dt = time.time() - t0
         model_status = 'problem'
-    dt = aux_dt    
-    print('\n Status',neuron_model.getStatus(),'\n')
     ## Caso de solucion optima
     if model_status == 'optimal':
         ## Se entrega el valor objetivo optimo
         obj_val = neuron_model.getObjVal()
         sol = [True,obj_val]
     elif model_status in ['infeasible','unbounded','inforunbd','problem']:
-        dual_val = calculate_aprox_bound(params,bounds,l,i,sense)
+        if exact == 'prop':
+          aux_t = time.time()
+          dual_val = calculate_aprox_bound(params,bounds,l,i,sense)
+          dt = time.time() - aux_t
+        else:
+          dual_val = calculate_aprox_bound(params,bounds,l,i,sense)
         sol = [False,dual_val]
     ## Caso contrario    
     else:
@@ -262,7 +270,7 @@ def solve_neuron_model(neuron_model,sense,params,bounds,l,i,tol = 1e-03, minutes
 ###
 ###
 
-def calculate_aprox_bound(params,bounds,l,i,sense,activation = 'relu'):
+def calculate_aprox_bound(params,bounds,l,i,sense,activation = 'relu',tol = 1e-05):
     weight,bias = get_w_b_names(l)
     W,b = params[weight],params[bias]
     input_bounds = bounds[l-1]
@@ -270,13 +278,16 @@ def calculate_aprox_bound(params,bounds,l,i,sense,activation = 'relu'):
     for j in range(len(input_bounds)):
         lb,ub = -input_bounds[j][0],input_bounds[j][1]
         if activation == 'relu':
-            if lb < 0:
+            if lb < 1e-05:
                 lb = 0
-            if ub < 0:
+            if ub < 1e-05:
                 ub = 0
         elif activation == 'softplus':
             lb = np.log(1 + np.exp(lb))
             ub = np.log(1 + np.exp(ub))
+        elif activation == 'sigmoid':
+            lb = np.log(1/(1+np.exp(-lb)))
+            ub = np.log(1/(1+np.exp(-ub)))
         if float(W[i,j]) >= 0:
             if sense == 'maximize':
                 aprox_bound += float(W[i,j])*ub
@@ -292,7 +303,7 @@ def calculate_aprox_bound(params,bounds,l,i,sense,activation = 'relu'):
 ###
 ###
 
-def calculate_bounds(params,activation = 'relu',exact = 'exact'):
+def calculate_bounds(params,activation = 'relu',exact = 'no_exact',minutes = 10):
     ## Calcular cantidad de capas
     n_layers = int(len(params)/2)
     ## Crear arreglo para guardar cotas de las capas
@@ -327,11 +338,11 @@ def calculate_bounds(params,activation = 'relu',exact = 'exact'):
             else:
                 ## Se determina el valor maximo de la neurona i
                 neuron_model = set_objective_function(neuron_model,inpt,params,bounds,l,i,'maximize')
-                sol_max,dt1  = solve_neuron_model(neuron_model,'maximize',params,bounds,l,i)
+                sol_max,dt1  = solve_neuron_model(neuron_model,'maximize',params,bounds,l,i,exact,minutes)
                 neuron_model.freeTransform()
                 ## Se determina el minimo de la neurona i
                 neuron_model = set_objective_function(neuron_model,inpt,params,bounds,l,i,'minimize')
-                sol_min,dt2  = solve_neuron_model(neuron_model,'minimize',params,bounds,l,i)
+                sol_min,dt2  = solve_neuron_model(neuron_model,'minimize',params,bounds,l,i,exact,minutes)
                 neuron_model.freeTransform()
                 ## Se añaden las cotas de la neurona al arreglo de la capa
                 aux.append((sol_min[1],sol_max[1]))
@@ -376,8 +387,7 @@ def set_verification_model(net_model,net_input_var,net_output_var,input_value,re
 ###
 ###
 
-def write_bounds(bounds,n_layers,n_neurons,activation,directory = 'nn_bounds/'):
-    file_name = directory+activation+'_bounds_L{}_n{}.txt'.format(n_layers,n_neurons)
+def write_bounds(bounds,n_layers,n_neurons,activation,file_name):
     with open(file_name,'w') as bounds_file:
         for layer,layer_bounds in bounds.items():
             for lb,ub in layer_bounds:
@@ -390,9 +400,8 @@ def write_bounds(bounds,n_layers,n_neurons,activation,directory = 'nn_bounds/'):
 ###
 ###
 
-def read_bounds(n_layers,n_neurons,activation,directory = 'nn_bounds/'):
+def read_bounds(n_layers,n_neurons,activation,file_name):
     bounds = OrderedDict()
-    file_name = directory+activation+'_bounds_L{}_n{}.txt'.format(n_layers,n_neurons)
     with open(file_name, 'r') as bounds_file:
         layer = -1
         value = []
@@ -468,3 +477,29 @@ def calculate_probs(net,image_list,xpix = 28,ypix = 28):
     ## Se aplica softmax
     soft_output = calculate_softmax(output)
     return output,soft_output
+    
+###
+###
+
+def generate_png(solution,image_list,color_map,png_name):
+  image_solution = np.array(solution).reshape(28, 28)
+  image_input    = np.array(image_list).reshape(28, 28)
+  ## Crea una figura con los subplots
+  fig, axs = plt.subplots(1, 2)
+  axs[0].imshow(image_input, vmin = input_lb, vmax = input_ub,cmap=color_map)
+  axs[0].axis('off')
+                        
+  axs[1].imshow(image_solution, vmin = input_lb, vmax = input_ub, cmap=color_map)
+  axs[1].axis('off')
+                        
+  #axs[2].imshow(np.abs(image_solution-image_input), vmin = input_lb, vmax = input_ub, cmap=color_map) #np.abs(image_solution-image_input)
+  #axs[2].axis('off')
+                        
+  ## Ajusta el espaciado entre los subplots
+  plt.tight_layout()
+                            
+  ## Guarda la figura con las imágenes en un archivo
+  plt.savefig(png_name, dpi=300, bbox_inches='tight')
+                    
+  # Muestra la figura con las dos imágenes
+  #plt.show()
