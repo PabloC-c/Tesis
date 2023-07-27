@@ -105,11 +105,17 @@ for activation in activation_list:
                                 ## Se limita el tiempo de resolucion
                                 verif_model.setParam('limits/time', int(60*minutes))
                                 ## Se optimiza el modelo en busca del ejemplo adversarial
-                                auxt = time.time()
-                                verif_model.optimize()
-                                dt = time.time() - auxt 
+                                t0 = time.time()
+                                try:
+                                    aux_t = time.time()
+                                    verif_model.optimize()
+                                    dt = time.time() - aux_t
+                                    model_status = neuron_model.getStatus()
+                                except:
+                                    dt = time.time() - t0
+                                    model_status = 'problem'
                                 ## Caso solucion optima
-                                if verif_model.getStatus() == 'optimal':
+                                if model_status == 'optimal':
                                     gap = 0.0
                                     solution      = [verif_model.getVal(all_vars['h{},{}'.format(-1,i)]) for i in range(len(image_list))]
                                     output,probs  = calculate_probs(net, solution)
@@ -126,7 +132,7 @@ for activation in activation_list:
                                             generate_png(solution,image_list,color_map,png_name,input_lb,input_ub)
                                         break
                                 ## Caso no alcanzo el tiempo
-                                else:
+                                elif model_status == 'timelimit':
                                     primalb = verif_model.getDualbound()
                                     dualb = verif_model.getPrimalbound()
                                     gap = (dualb-primalb)/np.abs(dualb)
@@ -139,6 +145,10 @@ for activation in activation_list:
                                         obj_val = '>0'
                                         adv_ex = True
                                         break
+                                else:
+                                    gap = '-'
+                                    obj_val = '-'
+                                    break
                                 ## Se aumenta la tolerancia
                                 print('\n Nuevo intento \n')
                                 tol_distance += tol_step
