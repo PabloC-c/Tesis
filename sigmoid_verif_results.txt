@@ -1,0 +1,192 @@
+
+===== Capas 2 Neuronas 10 =====
+
+presolving:
+presolving (1 rounds: 1 fast, 0 medium, 0 exhaustive):
+ 0 deleted vars, 1568 deleted constraints, 0 added constraints, 838 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+ 0 implications, 0 cliques
+presolving detected infeasibility
+Presolving Time: 0.01
+
+SCIP Status        : problem is solved [infeasible]
+Solving Time (sec) : 0.01
+Solving Nodes      : 0
+Primal Bound       : -1.00000000000000e+20 (objective limit, 0 solutions)
+Dual Bound         : -1.00000000000000e+20
+Gap                : 0.00 %
+
+ Nuevo intento 
+
+presolving:
+presolving (1 rounds: 1 fast, 0 medium, 0 exhaustive):
+ 0 deleted vars, 1568 deleted constraints, 0 added constraints, 837 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+ 0 implications, 0 cliques
+presolving detected infeasibility
+Presolving Time: 0.01
+
+SCIP Status        : problem is solved [infeasible]
+Solving Time (sec) : 0.01
+Solving Nodes      : 0
+Primal Bound       : -1.00000000000000e+20 (objective limit, 0 solutions)
+Dual Bound         : -1.00000000000000e+20
+Gap                : 0.00 %
+
+ Nuevo intento 
+
+presolving:
+presolving (1 rounds: 1 fast, 0 medium, 0 exhaustive):
+ 0 deleted vars, 1568 deleted constraints, 0 added constraints, 837 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+ 0 implications, 0 cliques
+presolving detected infeasibility
+Presolving Time: 0.01
+
+SCIP Status        : problem is solved [infeasible]
+Solving Time (sec) : 0.01
+Solving Nodes      : 0
+Primal Bound       : -1.00000000000000e+20 (objective limit, 0 solutions)
+Dual Bound         : -1.00000000000000e+20
+Gap                : 0.00 %
+
+ Nuevo intento 
+
+presolving:
+presolving (1 rounds: 1 fast, 0 medium, 0 exhaustive):
+ 0 deleted vars, 1568 deleted constraints, 0 added constraints, 837 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+ 0 implications, 0 cliques
+presolving detected infeasibility
+Presolving Time: 0.01
+
+SCIP Status        : problem is solved [infeasible]
+Solving Time (sec) : 0.01
+Solving Nodes      : 0
+Primal Bound       : -1.00000000000000e+20 (objective limit, 0 solutions)
+Dual Bound         : -1.00000000000000e+20
+Gap                : 0.00 %
+
+ Nuevo intento 
+
+presolving:
+presolving (1 rounds: 1 fast, 0 medium, 0 exhaustive):
+ 0 deleted vars, 1568 deleted constraints, 0 added constraints, 837 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+ 0 implications, 0 cliques
+presolving detected infeasibility
+Presolving Time: 0.01
+
+SCIP Status        : problem is solved [infeasible]
+Solving Time (sec) : 0.01
+Solving Nodes      : 0
+Primal Bound       : -1.00000000000000e+20 (objective limit, 0 solutions)
+Dual Bound         : -1.00000000000000e+20
+Gap                : 0.00 %
+
+ Nuevo intento 
+
+presolving:
+presolving (1 rounds: 1 fast, 0 medium, 0 exhaustive):
+ 0 deleted vars, 1568 deleted constraints, 0 added constraints, 836 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+ 0 implications, 0 cliques
+presolving detected infeasibility
+Presolving Time: 0.01
+
+SCIP Status        : problem is solved [infeasible]
+Solving Time (sec) : 0.01
+Solving Nodes      : 0
+Primal Bound       : -1.00000000000000e+20 (objective limit, 0 solutions)
+Dual Bound         : -1.00000000000000e+20
+Gap                : 0.00 %
+
+ Nuevo intento 
+
+presolving:
+presolving (1 rounds: 1 fast, 0 medium, 0 exhaustive):
+ 0 deleted vars, 1568 deleted constraints, 0 added constraints, 836 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+ 0 implications, 0 cliques
+presolving detected infeasibility
+Presolving Time: 0.01
+
+SCIP Status        : problem is solved [infeasible]
+Solving Time (sec) : 0.01
+Solving Nodes      : 0
+Primal Bound       : -1.00000000000000e+20 (objective limit, 0 solutions)
+Dual Bound         : -1.00000000000000e+20
+Gap                : 0.00 %
+
+ Nuevo intento 
+
+presolving:
+presolving (1 rounds: 1 fast, 0 medium, 0 exhaustive):
+ 0 deleted vars, 1568 deleted constraints, 0 added constraints, 836 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+ 0 implications, 0 cliques
+presolving detected infeasibility
+Presolving Time: 0.01
+
+SCIP Status        : problem is solved [infeasible]
+Solving Time (sec) : 0.01
+Solving Nodes      : 0
+Primal Bound       : -1.00000000000000e+20 (objective limit, 0 solutions)
+Dual Bound         : -1.00000000000000e+20
+Gap                : 0.00 %
+
+ Nuevo intento 
+
+presolving:
+presolving (1 rounds: 1 fast, 0 medium, 0 exhaustive):
+ 0 deleted vars, 1568 deleted constraints, 0 added constraints, 836 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+ 0 implications, 0 cliques
+presolving detected infeasibility
+Presolving Time: 0.01
+
+SCIP Status        : problem is solved [infeasible]
+Solving Time (sec) : 0.01
+Solving Nodes      : 0
+Primal Bound       : -1.00000000000000e+20 (objective limit, 0 solutions)
+Dual Bound         : -1.00000000000000e+20
+Gap                : 0.00 %
+
+ Nuevo intento 
+
+presolving:
+presolving (1 rounds: 1 fast, 0 medium, 0 exhaustive):
+ 0 deleted vars, 1568 deleted constraints, 0 added constraints, 834 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+ 0 implications, 0 cliques
+presolving detected infeasibility
+Presolving Time: 0.01
+
+SCIP Status        : problem is solved [infeasible]
+Solving Time (sec) : 0.01
+Solving Nodes      : 0
+Primal Bound       : -1.00000000000000e+20 (objective limit, 0 solutions)
+Dual Bound         : -1.00000000000000e+20
+Gap                : 0.00 %
+
+ Nuevo intento 
+
+
+===== Capas 2 Neuronas 10 =====
+
+presolving:
+(round 1, fast)       0 del vars, 1568 del conss, 0 add conss, 872 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
+   (0.0s) no symmetry present
+presolving (2 rounds: 2 fast, 1 medium, 1 exhaustive):
+ 0 deleted vars, 1568 deleted constraints, 0 added constraints, 875 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+ 0 implications, 0 cliques
+presolved problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 40 constraints
+     20 constraints of type <linear>
+     20 constraints of type <nonlinear>
+Presolving Time: 0.02
+
+ time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
+  0.0s|     1 |     0 |   222 |     - |    11M |   0 | 884 |  40 | 232 |   0 |  0 |   0 |   0 | 9.999974e-01 |      --      |    Inf | unknown
+L 0.5s|     1 |     0 |   222 |     - |  subnlp|   0 | 884 |  40 | 232 |   0 |  0 |   0 |   0 | 9.999974e-01 | 9.902550e-01 |   0.98%| unknown
+  0.5s|     1 |     0 |   319 |     - |    12M |   0 | 884 |  40 | 253 |  21 |  1 |   0 |   0 | 9.999974e-01 | 9.902550e-01 |   0.98%| unknown
+  0.5s|     1 |     0 |   319 |     - |    12M |   0 | 884 |  40 | 252 |  21 |  1 |   0 |   0 | 9.999974e-01 | 9.902550e-01 |   0.98%| unknown
+  0.5s|     1 |     0 |   382 |     - |    12M |   0 | 884 |  40 | 273 |  42 |  2 |   0 |   0 | 9.999974e-01 | 9.902550e-01 |   0.98%| unknown
+  0.6s|     1 |     0 |   417 |     - |    12M |   0 | 884 |  40 | 296 |  65 |  3 |   0 |   0 | 9.999974e-01 | 9.902550e-01 |   0.98%| unknown
+  0.6s|     1 |     0 |   449 |     - |    12M |   0 | 884 |  40 | 317 |  86 |  4 |   0 |   0 | 9.999974e-01 | 9.902550e-01 |   0.98%| unknown
+  0.6s|     1 |     0 |   468 |     - |    12M |   0 | 884 |  40 | 335 | 104 |  5 |   0 |   0 | 9.999974e-01 | 9.902550e-01 |   0.98%| unknown
+  0.6s|     1 |     0 |   486 |     - |    12M |   0 | 884 |  40 | 354 | 123 |  6 |   0 |   0 | 9.999974e-01 | 9.902550e-01 |   0.98%| unknown
+  0.6s|     1 |     0 |   496 |     - |    12M |   0 | 884 |  40 | 364 | 133 |  7 |   0 |   0 | 9.999974e-01 | 9.902550e-01 |   0.98%| unknown
+  0.6s|     1 |     0 |   506 |     - |    12M |   0 | 884 |  40 | 373 | 142 |  8 |   0 |   0 | 9.999974e-01 | 9.902550e-01 |   0.98%| unknown
+  0.6s|     1 |     0 |   516 |     - |    12M |   0 | 884 |  40 | 382 | 151 |  9 |   0 |   0 | 9.999974e-01 | 9.902550e-01 |   0.98%| unknown
+  0.6s|

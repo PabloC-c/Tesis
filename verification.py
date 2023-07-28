@@ -15,12 +15,13 @@ save_image = False
 apply_softmax = False
 
 print_output = True
+save_results = True
 real_output = 1
 target_output = 8
 input_lb =0 
 input_ub = 1
-tol_0 = 0.01
-tol_f = 0.05
+tol_0 = 0.05
+tol_f = 0.1
 tol_step = 0.005
 
 if len(sys.argv) > 1:
@@ -93,6 +94,7 @@ for activation in activation_list:
                             ## Datos para el ciclo
                             adv_ex = False
                             tol_distance = tol_0
+                            total_time = 0
                             ## Ciclo para busqueda de ejemplo adversarial
                             print('\n===== Capas {} Neuronas {} =====\n'.format(n_layers,n_neurons))
                             while not adv_ex and tol_distance <= tol_f:
@@ -118,9 +120,6 @@ for activation in activation_list:
                                 if model_status == 'optimal':
                                     gap = 0.0
                                     solution      = [verif_model.getVal(all_vars['h{},{}'.format(-1,i)]) for i in range(len(image_list))]
-                                    output,probs  = calculate_probs(net, solution)
-                                    real_prob     = probs[real_output]
-                                    target_prob   = probs[target_output]
                                     obj_val       = verif_model.getObjVal()
                                     if obj_val > 0:
                                         ## Se encontro un ejemplo adversarial
@@ -130,39 +129,43 @@ for activation in activation_list:
                                             color_map = 'gray'
                                             png_name  = '{}_adv_ex.png'.format(activation) 
                                             generate_png(solution,image_list,color_map,png_name,input_lb,input_ub)
+                                            output,soft_output = calculate_probs(net,solution)
+                                            print('\n Softmax output: ',soft_output,'\n')
+                                        total_time += dt
                                         break
                                 ## Caso no alcanzo el tiempo
-                                elif model_status == 'timelimit':
-                                    primalb = verif_model.getDualbound()
-                                    dualb = verif_model.getPrimalbound()
-                                    gap = (dualb-primalb)/np.abs(dualb)
-                                    target_prob,real_prob = '-','-'
-                                    ## Caso en que no existe ejemplo adversarial
-                                    if primalb < 0:
-                                        obj_val = '<0'
-                                    ## Caso en que si existe un ejemplo adversarial
-                                    elif dualb > 0:
-                                        obj_val = '>0'
-                                        adv_ex = True
-                                        break
                                 else:
-                                    gap = '-'
-                                    obj_val = '-'
-                                    break
+                                    try:
+                                        primalb = verif_model.getDualbound()
+                                        dualb = verif_model.getPrimalbound()
+                                        gap = (primalb-dual)/np.abs(dualb)
+                                        ## Caso en que no existe ejemplo adversarial
+                                        if primalb < 0:
+                                            obj_val = '<0'
+                                        ## Caso en que si existe un ejemplo adversarial
+                                        elif dualb > 0:
+                                            obj_val = '>0'
+                                            adv_ex = True
+                                            total_time += dt
+                                            break
+                                    except:
+                                        gap = '-'
+                                        obj_val = '-'
                                 ## Se aumenta la tolerancia
                                 print('\n Nuevo intento \n')
                                 tol_distance += tol_step
-                            
-                            ## Se lee el df existente o se genera uno nuevo
-                            df = read_df(file_name)
-                            ## Se genera la nueva linea del df
-                            adv_aux = 'No'
-                            if adv_ex:
-                                adv_aux = 'Si'  
-                            new_line = [n_layers,n_neurons,type_bounds,tol_distance,dt,gap,adv_aux,obj_val]
-                            ## Se añade la linea al df
-                            df = df._append(pd.Series(new_line), ignore_index=True)
-                            ## Se intenta guardar el nuevo df actualizado
-                            save_df(df,file_name)
+                                total_time += dt
+                            if save_results:
+                                ## Se lee el df existente o se genera uno nuevo
+                                df = read_df(file_name)
+                                ## Se genera la nueva linea del df
+                                adv_aux = 'No'
+                                if adv_ex:
+                                    adv_aux = 'Si'
+                                new_line = [n_layers,n_neurons,type_bounds,tol_distance,dt,total_time,gap,adv_aux,obj_val,model_status]
+                                ## Se añade la linea al df
+                                df = df._append(pd.Series(new_line), ignore_index=True)
+                                ## Se intenta guardar el nuevo df actualizado
+                                save_df(df,file_name)
                         else:
                             print('error')
