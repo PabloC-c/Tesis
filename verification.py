@@ -20,8 +20,8 @@ real_output = 1
 target_output = 8
 input_lb =0 
 input_ub = 1
-tol_0 = 0.05
-tol_f = 0.1
+tol_0 = 0.01
+tol_f = 0.05
 tol_step = 0.005
 
 if len(sys.argv) > 1:
@@ -112,7 +112,7 @@ for activation in activation_list:
                                     aux_t = time.time()
                                     verif_model.optimize()
                                     dt = time.time() - aux_t
-                                    model_status = neuron_model.getStatus()
+                                    model_status = verif_model.getStatus()
                                 except:
                                     dt = time.time() - t0
                                     model_status = 'problem'
