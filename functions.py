@@ -539,3 +539,12 @@ def read_df(file_name,header = None):
     else:
         df = pd.DataFrame()
     return df
+
+###
+###
+
+def calculate_list_perturbation(real_list,generated_list):
+    perturbations = [np.abs(generated_list[i]-real_list[i]) for i in range(len(real_list))]
+    minp = min(perturbations)
+    maxp = max(perturbations)
+    return minp,maxp
