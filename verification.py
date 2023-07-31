@@ -4,12 +4,12 @@ import pandas as pd
 from torchvision import datasets, transforms
 from functions import *
 
-activation_list = ['relu']
-layer_list = [2]#[2,3,4]
-neuron_list = [10]#[10,25,50]
-form_list = ['no_exact']#['exact','no_exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
-apply_bounds_list = [True]#[True,False]
-type_bounds_list = ['mix']#['prop','mix']
+activation_list = ['softplus']
+layer_list = [2,3,4]
+neuron_list = [10,25,50]
+form_list = ['exact','no_exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
+apply_bounds_list = [True,False]
+type_bounds_list = ['prop','mix']
 minutes = 15
 save_image = True
 apply_softmax = False
@@ -20,8 +20,8 @@ real_output = 1
 target_output = 2
 input_lb =0 
 input_ub = 1
-tol_0 = 0.01
-tol_f = 0.05
+tol_0 = 0.055
+tol_f = 0.06
 tol_step = 0.005
 
 if len(sys.argv) > 1:
