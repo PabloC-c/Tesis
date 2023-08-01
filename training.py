@@ -5,7 +5,7 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from functions import *
 
-def trainer(model, device, train_loader, optimizer, epoch, l1_lambda=0.001, print_loss = False):
+def trainer(model, device, train_loader, optimizer, epoch, print_loss = False,regul_L = 'L1',L_lambda = 0.005):
     model.train()
     for batch_idx, (data, target) in enumerate(train_loader):
         ## Se envian los datos al dispositivo de entrenamiento
@@ -16,15 +16,22 @@ def trainer(model, device, train_loader, optimizer, epoch, l1_lambda=0.001, prin
         output = model(data)
         ## Se calcula la perdida
         loss = F.cross_entropy(output, target)
-
-        ## Se aplica regularización L1 a todos los parámetros (pesos y sesgos) excepto las capas de salida
-        l1_reg = torch.tensor(0., device=device)
-        for param in model.parameters():
-            if param.requires_grad and len(param.shape) > 1:  # Excluir capas de salida
-                l1_reg += torch.norm(param, p=1)
         
-        ## Se suma la penalizacion
-        loss += l1_lambda * l1_reg
+        if regul_L == 'L1':
+            ## Se aplica regularización L1 a todos los parámetros (pesos y sesgos) excepto las capas de salida
+            l1_reg = torch.tensor(0., device=device)
+            for param in model.parameters():
+                if param.requires_grad and len(param.shape) > 1:  # Excluir capas de salida
+                    l1_reg += torch.norm(param, p=1)
+            ## Se suma la penalizacion
+            loss += L_lambda * l1_reg
+        else:
+            # Aplicar regularización L2 a los parámetros del modelo
+            l2_reg = torch.tensor(0., device=device)
+            for param in model.parameters():
+                if param.requires_grad:
+                    l2_reg += torch.norm(param, p=2)  # Norma L2 (Euclidiana)
+            loss += L_lambda * l2_reg
         ## Se calculan los gradientes
         loss.backward()
         ## Se actualizan los parametros de la red
@@ -60,12 +67,13 @@ learning_rate = 0.001
 epochs = 40
 weight_decay = 0.005
 print_loss = False
+regul_L = 'L2'
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 ## Redes a entrenar
 neuron_list = [5]
 layer_list  = [4]
-activation_list = ['relu','softplus','sigmoid']
+activation_list = ['softplus','sigmoid','relu']
 
 ## Se descargan los datos de MNIST
 train_dataset = datasets.MNIST(root='./data', train=True, transform=transforms.ToTensor(), download=True)
@@ -76,7 +84,11 @@ batch_size_og = batch_size
 for activation in activation_list:
     for n_neurons in neuron_list:
         for n_layers in layer_list:
-            if os.path.exists("nn_parameters_L1/{}_model_weights_L{}_n{}.pth".format(activation,n_layers, n_neurons)):
+            if regul_L == 'L1':
+                filename = "nn_parameters_L1/{}_model_weights_L{}_n{}.pth".format(activation,n_layers, n_neurons)
+            else:
+                filename = "nn_parameters/{}_model_weights_L{}_n{}.pth".format(activation,n_layers, n_neurons)
+            if True:#os.path.exists(filename):
                 print('\n ===== Capas: ',n_layers,' Neuronas: ',n_neurons,' Activacion: ',activation,'===== \n')
                 acc = 0
                 while (acc<0.9 and batch_size <= 1024 ):
@@ -87,12 +99,15 @@ for activation in activation_list:
                     ## Se genera el modelo
                     net = neural_network(n_neurons, n_layers, activation).to(device)
                     ## Se setea el optimizador
-                    optimizer = optim.Adam(net.parameters(), lr=0.001)
+                    if regul_L == 'L1':
+                        optimizer = optim.Adam(net.parameters(), lr=0.001)
+                    else:
+                        optimizer = optim.AdamW(net.parameters(), lr=0.001, weight_decay=0.005)
                     # optimizer = optim.AdamW(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
                     ## Se entrena la red
                     try:
                         for epoch in range(1, epochs + 1):
-                            trainer(net, device, train_loader, optimizer, epoch,l1_lambda = 0.001,print_loss = print_loss)
+                            trainer(net, device, train_loader, optimizer, epoch,print_loss = print_loss,regul_L = regul_L,L_lambda = 0.005)
                             if epoch%10 == 0:
                                 acc = tester(net, device, test_loader)
                                 if acc >= 0.95:
@@ -110,5 +125,5 @@ for activation in activation_list:
                 # Guardar los parámetros de la red
                 ## Se mueve el modelo a la CPU
                 net = net.to("cpu")
-                torch.save(net.state_dict(), "nn_parameters_L1/{}_model_weights_L{}_n{}.pth".format(activation,n_layers, n_neurons))
+                torch.save(net.state_dict(), filename)
                 batch_size = batch_size_og

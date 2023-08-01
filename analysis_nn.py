@@ -16,9 +16,9 @@ def calculate_accuracy(test_loader,model):
     return acc
 
 ## Redes a chequear
-neuron_list = [10,25,50]
-layer_list  = [2,3,4]
-activation = 'sigmoid'
+neuron_list = [10]
+layer_list  = [2]
+activation = 'relu'
 
 batch_size = 64
 
@@ -28,7 +28,7 @@ for n_neurons in neuron_list:
                 ## Se crea la red
                 net = neural_network(n_neurons,n_layers,activation)
                 ## Cargar los parámetros de la red
-                net.load_state_dict(torch.load('nn_parameters/'+activation+"_"+"model_weights_L{}_n{}.pth".format(n_layers, n_neurons)))
+                net.load_state_dict(torch.load('nn_parameters/{}_model_weights_L{}_n{}.pth'.format(activation,n_layers, n_neurons)))
                 params = net.state_dict()
                 filtered_params = filter_params(params)
                 ## Se cargan los datos de testeo
@@ -36,3 +36,4 @@ for n_neurons in neuron_list:
                 test_loader  = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=False)
                 acc = calculate_accuracy(test_loader, net)
                 print('Capas {}, Neuronas {}, Precision {:.4f}%'.format(n_layers,n_neurons,100*acc))
+                print(params)
