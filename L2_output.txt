@@ -1,0 +1,915 @@
+
+ ===== Capas:  2  Neuronas:  5  Activacion:  relu ===== 
+
+intento con batch size : 16
+
+Test set: Average loss: 0.3825, Accuracy: 8963/10000 (0.90%)
+
+Test set: Average loss: 0.3728, Accuracy: 8981/10000 (0.90%)
+
+Test set: Average loss: 0.3701, Accuracy: 8964/10000 (0.90%)
+
+Test set: Average loss: 0.3646, Accuracy: 9006/10000 (0.90%)
+
+Test set: Average loss: 0.3631, Accuracy: 8987/10000 (0.90%)
+
+Test set: Average loss: 0.3588, Accuracy: 9011/10000 (0.90%)
+	 Precisión en el conjunto de prueba: 90.11 %
+
+ ===== Capas:  3  Neuronas:  5  Activacion:  relu ===== 
+
+intento con batch size : 16
+
+Test set: Average loss: 0.5538, Accuracy: 8223/10000 (0.82%)
+
+Test set: Average loss: 0.5397, Accuracy: 8240/10000 (0.82%)
+
+Test set: Average loss: 0.5332, Accuracy: 8250/10000 (0.82%)
+
+Test set: Average loss: 0.3519, Accuracy: 8983/10000 (0.90%)
+
+Test set: Average loss: 0.3425, Accuracy: 8992/10000 (0.90%)
+
+Test set: Average loss: 0.3507, Accuracy: 8991/10000 (0.90%)
+intento con batch size : 32
+
+Test set: Average loss: 0.3703, Accuracy: 8960/10000 (0.90%)
+
+Test set: Average loss: 0.3528, Accuracy: 9008/10000 (0.90%)
+
+Test set: Average loss: 0.3500, Accuracy: 8999/10000 (0.90%)
+
+Test set: Average loss: 0.3486, Accuracy: 9012/10000 (0.90%)
+
+Test set: Average loss: 0.3486, Accuracy: 8989/10000 (0.90%)
+
+Test set: Average loss: 0.3553, Accuracy: 8966/10000 (0.90%)
+intento con batch size : 64
+
+Test set: Average loss: 0.6479, Accuracy: 7988/10000 (0.80%)
+
+Test set: Average loss: 0.3957, Accuracy: 8836/10000 (0.88%)
+
+Test set: Average loss: 0.3784, Accuracy: 8906/10000 (0.89%)
+
+Test set: Average loss: 0.3760, Accuracy: 8894/10000 (0.89%)
+
+Test set: Average loss: 0.3685, Accuracy: 8946/10000 (0.89%)
+
+Test set: Average loss: 0.3611, Accuracy: 8947/10000 (0.89%)
+intento con batch size : 128
+
+Test set: Average loss: 0.9236, Accuracy: 6999/10000 (0.70%)
+
+Test set: Average loss: 0.6107, Accuracy: 8082/10000 (0.81%)
+
+Test set: Average loss: 0.4041, Accuracy: 8853/10000 (0.89%)
+
+Test set: Average loss: 0.3721, Accuracy: 8911/10000 (0.89%)
+
+Test set: Average loss: 0.3628, Accuracy: 8960/10000 (0.90%)
+
+Test set: Average loss: 0.3640, Accuracy: 8942/10000 (0.89%)
+intento con batch size : 256
+
+Test set: Average loss: 0.7673, Accuracy: 7882/10000 (0.79%)
+
+Test set: Average loss: 0.6046, Accuracy: 8081/10000 (0.81%)
+
+Test set: Average loss: 0.5919, Accuracy: 8118/10000 (0.81%)
+
+Test set: Average loss: 0.5843, Accuracy: 8136/10000 (0.81%)
+
+Test set: Average loss: 0.4042, Accuracy: 8839/10000 (0.88%)
+
+Test set: Average loss: 0.3691, Accuracy: 8969/10000 (0.90%)
+intento con batch size : 512
+
+Test set: Average loss: 1.0636, Accuracy: 6839/10000 (0.68%)
+
+Test set: Average loss: 0.9926, Accuracy: 7131/10000 (0.71%)
+
+Test set: Average loss: 0.8303, Accuracy: 7640/10000 (0.76%)
+
+Test set: Average loss: 0.7858, Accuracy: 7988/10000 (0.80%)
+
+Test set: Average loss: 0.3643, Accuracy: 8934/10000 (0.89%)
+
+Test set: Average loss: 0.3514, Accuracy: 8955/10000 (0.90%)
+intento con batch size : 1024
+
+Test set: Average loss: 0.9450, Accuracy: 6749/10000 (0.67%)
+
+Test set: Average loss: 0.8629, Accuracy: 6945/10000 (0.69%)
+
+Test set: Average loss: 0.8407, Accuracy: 7013/10000 (0.70%)
+
+Test set: Average loss: 0.8296, Accuracy: 7048/10000 (0.70%)
+
+Test set: Average loss: 0.8222, Accuracy: 7080/10000 (0.71%)
+
+Test set: Average loss: 0.8161, Accuracy: 7111/10000 (0.71%)
+	 Precisión en el conjunto de prueba: 71.11 %
+
+ ===== Capas:  4  Neuronas:  5  Activacion:  relu ===== 
+
+intento con batch size : 16
+
+Test set: Average loss: 0.6644, Accuracy: 7859/10000 (0.79%)
+
+Test set: Average loss: 0.4808, Accuracy: 8720/10000 (0.87%)
+
+Test set: Average loss: 0.4140, Accuracy: 8806/10000 (0.88%)
+
+Test set: Average loss: 0.3653, Accuracy: 8936/10000 (0.89%)
+
+Test set: Average loss: 0.3528, Accuracy: 8953/10000 (0.90%)
+
+Test set: Average loss: 0.3561, Accuracy: 8982/10000 (0.90%)
+intento con batch size : 32
+
+Test set: Average loss: 0.4520, Accuracy: 8688/10000 (0.87%)
+
+Test set: Average loss: 0.3996, Accuracy: 8820/10000 (0.88%)
+
+Test set: Average loss: 0.3911, Accuracy: 8838/10000 (0.88%)
+
+Test set: Average loss: 0.3815, Accuracy: 8880/10000 (0.89%)
+
+Test set: Average loss: 0.3878, Accuracy: 8865/10000 (0.89%)
+
+Test set: Average loss: 0.3823, Accuracy: 8889/10000 (0.89%)
+intento con batch size : 64
+
+Test set: Average loss: 0.6137, Accuracy: 8177/10000 (0.82%)
+
+Test set: Average loss: 0.4075, Accuracy: 8835/10000 (0.88%)
+
+Test set: Average loss: 0.3787, Accuracy: 8965/10000 (0.90%)
+
+Test set: Average loss: 0.3731, Accuracy: 8991/10000 (0.90%)
+
+Test set: Average loss: 0.3900, Accuracy: 8917/10000 (0.89%)
+
+Test set: Average loss: 0.3713, Accuracy: 8987/10000 (0.90%)
+intento con batch size : 128
+
+Test set: Average loss: 0.6758, Accuracy: 7948/10000 (0.79%)
+
+Test set: Average loss: 0.4378, Accuracy: 8727/10000 (0.87%)
+
+Test set: Average loss: 0.4107, Accuracy: 8845/10000 (0.88%)
+
+Test set: Average loss: 0.4001, Accuracy: 8875/10000 (0.89%)
+
+Test set: Average loss: 0.3938, Accuracy: 8882/10000 (0.89%)
+
+Test set: Average loss: 0.3838, Accuracy: 8927/10000 (0.89%)
+intento con batch size : 256
+
+Test set: Average loss: 1.4521, Accuracy: 5171/10000 (0.52%)
+
+Test set: Average loss: 1.2476, Accuracy: 6147/10000 (0.61%)
+
+Test set: Average loss: 0.7226, Accuracy: 7943/10000 (0.79%)
+
+Test set: Average loss: 0.4877, Accuracy: 8663/10000 (0.87%)
+
+Test set: Average loss: 0.4636, Accuracy: 8689/10000 (0.87%)
+
+Test set: Average loss: 0.4542, Accuracy: 8671/10000 (0.87%)
+intento con batch size : 512
+
+Test set: Average loss: 0.5976, Accuracy: 8192/10000 (0.82%)
+
+Test set: Average loss: 0.5097, Accuracy: 8494/10000 (0.85%)
+
+Test set: Average loss: 0.4753, Accuracy: 8582/10000 (0.86%)
+
+Test set: Average loss: 0.4576, Accuracy: 8618/10000 (0.86%)
+
+Test set: Average loss: 0.4431, Accuracy: 8657/10000 (0.87%)
+
+Test set: Average loss: 0.4267, Accuracy: 8743/10000 (0.87%)
+intento con batch size : 1024
+
+Test set: Average loss: 1.4982, Accuracy: 4890/10000 (0.49%)
+
+Test set: Average loss: 0.8723, Accuracy: 7017/10000 (0.70%)
+
+Test set: Average loss: 0.7195, Accuracy: 7646/10000 (0.76%)
+
+Test set: Average loss: 0.6491, Accuracy: 7832/10000 (0.78%)
+
+Test set: Average loss: 0.6254, Accuracy: 7924/10000 (0.79%)
+
+Test set: Average loss: 0.6133, Accuracy: 7964/10000 (0.80%)
+	 Precisión en el conjunto de prueba: 79.64 %
+
+ ===== Capas:  2  Neuronas:  10  Activacion:  relu ===== 
+
+intento con batch size : 16
+
+Test set: Average loss: 0.2330, Accuracy: 9352/10000 (0.94%)
+
+Test set: Average loss: 0.2247, Accuracy: 9345/10000 (0.93%)
+
+Test set: Average loss: 0.2189, Accuracy: 9342/10000 (0.93%)
+
+Test set: Average loss: 0.2242, Accuracy: 9351/10000 (0.94%)
+
+Test set: Average loss: 0.2302, Accuracy: 9317/10000 (0.93%)
+
+Test set: Average loss: 0.2131, Accuracy: 9360/10000 (0.94%)
+	 Precisión en el conjunto de prueba: 93.60000000000001 %
+
+ ===== Capas:  3  Neuronas:  10  Activacion:  relu ===== 
+
+intento con batch size : 16
+
+Test set: Average loss: 0.4470, Accuracy: 8503/10000 (0.85%)
+
+Test set: Average loss: 0.4251, Accuracy: 8527/10000 (0.85%)
+
+Test set: Average loss: 0.2138, Accuracy: 9394/10000 (0.94%)
+
+Test set: Average loss: 0.2139, Accuracy: 9374/10000 (0.94%)
+
+Test set: Average loss: 0.1898, Accuracy: 9443/10000 (0.94%)
+
+Test set: Average loss: 0.2133, Accuracy: 9360/10000 (0.94%)
+	 Precisión en el conjunto de prueba: 93.60000000000001 %
+
+ ===== Capas:  4  Neuronas:  10  Activacion:  relu ===== 
+
+intento con batch size : 16
+
+Test set: Average loss: 0.4524, Accuracy: 8510/10000 (0.85%)
+
+Test set: Average loss: 0.4344, Accuracy: 8510/10000 (0.85%)
+
+Test set: Average loss: 0.2272, Accuracy: 9356/10000 (0.94%)
+
+Test set: Average loss: 0.1927, Accuracy: 9458/10000 (0.95%)
+
+Test set: Average loss: 0.2018, Accuracy: 9397/10000 (0.94%)
+
+Test set: Average loss: 0.2114, Accuracy: 9370/10000 (0.94%)
+	 Precisión en el conjunto de prueba: 93.7 %
+
+ ===== Capas:  2  Neuronas:  5  Activacion:  softplus ===== 
+
+intento con batch size : 16
+
+Test set: Average loss: 0.3558, Accuracy: 8995/10000 (0.90%)
+
+Test set: Average loss: 0.3483, Accuracy: 9011/10000 (0.90%)
+
+Test set: Average loss: 0.3501, Accuracy: 8992/10000 (0.90%)
+
+Test set: Average loss: 0.3457, Accuracy: 9010/10000 (0.90%)
+
+Test set: Average loss: 0.3486, Accuracy: 9000/10000 (0.90%)
+
+Test set: Average loss: 0.3465, Accuracy: 8997/10000 (0.90%)
+intento con batch size : 32
+
+Test set: Average loss: 0.3781, Accuracy: 8975/10000 (0.90%)
+
+Test set: Average loss: 0.3576, Accuracy: 8996/10000 (0.90%)
+
+Test set: Average loss: 0.3547, Accuracy: 9000/10000 (0.90%)
+
+Test set: Average loss: 0.3538, Accuracy: 9006/10000 (0.90%)
+
+Test set: Average loss: 0.3495, Accuracy: 9004/10000 (0.90%)
+
+Test set: Average loss: 0.3580, Accuracy: 8988/10000 (0.90%)
+intento con batch size : 64
+
+Test set: Average loss: 0.3664, Accuracy: 8982/10000 (0.90%)
+
+Test set: Average loss: 0.3543, Accuracy: 9000/10000 (0.90%)
+
+Test set: Average loss: 0.3494, Accuracy: 9007/10000 (0.90%)
+
+Test set: Average loss: 0.3504, Accuracy: 9003/10000 (0.90%)
+
+Test set: Average loss: 0.3467, Accuracy: 8995/10000 (0.90%)
+
+Test set: Average loss: 0.3442, Accuracy: 9009/10000 (0.90%)
+	 Precisión en el conjunto de prueba: 90.09 %
+
+ ===== Capas:  3  Neuronas:  5  Activacion:  softplus ===== 
+
+intento con batch size : 16
+
+Test set: Average loss: 0.4009, Accuracy: 8832/10000 (0.88%)
+
+Test set: Average loss: 0.3784, Accuracy: 8858/10000 (0.89%)
+
+Test set: Average loss: 0.3549, Accuracy: 8962/10000 (0.90%)
+
+Test set: Average loss: 0.3576, Accuracy: 8928/10000 (0.89%)
+
+Test set: Average loss: 0.3436, Accuracy: 8997/10000 (0.90%)
+
+Test set: Average loss: 0.3522, Accuracy: 8979/10000 (0.90%)
+intento con batch size : 32
+
+Test set: Average loss: 0.3795, Accuracy: 8885/10000 (0.89%)
+
+Test set: Average loss: 0.3625, Accuracy: 8932/10000 (0.89%)
+
+Test set: Average loss: 0.3554, Accuracy: 8957/10000 (0.90%)
+
+Test set: Average loss: 0.3557, Accuracy: 8984/10000 (0.90%)
+
+Test set: Average loss: 0.3430, Accuracy: 8999/10000 (0.90%)
+
+Test set: Average loss: 0.3469, Accuracy: 9008/10000 (0.90%)
+	 Precisión en el conjunto de prueba: 90.08 %
+
+ ===== Capas:  4  Neuronas:  5  Activacion:  softplus ===== 
+
+intento con batch size : 16
+
+Test set: Average loss: 0.4550, Accuracy: 8670/10000 (0.87%)
+
+Test set: Average loss: 0.3996, Accuracy: 8849/10000 (0.88%)
+
+Test set: Average loss: 0.3645, Accuracy: 8910/10000 (0.89%)
+
+Test set: Average loss: 0.3488, Accuracy: 8998/10000 (0.90%)
+
+Test set: Average loss: 0.3480, Accuracy: 9007/10000 (0.90%)
+
+Test set: Average loss: 0.3583, Accuracy: 8934/10000 (0.89%)
+intento con batch size : 32
+
+Test set: Average loss: 0.3697, Accuracy: 8936/10000 (0.89%)
+
+Test set: Average loss: 0.3683, Accuracy: 8951/10000 (0.90%)
+
+Test set: Average loss: 0.3519, Accuracy: 8977/10000 (0.90%)
+
+Test set: Average loss: 0.3487, Accuracy: 8995/10000 (0.90%)
+
+Test set: Average loss: 0.3438, Accuracy: 9018/10000 (0.90%)
+
+Test set: Average loss: 0.3470, Accuracy: 8995/10000 (0.90%)
+intento con batch size : 64
+
+Test set: Average loss: 0.3910, Accuracy: 8872/10000 (0.89%)
+
+Test set: Average loss: 0.3698, Accuracy: 8948/10000 (0.89%)
+
+Test set: Average loss: 0.3534, Accuracy: 9010/10000 (0.90%)
+
+Test set: Average loss: 0.3593, Accuracy: 9014/10000 (0.90%)
+
+Test set: Average loss: 0.3467, Accuracy: 9002/10000 (0.90%)
+
+Test set: Average loss: 0.3439, Accuracy: 9040/10000 (0.90%)
+	 Precisión en el conjunto de prueba: 90.4 %
+
+ ===== Capas:  2  Neuronas:  10  Activacion:  softplus ===== 
+
+intento con batch size : 16
+
+Test set: Average loss: 0.2268, Accuracy: 9346/10000 (0.93%)
+
+Test set: Average loss: 0.2134, Accuracy: 9387/10000 (0.94%)
+
+Test set: Average loss: 0.2138, Accuracy: 9371/10000 (0.94%)
+
+Test set: Average loss: 0.2111, Accuracy: 9407/10000 (0.94%)
+
+Test set: Average loss: 0.2063, Accuracy: 9384/10000 (0.94%)
+
+Test set: Average loss: 0.2048, Accuracy: 9403/10000 (0.94%)
+	 Precisión en el conjunto de prueba: 94.03 %
+
+ ===== Capas:  3  Neuronas:  10  Activacion:  softplus ===== 
+
+intento con batch size : 16
+
+Test set: Average loss: 0.2166, Accuracy: 9389/10000 (0.94%)
+
+Test set: Average loss: 0.2051, Accuracy: 9424/10000 (0.94%)
+
+Test set: Average loss: 0.1903, Accuracy: 9443/10000 (0.94%)
+
+Test set: Average loss: 0.1815, Accuracy: 9483/10000 (0.95%)
+
+Test set: Average loss: 0.1788, Accuracy: 9501/10000 (0.95%)
+	 Precisión en el conjunto de prueba: 95.00999999999999 %
+
+ ===== Capas:  4  Neuronas:  10  Activacion:  softplus ===== 
+
+intento con batch size : 16
+
+Test set: Average loss: 0.2549, Accuracy: 9222/10000 (0.92%)
+
+Test set: Average loss: 0.2083, Accuracy: 9393/10000 (0.94%)
+
+Test set: Average loss: 0.1962, Accuracy: 9408/10000 (0.94%)
+
+Test set: Average loss: 0.1904, Accuracy: 9445/10000 (0.94%)
+
+Test set: Average loss: 0.2021, Accuracy: 9393/10000 (0.94%)
+
+Test set: Average loss: 0.1821, Accuracy: 9466/10000 (0.95%)
+	 Precisión en el conjunto de prueba: 94.66 %
+
+ ===== Capas:  2  Neuronas:  5  Activacion:  sigmoid ===== 
+
+intento con batch size : 16
+
+Test set: Average loss: 1.7143, Accuracy: 6847/10000 (0.68%)
+
+Test set: Average loss: 1.7043, Accuracy: 7017/10000 (0.70%)
+
+Test set: Average loss: 1.6996, Accuracy: 7587/10000 (0.76%)
+
+Test set: Average loss: 1.6775, Accuracy: 7871/10000 (0.79%)
+
+Test set: Average loss: 1.6748, Accuracy: 7790/10000 (0.78%)
+
+Test set: Average loss: 1.6739, Accuracy: 7807/10000 (0.78%)
+intento con batch size : 32
+
+Test set: Average loss: 1.6990, Accuracy: 8074/10000 (0.81%)
+
+Test set: Average loss: 1.6933, Accuracy: 8154/10000 (0.82%)
+
+Test set: Average loss: 1.6914, Accuracy: 8274/10000 (0.83%)
+
+Test set: Average loss: 1.6883, Accuracy: 8246/10000 (0.82%)
+
+Test set: Average loss: 1.6853, Accuracy: 8315/10000 (0.83%)
+
+Test set: Average loss: 1.6854, Accuracy: 8303/10000 (0.83%)
+intento con batch size : 64
+
+Test set: Average loss: 1.7276, Accuracy: 7850/10000 (0.79%)
+
+Test set: Average loss: 1.7063, Accuracy: 7813/10000 (0.78%)
+
+Test set: Average loss: 1.6893, Accuracy: 7310/10000 (0.73%)
+
+Test set: Average loss: 1.6805, Accuracy: 7153/10000 (0.72%)
+
+Test set: Average loss: 1.6790, Accuracy: 7164/10000 (0.72%)
+
+Test set: Average loss: 1.6763, Accuracy: 7623/10000 (0.76%)
+intento con batch size : 128
+
+Test set: Average loss: 1.7742, Accuracy: 7375/10000 (0.74%)
+
+Test set: Average loss: 1.7141, Accuracy: 8224/10000 (0.82%)
+
+Test set: Average loss: 1.7066, Accuracy: 8115/10000 (0.81%)
+
+Test set: Average loss: 1.7036, Accuracy: 7766/10000 (0.78%)
+
+Test set: Average loss: 1.7007, Accuracy: 6692/10000 (0.67%)
+
+Test set: Average loss: 1.6972, Accuracy: 6502/10000 (0.65%)
+intento con batch size : 256
+
+Test set: Average loss: 1.8423, Accuracy: 6816/10000 (0.68%)
+
+Test set: Average loss: 1.7544, Accuracy: 6948/10000 (0.69%)
+
+Test set: Average loss: 1.7279, Accuracy: 6577/10000 (0.66%)
+
+Test set: Average loss: 1.7164, Accuracy: 6767/10000 (0.68%)
+
+Test set: Average loss: 1.7114, Accuracy: 6800/10000 (0.68%)
+
+Test set: Average loss: 1.7065, Accuracy: 7360/10000 (0.74%)
+intento con batch size : 512
+
+Test set: Average loss: 1.9368, Accuracy: 7447/10000 (0.74%)
+
+Test set: Average loss: 1.8245, Accuracy: 8070/10000 (0.81%)
+
+Test set: Average loss: 1.7630, Accuracy: 8093/10000 (0.81%)
+
+Test set: Average loss: 1.7318, Accuracy: 8236/10000 (0.82%)
+
+Test set: Average loss: 1.7139, Accuracy: 8313/10000 (0.83%)
+
+Test set: Average loss: 1.7035, Accuracy: 8301/10000 (0.83%)
+intento con batch size : 1024
+
+Test set: Average loss: 2.0422, Accuracy: 6215/10000 (0.62%)
+
+Test set: Average loss: 1.9432, Accuracy: 5986/10000 (0.60%)
+
+Test set: Average loss: 1.8849, Accuracy: 6107/10000 (0.61%)
+
+Test set: Average loss: 1.8452, Accuracy: 6257/10000 (0.63%)
+
+Test set: Average loss: 1.8117, Accuracy: 6875/10000 (0.69%)
+
+Test set: Average loss: 1.7817, Accuracy: 7871/10000 (0.79%)
+	 Precisión en el conjunto de prueba: 78.71000000000001 %
+
+ ===== Capas:  3  Neuronas:  5  Activacion:  sigmoid ===== 
+
+intento con batch size : 16
+
+Test set: Average loss: 2.3023, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3022, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3020, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3023, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3023, Accuracy: 1028/10000 (0.10%)
+
+Test set: Average loss: 2.3021, Accuracy: 1028/10000 (0.10%)
+intento con batch size : 32
+
+Test set: Average loss: 2.3023, Accuracy: 1010/10000 (0.10%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3024, Accuracy: 1028/10000 (0.10%)
+
+Test set: Average loss: 2.3024, Accuracy: 1010/10000 (0.10%)
+
+Test set: Average loss: 2.3023, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3021, Accuracy: 1135/10000 (0.11%)
+intento con batch size : 64
+
+Test set: Average loss: 1.9644, Accuracy: 1664/10000 (0.17%)
+
+Test set: Average loss: 1.8311, Accuracy: 3102/10000 (0.31%)
+
+Test set: Average loss: 1.8254, Accuracy: 2859/10000 (0.29%)
+
+Test set: Average loss: 1.8233, Accuracy: 3063/10000 (0.31%)
+
+Test set: Average loss: 1.7715, Accuracy: 3692/10000 (0.37%)
+
+Test set: Average loss: 1.7717, Accuracy: 4025/10000 (0.40%)
+intento con batch size : 128
+
+Test set: Average loss: 2.3023, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3025, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3023, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+intento con batch size : 256
+
+Test set: Average loss: 2.3023, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3023, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3023, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+intento con batch size : 512
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3025, Accuracy: 1028/10000 (0.10%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+intento con batch size : 1024
+
+Test set: Average loss: 2.3017, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3025, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3025, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3025, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+	 Precisión en el conjunto de prueba: 11.35 %
+
+ ===== Capas:  4  Neuronas:  5  Activacion:  sigmoid ===== 
+
+intento con batch size : 16
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3022, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3022, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3022, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3022, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3021, Accuracy: 1010/10000 (0.10%)
+intento con batch size : 32
+
+Test set: Average loss: 2.3023, Accuracy: 1028/10000 (0.10%)
+
+Test set: Average loss: 2.3020, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3023, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3023, Accuracy: 958/10000 (0.10%)
+
+Test set: Average loss: 2.3022, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3021, Accuracy: 1135/10000 (0.11%)
+intento con batch size : 64
+
+Test set: Average loss: 2.3024, Accuracy: 980/10000 (0.10%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3023, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3025, Accuracy: 1010/10000 (0.10%)
+
+Test set: Average loss: 2.3022, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3023, Accuracy: 1135/10000 (0.11%)
+intento con batch size : 128
+
+Test set: Average loss: 2.3023, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3025, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3023, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3022, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3023, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+intento con batch size : 256
+
+Test set: Average loss: 2.3023, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3025, Accuracy: 1135/10000 (0.11%)
+intento con batch size : 512
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3025, Accuracy: 1028/10000 (0.10%)
+
+Test set: Average loss: 2.3025, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3023, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3025, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+intento con batch size : 1024
+
+Test set: Average loss: 2.3021, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3025, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3024, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3025, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3025, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3025, Accuracy: 1135/10000 (0.11%)
+	 Precisión en el conjunto de prueba: 11.35 %
+
+ ===== Capas:  2  Neuronas:  10  Activacion:  sigmoid ===== 
+
+intento con batch size : 16
+
+Test set: Average loss: 1.6052, Accuracy: 9069/10000 (0.91%)
+
+Test set: Average loss: 1.6015, Accuracy: 9075/10000 (0.91%)
+
+Test set: Average loss: 1.6003, Accuracy: 9073/10000 (0.91%)
+
+Test set: Average loss: 1.5987, Accuracy: 9077/10000 (0.91%)
+
+Test set: Average loss: 1.5977, Accuracy: 9090/10000 (0.91%)
+
+Test set: Average loss: 1.5976, Accuracy: 9108/10000 (0.91%)
+	 Precisión en el conjunto de prueba: 91.08000000000001 %
+
+ ===== Capas:  3  Neuronas:  10  Activacion:  sigmoid ===== 
+
+intento con batch size : 16
+
+Test set: Average loss: 2.3017, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3023, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3021, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3020, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3017, Accuracy: 1135/10000 (0.11%)
+intento con batch size : 32
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3017, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3017, Accuracy: 1135/10000 (0.11%)
+intento con batch size : 64
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3020, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3016, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3021, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+intento con batch size : 128
+
+Test set: Average loss: 2.3020, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3020, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3017, Accuracy: 1135/10000 (0.11%)
+intento con batch size : 256
+
+Test set: Average loss: 1.9205, Accuracy: 3236/10000 (0.32%)
+
+Test set: Average loss: 1.7894, Accuracy: 4510/10000 (0.45%)
+
+Test set: Average loss: 1.7304, Accuracy: 4543/10000 (0.45%)
+
+Test set: Average loss: 1.6931, Accuracy: 5135/10000 (0.51%)
+
+Test set: Average loss: 1.6590, Accuracy: 7652/10000 (0.77%)
+
+Test set: Average loss: 1.6404, Accuracy: 8073/10000 (0.81%)
+intento con batch size : 512
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+intento con batch size : 1024
+
+Test set: Average loss: 2.3015, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+	 Precisión en el conjunto de prueba: 11.35 %
+
+ ===== Capas:  4  Neuronas:  10  Activacion:  sigmoid ===== 
+
+intento con batch size : 16
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3017, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3015, Accuracy: 1135/10000 (0.11%)
+intento con batch size : 32
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3020, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3020, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3017, Accuracy: 1135/10000 (0.11%)
+intento con batch size : 64
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3020, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3021, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3016, Accuracy: 1135/10000 (0.11%)
+intento con batch size : 128
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3017, Accuracy: 1135/10000 (0.11%)
+intento con batch size : 256
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3020, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+intento con batch size : 512
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3018, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+intento con batch size : 1024
+
+Test set: Average loss: 2.3017, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+
+Test set: Average loss: 2.3019, Accuracy: 1135/10000 (0.11%)
+	 Precisión en el conjunto de prueba: 11.35 %

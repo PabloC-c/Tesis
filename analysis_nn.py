@@ -16,9 +16,9 @@ def calculate_accuracy(test_loader,model):
     return acc
 
 ## Redes a chequear
-neuron_list = [10]
-layer_list  = [2]
-activation = 'relu'
+neuron_list = [5,10]
+layer_list  = [2,3,4]
+activation = 'sigmoid'
 
 batch_size = 64
 
@@ -36,4 +36,4 @@ for n_neurons in neuron_list:
                 test_loader  = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=False)
                 acc = calculate_accuracy(test_loader, net)
                 print('Capas {}, Neuronas {}, Precision {:.4f}%'.format(n_layers,n_neurons,100*acc))
-                print(params)
+                #print(params)

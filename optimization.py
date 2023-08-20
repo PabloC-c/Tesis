@@ -8,10 +8,10 @@ from pyscipopt import Model,quicksum
 from collections import OrderedDict
 from functions import *
 
-activation_list = ['sigmoid']
-layer_list = [2,3,4] 
-neuron_list = [10,25,50]
-exact = 'no_exact'
+activation_list = ['softplus']
+layer_list = [2] 
+neuron_list = [5]
+exact = 'prop'
 minutes = 10
 filter_tol = 1e-5
 
@@ -53,7 +53,7 @@ for activation in activation_list:
             else:
                 bounds_file = 'nn_bounds/{}_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
             ## Se calculan las cotas en caso de no haber
-            if not os.path.exists(bounds_file):
+            if True:#not os.path.exists(bounds_file):
                 print('\n Capas: ',n_layers,' Neuronas: ',n_neurons,'\n')
                 ## Se crea la instancia de la red neuronal
                 net = neural_network(n_neurons,n_layers)

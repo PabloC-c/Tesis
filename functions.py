@@ -246,6 +246,9 @@ def solve_neuron_model(neuron_model,sense,params,bounds,l,i,exact = 'no_exact',m
         ## Se entrega el valor objetivo optimo
         obj_val = neuron_model.getObjVal()
         sol = [True,obj_val]
+        aprox_bound = calculate_aprox_bound(params,bounds,l,i,sense)
+        print('\t Caso sol optima \n')
+        print('\t problema: {}, valor obj : {}, valor prop: {}'.format(sense,obj_val,aprox_bound))
     elif model_status in ['infeasible','unbounded','inforunbd','problem']:
         if exact == 'prop':
           aux_t = time.time()
@@ -283,15 +286,15 @@ def calculate_aprox_bound(params,bounds,l,i,sense,activation = 'relu',tol = 1e-0
     aprox_bound  = float(b[i])
     for j in range(len(input_bounds)):
         lb,ub = -input_bounds[j][0],input_bounds[j][1]
-        if activation == 'relu':
+        if activation == 'relu' and l > 0:
             if lb < 1e-05:
                 lb = 0
             if ub < 1e-05:
                 ub = 0
-        elif activation == 'softplus':
+        elif activation == 'softplus' and l > 0:
             lb = np.log(1 + np.exp(lb))
             ub = np.log(1 + np.exp(ub))
-        elif activation == 'sigmoid':
+        elif activation == 'sigmoid'  and l > 0:
             lb = np.log(1/(1+np.exp(-lb)))
             ub = np.log(1/(1+np.exp(-ub)))
         if float(W[i,j]) >= 0:

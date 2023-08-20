@@ -62,18 +62,18 @@ def tester(model, device, test_loader):
 
 
 ## Configuración del entrenamiento
-batch_size = 16
+batch_size = 8
 learning_rate = 0.001
-epochs = 40
+epochs = 60
 weight_decay = 0.005
 print_loss = False
 regul_L = 'L2'
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 ## Redes a entrenar
-neuron_list = [5]
-layer_list  = [4]
-activation_list = ['softplus','sigmoid','relu']
+neuron_list = [5,10]
+layer_list  = [2,3,4]
+activation_list = ['sigmoid']
 
 ## Se descargan los datos de MNIST
 train_dataset = datasets.MNIST(root='./data', train=True, transform=transforms.ToTensor(), download=True)
@@ -91,7 +91,7 @@ for activation in activation_list:
             if True:#os.path.exists(filename):
                 print('\n ===== Capas: ',n_layers,' Neuronas: ',n_neurons,' Activacion: ',activation,'===== \n')
                 acc = 0
-                while (acc<0.9 and batch_size <= 1024 ):
+                while (acc<0.9 and batch_size <= 2048 ):
                     print('intento con batch size :',batch_size)
                     ## Se crean los dataloaders para el manejo de los datos durante el entrenamiento
                     train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
