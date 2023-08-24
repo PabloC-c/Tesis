@@ -6,6 +6,7 @@ from torchvision import datasets, transforms
 from functions import *
 
 def trainer(model, device, train_loader, optimizer, epoch, print_loss = False,regul_L = 'L1',L_lambda = 0.005):
+    criterion = nn.CrossEntropyLoss()
     model.train()
     for batch_idx, (data, target) in enumerate(train_loader):
         ## Se envian los datos al dispositivo de entrenamiento
@@ -15,7 +16,7 @@ def trainer(model, device, train_loader, optimizer, epoch, print_loss = False,re
         ## Se calculan los respectivos outputs
         output = model(data)
         ## Se calcula la perdida
-        loss = F.cross_entropy(output, target)
+        loss = criterion(output, target)
         ## Se calculan los gradientes
         loss.backward()
         ## Se actualizan los parametros de la red
@@ -57,11 +58,11 @@ def calculate_accuracy(test_loader,model):
     return acc
     
 ## Configuración del entrenamiento
-batch_size = 16
+batch_size = 64
 learning_rate = 0.05
 epochs = 50
 weight_decay = 0.005
-print_loss = False
+print_loss = True
 regul_L = 'L2'
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -108,14 +109,14 @@ for activation in activation_list:
                     net = neural_network(n_neurons, n_layers, activation).to(device)
                     ## Se setea el optimizador
                     if regul_L == 'L1':
-                        optimizer = optim.Adam(net.parameters(), lr=0.001)
+                        optimizer = optim.Adam(net.parameters(), lr=learning_rate)
                     else:
-                        optimizer = optim.AdamW(net.parameters(), lr=0.001, weight_decay=0.005)
+                        optimizer = optim.AdamW(net.parameters(), lr=learning_rate, weight_decay = weight_decay)
                     # optimizer = optim.AdamW(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
                     ## Se entrena la red
                     try:
                         for epoch in range(1, epochs + 1):
-                            trainer(net, device, train_loader, optimizer, epoch,print_loss = print_loss,regul_L = regul_L,L_lambda = 0.005)
+                            trainer(net, device, train_loader, optimizer, epoch,print_loss = print_loss,regul_L = regul_L,weight_decay=weight_decay)
                             if epoch%10 == 0:
                                 acc = tester(net, device, test_loader)
                                 if acc > 0.9:
