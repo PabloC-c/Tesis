@@ -5,26 +5,27 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from functions import *
 
-def trainer(model, device, train_loader, optimizer, epoch, print_loss = False,regul_L = 'L1',L_lambda = 0.005):
+def trainer(model, device, train_loader, optimizer, num_epochs, print_loss = False,regul_L = 'L1',L_lambda = 0.005):
     criterion = nn.CrossEntropyLoss()
-    model.train()
-    for batch_idx, (data, target) in enumerate(train_loader):
-        ## Se envian los datos al dispositivo de entrenamiento
-        data, target = data.to(device), target.to(device)
-        ## Se resetean los gradientes de los parametros
-        optimizer.zero_grad()
-        ## Se calculan los respectivos outputs
-        output = model(data)
-        ## Se calcula la perdida
-        loss = criterion(output, target)
-        ## Se calculan los gradientes
-        loss.backward()
-        ## Se actualizan los parametros de la red
-        optimizer.step()
-        
-        if print_loss and batch_idx % 100 == 0:
-            print(f'Train Epoch: {epoch} [{batch_idx * len(data)}/{len(train_loader.dataset)} '
-                  f'({100. * batch_idx / len(train_loader):.0f}%)]\tLoss: {loss.item():.6f}')
+    for epoch in range(num_epochs):
+        model.train()
+        for batch_idx, (data, target) in enumerate(train_loader):
+            ## Se envian los datos al dispositivo de entrenamiento
+            data, target = data.to(device), target.to(device)
+            ## Se resetean los gradientes de los parametros
+            optimizer.zero_grad()
+            ## Se calculan los respectivos outputs
+            output = model(data)
+            ## Se calcula la perdida
+            loss = criterion(output, target)
+            ## Se calculan los gradientes
+            loss.backward()
+            ## Se actualizan los parametros de la red
+            optimizer.step()
+            
+            if print_loss and batch_idx % 100 == 0:
+                print(f'Train Epoch: {epoch} [{batch_idx * len(data)}/{len(train_loader.dataset)} '
+                      f'({100. * batch_idx / len(train_loader):.0f}%)]\tLoss: {loss.item():.6f}')
 
 
 def tester(model, device, test_loader):
@@ -58,11 +59,11 @@ def calculate_accuracy(test_loader,model):
     return acc
     
 ## Configuración del entrenamiento
-batch_size = 64
+batch_size = 16
 learning_rate = 0.05
-epochs = 50
+num_epochs = 50
 weight_decay = 0.005
-print_loss = True
+print_loss = False
 regul_L = 'L2'
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -96,17 +97,28 @@ for activation in activation_list:
                     test_dataset = datasets.MNIST(root='./data', train=False, transform=transforms.ToTensor())
                     test_loader  = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=256, shuffle=False)
                     acc = calculate_accuracy(test_loader, net)
-                    if acc >= 0.85:
+                    if acc >= 0.95:
                         break
+                    elif acc > 0.55:
+                        og_acc = acc
+                        re_train = True
+                        net_dict[(n_layers,n_neurons)] = (net,acc)
+                    else:
+                        re_train = False
+                        acc = 0
+                else:
+                    acc = 0
                 print('\n ===== Capas: ',n_layers,' Neuronas: ',n_neurons,' Activacion: ',activation,'===== \n')
-                acc = 0
                 while (acc<0.9 and batch_size < 2048 ):
                     print('intento con batch size :',batch_size)
                     ## Se crean los dataloaders para el manejo de los datos durante el entrenamiento
                     train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
                     test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=256, shuffle=False)
                     ## Se genera el modelo
-                    net = neural_network(n_neurons, n_layers, activation).to(device)
+                    net = neural_network(n_neurons,n_layers,activation)
+                    if re_train:
+                        net.load_state_dict(torch.load('nn_parameters/{}_model_weights_L{}_n{}.pth'.format(activation,n_layers, n_neurons)))
+                    net.to(device)
                     ## Se setea el optimizador
                     if regul_L == 'L1':
                         optimizer = optim.Adam(net.parameters(), lr=learning_rate)
@@ -115,24 +127,25 @@ for activation in activation_list:
                     # optimizer = optim.AdamW(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
                     ## Se entrena la red
                     try:
-                        for epoch in range(1, epochs + 1):
-                            trainer(net, device, train_loader, optimizer, epoch,print_loss = print_loss,regul_L = regul_L,weight_decay=weight_decay)
-                            if epoch%10 == 0:
-                                acc = tester(net, device, test_loader)
-                                if acc > 0.9:
-                                    break
+                        trainer(net, device, train_loader, optimizer, num_epochs, print_loss = print_loss,regul_L = regul_L,L_lambda = weight_decay)
+                        acc = tester(net, device, test_loader)
+                        if acc > 0.9:
+                            break
                         trained = True
                     except:
+                        print('\n \t Siguiente size  \t')
                         trained = False
                         acc = 0
-                    if batch_size == batch_size_og:
+                    if not (n_layers,n_neurons) in net_dict:
                         net_dict[(n_layers,n_neurons)] = (net,acc)                        
                     elif acc > net_dict[(n_layers,n_neurons)][1]:
                             net_dict[(n_layers,n_neurons)] = (net,acc)
+                    ## Se mueve el modelo a la CPU
+                    net = net.to("cpu")
                     batch_size = batch_size * 2
                 print('\t Precisión en el conjunto de prueba: {} %'.format(100 * acc))
                 # Guardar los parámetros de la red
-                ## Se mueve el modelo a la CPU
-                net = net.to("cpu")
-                torch.save(net.state_dict(), filename)
+                if not re_train or (re_train and (og_acc < net_dict[(n_layers,n_neurons)][1])):
+                    final_net = net_dict[(n_layers,n_neurons)][0]
+                    torch.save(final_net.state_dict(), filename)
                 batch_size = batch_size_og
