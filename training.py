@@ -16,22 +16,6 @@ def trainer(model, device, train_loader, optimizer, epoch, print_loss = False,re
         output = model(data)
         ## Se calcula la perdida
         loss = F.cross_entropy(output, target)
-        
-        if regul_L == 'L1':
-            ## Se aplica regularización L1 a todos los parámetros (pesos y sesgos) excepto las capas de salida
-            l1_reg = torch.tensor(0., device=device)
-            for param in model.parameters():
-                if param.requires_grad and len(param.shape) > 1:  # Excluir capas de salida
-                    l1_reg += torch.norm(param, p=1)
-            ## Se suma la penalizacion
-            loss += L_lambda * l1_reg
-        else:
-            # Aplicar regularización L2 a los parámetros del modelo
-            l2_reg = torch.tensor(0., device=device)
-            for param in model.parameters():
-                if param.requires_grad:
-                    l2_reg += torch.norm(param, p=2)  # Norma L2 (Euclidiana)
-            loss += L_lambda * l2_reg
         ## Se calculan los gradientes
         loss.backward()
         ## Se actualizan los parametros de la red
@@ -60,11 +44,22 @@ def tester(model, device, test_loader):
           f'({accuracy:.2f}%)')
     return accuracy
 
-
+def calculate_accuracy(test_loader,model):
+    with torch.no_grad():
+        correct = 0
+        total = 0
+        for images, labels in test_loader:
+            outputs = model(images)
+            _, predicted = torch.max(outputs.data, 1)
+            total += labels.size(0)
+            correct += (predicted == labels).sum().item()
+        acc = correct / total
+    return acc
+    
 ## Configuración del entrenamiento
-batch_size = 8
-learning_rate = 0.001
-epochs = 60
+batch_size = 16
+learning_rate = 0.05
+epochs = 50
 weight_decay = 0.005
 print_loss = False
 regul_L = 'L2'
@@ -89,13 +84,26 @@ for activation in activation_list:
             else:
                 filename = "nn_parameters/{}_model_weights_L{}_n{}.pth".format(activation,n_layers, n_neurons)
             if True:#os.path.exists(filename):
+                if os.path.exists(filename):
+                    ## Se crea la red
+                    net = neural_network(n_neurons,n_layers,activation)
+                    ## Cargar los parámetros de la red
+                    net.load_state_dict(torch.load('nn_parameters/{}_model_weights_L{}_n{}.pth'.format(activation,n_layers, n_neurons)))
+                    params = net.state_dict()
+                    filtered_params = filter_params(params)
+                    ## Se cargan los datos de testeo
+                    test_dataset = datasets.MNIST(root='./data', train=False, transform=transforms.ToTensor())
+                    test_loader  = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=256, shuffle=False)
+                    acc = calculate_accuracy(test_loader, net)
+                    if acc >= 0.85:
+                        break
                 print('\n ===== Capas: ',n_layers,' Neuronas: ',n_neurons,' Activacion: ',activation,'===== \n')
                 acc = 0
-                while (acc<0.9 and batch_size <= 2048 ):
+                while (acc<0.9 and batch_size < 2048 ):
                     print('intento con batch size :',batch_size)
                     ## Se crean los dataloaders para el manejo de los datos durante el entrenamiento
                     train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
-                    test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=128, shuffle=False)
+                    test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=256, shuffle=False)
                     ## Se genera el modelo
                     net = neural_network(n_neurons, n_layers, activation).to(device)
                     ## Se setea el optimizador
@@ -110,7 +118,7 @@ for activation in activation_list:
                             trainer(net, device, train_loader, optimizer, epoch,print_loss = print_loss,regul_L = regul_L,L_lambda = 0.005)
                             if epoch%10 == 0:
                                 acc = tester(net, device, test_loader)
-                                if acc >= 0.95:
+                                if acc > 0.9:
                                     break
                         trained = True
                     except:

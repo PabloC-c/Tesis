@@ -9,8 +9,8 @@ from collections import OrderedDict
 from functions import *
 
 activation_list = ['softplus']
-layer_list = [2] 
-neuron_list = [5]
+layer_list = [2,3,4] 
+neuron_list = [5,10]
 exact = 'prop'
 minutes = 10
 filter_tol = 1e-5

@@ -5,11 +5,11 @@ from torchvision import datasets, transforms
 from functions import *
 
 activation_list = ['softplus']
-layer_list = [3]
-neuron_list = [10]
-form_list = ['exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
-apply_bounds_list = [True]
-type_bounds_list = ['mix']
+layer_list = [2,3,4]
+neuron_list = [5,10]
+form_list = ['exact','no_exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
+apply_bounds_list = [False,True]
+type_bounds_list = ['prop','mix']
 minutes = 15
 save_image = False
 apply_softmax = False
@@ -55,7 +55,7 @@ for activation in activation_list:
         for n_neurons in neuron_list:
             ## Se recorren las formulaciones
             for exact in form_list:
-                file_name = 'verif_results/{}/datos_verificacion_{}_1como7.xlsx'.format(exact,activation)
+                file_name = 'verif_results/{}/datos_verificacion_{}_{}como{}.xlsx'.format(exact,activation,real_output,target_output)
                 if activation != 'relu' and exact == 'no_exact':
                     break
                 for tol_distance in tols_list:
