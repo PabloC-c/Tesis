@@ -103,11 +103,11 @@ class neural_network(nn.Module):
         for i in range(self.n_layers):
             x = self.fc_hidden[i](x)
             if self.activation == 'relu':
-                x = torch.relu(x)
+                x = F.relu(x)
             elif self.activation == 'softplus':
-                x = torch.softplus(x)
+                x = F.softplus(x)
             elif self.activation == 'sigmoid':
-                x = torch.sigmoid(x)
+                x = F.sigmoid(x)
         return x
 
 ### Funcion que inicializa el modelo de la red, solo genera las variables de input
