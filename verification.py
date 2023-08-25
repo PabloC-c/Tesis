@@ -4,9 +4,9 @@ import pandas as pd
 from torchvision import datasets, transforms
 from functions import *
 
-activation_list = ['softplus']
+activation_list = ['sigmoid']
 layer_list = [2,3,4]
-neuron_list = [5,10]
+neuron_list = [5]
 form_list = ['exact','no_exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
 apply_bounds_list = [False,True]
 type_bounds_list = ['prop','mix']

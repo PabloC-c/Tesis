@@ -295,8 +295,8 @@ def calculate_aprox_bound(params,bounds,l,i,sense,activation = 'relu',tol = 1e-0
             lb = np.log(1 + np.exp(lb))
             ub = np.log(1 + np.exp(ub))
         elif activation == 'sigmoid'  and l > 0:
-            lb = np.log(1/(1+np.exp(-lb)))
-            ub = np.log(1/(1+np.exp(-ub)))
+            lb = 1/(1+np.exp(-lb))
+            ub = 1/(1+np.exp(-ub))
         if float(W[i,j]) >= 0:
             if sense == 'maximize':
                 aprox_bound += float(W[i,j])*ub

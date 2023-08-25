@@ -8,7 +8,7 @@ from pyscipopt import Model,quicksum
 from collections import OrderedDict
 from functions import *
 
-activation_list = ['softplus']
+activation_list = ['sigmoid']
 layer_list = [2,3,4] 
 neuron_list = [5,10]
 exact = 'prop'
