@@ -4,23 +4,24 @@ import pandas as pd
 from torchvision import datasets, transforms
 from functions import *
 
-activation_list = ['sigmoid']
-layer_list = [2,3,4]
+activation_list = ['relu']
+layer_list = [2]
 neuron_list = [5]
-form_list = ['exact','no_exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
-apply_bounds_list = [False,True]
-type_bounds_list = ['prop','mix']
+form_list = ['no_exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
+apply_bounds_list = [True]
+type_bounds_list = ['mix']
 minutes = 15
 save_image = False
 apply_softmax = False
 
+set_initial_sol = True
 print_output = True
-save_results = True
+save_results = False
 real_output = 1
-target_output = 7
+target_output = 2
 input_lb =0 
 input_ub = 1
-tols_list = [0.01,0.05]
+tols_list = [0.01]
 
 if len(sys.argv) > 1:
     activation_list = [sys.argv[1]]
@@ -99,6 +100,11 @@ for activation in activation_list:
                             adv_ex = False
                             ## Se crea el modelo de verificacion
                             verif_model,all_vars = create_verification_model(params,bounds,activation,tol_distance,apply_softmax,image_list,target_output,real_output,exact,apply_bounds)
+                            ## Se añade la solucion inicial
+                            if set_initial_sol:
+                                initial_sol,image_vars = create_initial_sol(verif_model,params,image_list,exact,activation,apply_softmax)
+                                accepted = verif_model.addSol(initial_sol)
+                                print('\n Solucion inicial aceptada:',accepted,'\n')
                             if print_output:
                                 verif_model.redirectOutput()
                             else:
@@ -152,14 +158,15 @@ for activation in activation_list:
                                     gap = '-'
                                     obj_val = '-'
                             if save_results:
-                                ## Se lee el df existente o se genera uno nuevo
-                                df = read_df(file_name)
                                 ## Se genera la nueva linea del df
                                 adv_aux = 'No'
                                 if adv_ex:
                                     adv_aux = 'Si'
                                 new_line += [type_bounds,dt,gap,adv_aux,model_status]
-                    ## Se añade la linea al df
-                    df = df._append(pd.Series(new_line), ignore_index=True)
-                    ## Se intenta guardar el nuevo df actualizado
-                    save_df(df,file_name)            
+                    if save_results:
+                        ## Se lee el df existente o se genera uno nuevo
+                        df = read_df(file_name)
+                        ## Se añade la linea al df
+                        df = df._append(pd.Series(new_line), ignore_index=True)
+                        ## Se intenta guardar el nuevo df actualizado
+                        save_df(df,file_name)            

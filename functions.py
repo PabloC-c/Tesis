@@ -160,7 +160,7 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
                 z = neuron_model.addVar(lb = None, ub = None,vtype = 'C', name = 'z{},{}'.format(l,i))
             all_vars['z{},{}'.format(l,i)] = z
             ## Variable de evaluacion en la funcion de activacion
-            a = neuron_model.addVar(lb = 0, ub = None,vtype = 'C', name = 'a{},{}'.format(l,i))
+            a = neuron_model.addVar(lb = None, ub = None,vtype = 'C', name = 'a{},{}'.format(l,i))
             all_vars['a{},{}'.format(l,i)] = a
             ## Se guarda la variable a, para el input de la siguiente capa
             aux_input.append(a)
@@ -202,7 +202,7 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
                 z = neuron_model.addVar(lb = -bounds[l][i][0], ub = bounds[l][i][1],vtype = 'C', name = 'z{},{}'.format(l,i))
                 all_vars['z{},{}'.format(l,i)] = z
                 ## Variable de evaluacion en la funcion de activacion
-                a = neuron_model.addVar(lb = 0, ub = None,vtype = 'C', name = 'a{},{}'.format(l,i))
+                a = neuron_model.addVar(lb = None, ub = None,vtype = 'C', name = 'a{},{}'.format(l,i))
                 all_vars['a{},{}'.format(l,i)] = a
                 ## Se guarda la variable a, para el input de la siguiente capa
                 aux_input.append(a)
@@ -474,6 +474,75 @@ def calculate_softmax(vector):
     aux_sum = sum(aux)
     soft = [aux[i]/aux_sum for i in range(len(vector))]
     return soft
+
+###
+###
+
+def generate_vars_by_image(params,image_list,exact,activation = 'relu',apply_softmax = 'False'):
+    ## Se genera la lista que contenga los valores de la solucion inicial
+    sol_list = image_list[:]
+    ## Se calcula la cantidad de capas ocultas
+    n_layers = int(len(params)/2)
+    ## Se calculan las variables de propagacion
+    aux_input = image_list[:]
+    for l in range(n_layers):
+        ## Parametros de la capa l
+        weight,bias = get_w_b_names(l)
+        W = params[weight]
+        b = params[bias]
+        n_neurons = W.size()[0]
+        aux_list = []
+        for i in range(n_neurons):
+            z = b[i] + sum(float(W[i,j])*aux_input[j] for j in range(len(aux_input)))
+            sol_list.append(z)
+            if exact == 'exact':
+                if activation == 'relu':
+                    if z > 0:
+                        a = z
+                    else:
+                        a = 0
+                elif activation == 'softplus':
+                    a = np.log(1 + np.exp(z))
+                elif activation == 'sigmoid':
+                    a = 1/(1+np.exp(-z))
+                sol_list.append(a)
+            else:
+                if activation == 'relu':
+                    if z > 0:
+                        h     = z
+                        not_h = 0
+                        u     = 1
+                    else:
+                        h     = 0
+                        not_h = z
+                        u     = 0 
+                    sol_list.append(h)
+                    sol_list.append(not_h)
+                    sol_list.append(u)
+                    a = h
+                elif activation == 'softplus':
+                    a = np.log(1 + np.exp(z))
+                    sol_list.append(a)
+                elif activation == 'sigmoid':
+                    a = 1/(1+np.exp(-z))
+                    sol_list.append(a)
+            aux_list.append(a)
+        aux_input = aux_list[:]
+    if apply_softmax:
+        output = calculate_softmax(aux_input)
+        sol_list += output
+    return sol_list
+
+###
+###
+
+def create_initial_sol(model,params,image_list,exact,activation = 'relu',apply_softmax = 'False'):
+    initial_sol = model.createSol()
+    model_vars  = model.getVars()
+    image_vars  = generate_vars_by_image(params,image_list,exact,activation,apply_softmax)
+    for i in range(len(image_vars)):
+        model.setSolVal(initial_sol, model_vars[i], image_vars[i])
+    return initial_sol,image_vars
 
 ###
 ###
