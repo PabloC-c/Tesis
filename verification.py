@@ -103,6 +103,8 @@ for activation in activation_list:
                                 verif_model.redirectOutput()
                             else:
                                 verif_model.hideOutput()
+                            ## Se generan las variables correspondientes a la imagen entregada al modelo
+                            
                             ## Se limita el tiempo de resolucion
                             verif_model.setParam('limits/time', int(60*minutes))
                             ## Se optimiza el modelo en busca del ejemplo adversarial
@@ -135,7 +137,10 @@ for activation in activation_list:
                                 try:
                                     primalb = verif_model.getDualbound()
                                     dualb = verif_model.getPrimalbound()
-                                    gap = (primalb-dual)/np.abs(dualb)
+                                    if (primalb == 1e+20) or (dualb == -1e+20):
+                                        gap = '-'
+                                    else:
+                                        gap = (primalb-dualb)/np.abs(dualb)
                                     ## Caso en que no existe ejemplo adversarial
                                     if primalb < 0:
                                         obj_val = '<0'
