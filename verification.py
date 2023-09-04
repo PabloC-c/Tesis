@@ -113,6 +113,8 @@ for activation in activation_list:
                             
                             ## Se limita el tiempo de resolucion
                             verif_model.setParam('limits/time', int(60*minutes))
+                            ## Se aumenta la tolerancia de factibilidad
+                            verif_model.setParam('numerics/feastol', 1E-5)
                             ## Se optimiza el modelo en busca del ejemplo adversarial
                             t0 = time.time()
                             try:
