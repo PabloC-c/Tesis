@@ -221,6 +221,8 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
 ### El parametro neuron_model es el modelo de la neurona, sense es el sentido del problema de optimziacion, tol es la holgura que se añade a las cotas duales
 
 def solve_neuron_model(neuron_model,sense,params,bounds,l,i,exact = 'no_exact',minutes = 10,tol = 1e-03,print_output = False,digits = 4):
+    ## Se calcula la cota con el metodo de propagacion
+    propb = calculate_aprox_bound(params,bounds,l,i,sense)
     if exact in ['exact','no_exact']:
         neuron_model.setParam('limits/time', int(60*minutes))
         ## Se resuelve el problema
@@ -245,17 +247,22 @@ def solve_neuron_model(neuron_model,sense,params,bounds,l,i,exact = 'no_exact',m
     if model_status == 'optimal':
         ## Se entrega el valor objetivo optimo
         obj_val = neuron_model.getObjVal()
+        if propb < obj_val:
+            obj_val = propb
         sol = [True,obj_val]
         aprox_bound = calculate_aprox_bound(params,bounds,l,i,sense)
         print('\t Caso sol optima \n')
         print('\t problema: {}, valor obj : {}, valor prop: {}'.format(sense,obj_val,aprox_bound))
     elif model_status in ['infeasible','unbounded','inforunbd','problem']:
         if exact == 'prop':
-          aux_t = time.time()
-          dual_val = calculate_aprox_bound(params,bounds,l,i,sense)
-          dt = time.time() - aux_t
+            aux_t = time.time()
+            dual_val = propb
+            dt = time.time() - aux_t
         else:
-          dual_val = calculate_aprox_bound(params,bounds,l,i,sense)
+            try:
+                dual_val = neuron_model.getDualbound()
+            except:
+                dual_val = propb
         sol = [False,dual_val]
     ## Caso contrario    
     else:
@@ -479,8 +486,10 @@ def calculate_softmax(vector):
 ###
 
 def generate_vars_by_image(params,image_list,exact,activation = 'relu',apply_softmax = 'False'):
-    ## Se genera la lista que contenga los valores de la solucion inicial
-    sol_list = image_list[:]
+    ## Se genera el diccionario que contenga los valores de la solucion inicial
+    sol_dict = {} 
+    for i in range(len(image_list)):
+        sol_dict['h{},{}'.format(-1,i)] = image_list[i]
     ## Se calcula la cantidad de capas ocultas
     n_layers = int(len(params)/2)
     ## Se calculan las variables de propagacion
@@ -494,7 +503,7 @@ def generate_vars_by_image(params,image_list,exact,activation = 'relu',apply_sof
         aux_list = []
         for i in range(n_neurons):
             z = b[i] + sum(float(W[i,j])*aux_input[j] for j in range(len(aux_input)))
-            sol_list.append(z)
+            sol_dict['z{},{}'.format(l,i)] = z
             if exact == 'exact':
                 if activation == 'relu':
                     if z > 0:
@@ -505,7 +514,7 @@ def generate_vars_by_image(params,image_list,exact,activation = 'relu',apply_sof
                     a = np.log(1 + np.exp(z))
                 elif activation == 'sigmoid':
                     a = 1/(1+np.exp(-z))
-                sol_list.append(a)
+                sol_dict['a{},{}'.format(l,i)] = a
             else:
                 if activation == 'relu':
                     if z > 0:
@@ -514,24 +523,25 @@ def generate_vars_by_image(params,image_list,exact,activation = 'relu',apply_sof
                         u     = 1
                     else:
                         h     = 0
-                        not_h = z
+                        not_h = -1.0*z
                         u     = 0 
-                    sol_list.append(h)
-                    sol_list.append(not_h)
-                    sol_list.append(u)
+                    sol_dict['h{},{}'.format(l,i)] = h
+                    sol_dict['not_h{},{}'.format(l,i)] = not_h
+                    sol_dict['u{},{}'.format(l,i)] = u
                     a = h
-                elif activation == 'softplus':
-                    a = np.log(1 + np.exp(z))
-                    sol_list.append(a)
-                elif activation == 'sigmoid':
-                    a = 1/(1+np.exp(-z))
-                    sol_list.append(a)
+                else:
+                    if activation == 'softplus':
+                        a = np.log(1 + np.exp(z))
+                    elif activation == 'sigmoid':
+                        a = 1/(1+np.exp(-z))
+                    sol_dict['a{},{}'.format(l,i)] = a
             aux_list.append(a)
         aux_input = aux_list[:]
     if apply_softmax:
         output = calculate_softmax(aux_input)
-        sol_list += output
-    return sol_list
+        for i in range(len(output)):
+            sol_dict['soft_output_{}'.format(i)] = output[i]
+    return sol_dict
 
 ###
 ###
@@ -540,8 +550,11 @@ def create_initial_sol(model,params,image_list,exact,activation = 'relu',apply_s
     initial_sol = model.createSol()
     model_vars  = model.getVars()
     image_vars  = generate_vars_by_image(params,image_list,exact,activation,apply_softmax)
-    for i in range(len(image_vars)):
-        model.setSolVal(initial_sol, model_vars[i], image_vars[i])
+    for i in range(len(model_vars)):
+        var_i = model_vars[i]
+        var_name = var_i.name
+        var_val  = image_vars[var_name]
+        model.setSolVal(initial_sol, var_i, var_val)
     return initial_sol,image_vars
 
 ###

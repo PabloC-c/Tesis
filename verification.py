@@ -7,7 +7,7 @@ from functions import *
 activation_list = ['relu']
 layer_list = [2,3,4]
 neuron_list = [5,10]
-form_list = ['exact','no_exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
+form_list = ['no_exact','exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
 apply_bounds_list = [False,True]
 type_bounds_list = ['prop','mix']
 minutes = 15
@@ -130,6 +130,7 @@ for activation in activation_list:
                                 gap = 0.0
                                 solution = [verif_model.getVal(all_vars['h{},{}'.format(-1,i)]) for i in range(len(image_list))]
                                 obj_val  = verif_model.getObjVal()
+                                nnodes   = verif_model.getNNodes() 
                                 if obj_val > 0:
                                     ## Se encontro un ejemplo adversarial
                                     adv_ex = True
@@ -143,12 +144,16 @@ for activation in activation_list:
                             ## Caso no alcanzo el tiempo
                             else:
                                 try:
-                                    primalb = verif_model.getDualbound()
-                                    dualb = verif_model.getPrimalbound()
+                                    nnodes = verif_model.getNNodes()
+                                except:
+                                    nnodes = '-'
+                                try:
+                                    primalb = verif_model.getPrimalbound()
+                                    dualb  = verif_model.getDualbound()
                                     if (primalb == 1e+20) or (dualb == -1e+20):
                                         gap = '-'
                                     else:
-                                        gap = (primalb-dualb)/np.abs(dualb)
+                                        gap = 100*np.abs(primalb-dualb)/np.abs(dualb)
                                     ## Caso en que no existe ejemplo adversarial
                                     if primalb < 0:
                                         obj_val = '<0'
@@ -164,7 +169,8 @@ for activation in activation_list:
                                 adv_aux = 'No'
                                 if adv_ex:
                                     adv_aux = 'Si'
-                                new_line += [type_bounds,dt,gap,adv_aux,model_status]
+                                ## Tipo de cota | Cantidad de nodos | Tiempo total [s]| Gap [%] | Existe algun ejemplo adv | Estatus del problema de optimizacion
+                                new_line += [type_bounds,nnodes,dt,100*gap,adv_aux,model_status]
                     if save_results:
                         ## Se lee el df existente o se genera uno nuevo
                         df = read_df(file_name)
