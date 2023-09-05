@@ -633,3 +633,31 @@ def calculate_list_perturbation(real_list,generated_list):
     minp = min(perturbations)
     maxp = max(perturbations)
     return minp,maxp
+    
+###
+###
+
+def get_cv_point(activation,bounds,tol = 1E-04):
+    lb,ub = bounds
+    aux_lb,aux_ub = lb,ub
+    flag = False
+    while not flag:
+        aux = (aux_lb+aux_ub)/2
+        if activation == 'relu':
+            continue
+        elif activation == 'softplus':
+            continue
+        elif activation == 'sigmoid':
+            f_ub   = 1/(1+np.exp(-ub))
+            f_aux  = 1/(1+np.exp(-aux))
+            m      = (f_ub-f_aux)/(ub-aux)
+            df_aux = np.exp(-aux)/(np.power((1+np.exp(-aux)),2))
+            dif    = m-df_aux
+            if -tol <= dif and dif <= tol:
+                flag = True
+            elif -tol >= dif:
+                aux_ub = aux
+            else:
+                aux_lb = aux
+    return aux
+            
