@@ -7,13 +7,14 @@ from functions import *
 activation_list = ['relu']
 layer_list = [2,3,4]
 neuron_list = [5,10]
-form_list = ['no_exact','exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
+form_list = ['exact','no_exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
 apply_bounds_list = [False,True]
 type_bounds_list = ['prop','mix']
 minutes = 15
 save_image = False
 apply_softmax = False
 
+root_node_only = True
 set_initial_sol = True
 print_output = True
 save_results = True
@@ -56,7 +57,10 @@ for activation in activation_list:
         for n_neurons in neuron_list:
             ## Se recorren las formulaciones
             for exact in form_list:
-                file_name = 'verif_results/{}/datos_verificacion_{}_{}como{}.xlsx'.format(exact,activation,real_output,target_output)
+                if root_node_only:
+                     file_name = 'root_node/{}/datos_verificacion_{}_{}como{}.xlsx'.format(exact,activation,real_output,target_output)
+                else:
+                    file_name = 'verif_results/{}/datos_verificacion_{}_{}como{}.xlsx'.format(exact,activation,real_output,target_output)
                 if activation != 'relu' and exact == 'no_exact':
                     break
                 for tol_distance in tols_list:
@@ -105,6 +109,10 @@ for activation in activation_list:
                                 initial_sol,image_vars = create_initial_sol(verif_model,params,image_list,exact,activation,apply_softmax)
                                 accepted = verif_model.addSol(initial_sol)
                                 print('\n Solucion inicial aceptada:',accepted,'\n')
+                            ## Node root only
+                            if root_node_only:
+                                verif_model.setParam('limits/totalnodes',1)
+                                verif_model.setParam('branching/random/priority',1000000)
                             if print_output:
                                 verif_model.redirectOutput()
                             else:
@@ -169,8 +177,8 @@ for activation in activation_list:
                                 adv_aux = 'No'
                                 if adv_ex:
                                     adv_aux = 'Si'
-                                ## Tipo de cota | Cantidad de nodos | Tiempo total [s]| Gap [%] | Existe algun ejemplo adv | Estatus del problema de optimizacion
-                                new_line += [type_bounds,nnodes,dt,100*gap,adv_aux,model_status]
+                                ## Tipo de cota | Tiempo total [s] | Cantidad de nodos | Gap [%] | Existe algun ejemplo adv | Estatus del problema de optimizacion
+                                new_line += [type_bounds,dt,nnodes,gap,adv_aux,model_status]
                     if save_results:
                         ## Se lee el df existente o se genera uno nuevo
                         df = read_df(file_name)

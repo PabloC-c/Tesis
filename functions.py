@@ -247,7 +247,7 @@ def solve_neuron_model(neuron_model,sense,params,bounds,l,i,exact = 'no_exact',m
     if model_status == 'optimal':
         ## Se entrega el valor objetivo optimo
         obj_val = neuron_model.getObjVal()
-        if propb < obj_val:
+        if (sense == 'maximize' and propb < obj_val) or (sense == 'minimize' and propb > obj_val):
             obj_val = propb
         sol = [True,obj_val]
         aprox_bound = calculate_aprox_bound(params,bounds,l,i,sense)
