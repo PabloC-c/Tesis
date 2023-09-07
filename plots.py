@@ -6,7 +6,7 @@ from functions import *
 
 activation = 'sigmoid'
 
-bounds = (2.5,2.5)
+bounds = (138,58)
 lb,ub = -bounds[0],bounds[1]
 
 cc = calculate_cc_point(activation,bounds)
@@ -23,15 +23,15 @@ x_cc = [(lb)+i*(cc-lb)/k for i in range(k+1)]
 x_cv = [(cv)+i*(ub-cv)/k for i in range(k+1)] 
 
 plt.plot(x,[calculate_activ_func(activation, xi) for xi in x])
-plt.plot(x_cc,[calculate_tan_func(activation,xi,cc) for xi in x_cc],'--')
-plt.plot(x_cv,[calculate_tan_func(activation,xi,cv,) for xi in x_cv],'--')
+plt.plot(x_cc,[calculate_tan_func(activation,xi,cc,lb) for xi in x_cc],'--')
+plt.plot(x_cv,[calculate_tan_func(activation,xi,cv,ub) for xi in x_cv],'--')
 
 plt.plot(lb, f_lb, marker="o", markersize=5, markeredgecolor="orange", markerfacecolor="orange")
 plt.plot(ub, f_ub, marker="o", markersize=5, markeredgecolor="green", markerfacecolor="green")
 plt.plot(cc, f_cc, marker="o", markersize=5, markeredgecolor="orange", markerfacecolor="orange")
 plt.plot(cv, f_cv, marker="o", markersize=5, markeredgecolor="green", markerfacecolor="green")
 
-plt.axhline(0, color="black", linewidth = 1.5)
+#plt.axhline(0, color="black", linewidth = 1.5)
 #plt.axvline(0, color="black", linewidth = 1.5)
 
 plt.xlim(lb-0.1, ub+0.1)
