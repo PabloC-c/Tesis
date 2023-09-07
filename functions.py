@@ -633,31 +633,96 @@ def calculate_list_perturbation(real_list,generated_list):
     minp = min(perturbations)
     maxp = max(perturbations)
     return minp,maxp
-    
+
 ###
 ###
 
-def get_cv_point(activation,bounds,tol = 1E-04):
-    lb,ub = bounds
-    aux_lb,aux_ub = lb,ub
-    flag = False
-    while not flag:
-        aux = (aux_lb+aux_ub)/2
-        if activation == 'relu':
-            continue
-        elif activation == 'softplus':
-            continue
-        elif activation == 'sigmoid':
-            f_ub   = 1/(1+np.exp(-ub))
-            f_aux  = 1/(1+np.exp(-aux))
-            m      = (f_ub-f_aux)/(ub-aux)
-            df_aux = np.exp(-aux)/(np.power((1+np.exp(-aux)),2))
-            dif    = m-df_aux
-            if -tol <= dif and dif <= tol:
-                flag = True
-            elif -tol >= dif:
-                aux_ub = aux
-            else:
-                aux_lb = aux
+def calculate_inflec_point(activation):
+    if activation == 'sigmoid':
+        inflec_point = 0
+    return inflec_point
+
+###
+###
+
+def calculate_activ_func(activation,x):
+    if activation == 'relu':
+        if x > 0:
+            f_x = x
+        else:
+            f_x = 0
+    elif activation == 'sigmoid':
+        f_x = 1/(1+np.exp(-x))
+    return f_x
+
+###
+###
+
+def calculate_activ_derv(activation,x):
+    if activation == 'sigmoid':
+        df_x = np.exp(-x)/(np.power((1+np.exp(-x)),2))
+    return df_x
+
+### Funcion que calcula el cv point de la funcion. Se requiere que el ub de la cota sea mayor al punto de inflexion de la funcion de activacion.
+###
+
+def calculate_cv_point(activation,bounds,tol = 1E-05):
+    lb,ub  = -bounds[0],bounds[1]
+    aux_lb = lb
+    aux_ub = calculate_inflec_point(activation)
+    f_ub   = calculate_activ_func(activation,ub)
+    while True:
+        aux    = (aux_lb+aux_ub)/2
+        f_aux  = calculate_activ_func(activation,aux)
+        m      = (f_ub-f_aux)/(ub-aux)
+        df_aux = calculate_activ_derv(activation,aux)
+        dif    = m-df_aux
+        if -tol <= dif and dif <= tol:
+            break
+        elif -tol >= dif:
+            aux_ub = aux
+        else:
+            aux_lb = aux
+        if aux-lb <= tol:
+            aux = lb
+            break
     return aux
-            
+
+### Funcion que calcula el cc point de la funcion. Se requiere que el lb de la cota sea menor al punto de inflexion de la funcion de activacion.
+###
+
+def calculate_cc_point(activation,bounds,tol = 1E-05):
+    lb,ub  = -bounds[0],bounds[1]
+    aux_lb = calculate_inflec_point(activation)
+    aux_ub = ub
+    f_lb   = calculate_activ_func(activation,lb)
+    while True:
+        aux    = (aux_lb+aux_ub)/2
+        f_aux  = calculate_activ_func(activation,aux)
+        m      = (f_aux-f_lb)/(aux-lb)
+        df_aux = calculate_activ_derv(activation,aux)
+        dif    = m-df_aux
+        if -tol <= dif and dif <= tol:
+            break
+        elif -tol >= dif:
+            aux_lb = aux
+        else:
+            aux_ub = aux
+        if ub-aux <= tol:
+            aux = ub
+            break
+    return aux
+
+###
+###
+
+def calculate_tan_func(activation,x,x0,aux = None):
+    f_x0 = calculate_activ_func(activation, x0) 
+    tan  = f_x0 
+    if not aux == None:
+        f_aux = calculate_activ_func(activation, aux)
+        m = (f_x0-f_aux)/(x0-aux)
+    else:
+        m = calculate_activ_derv(activation,x0)
+    tan += m*(x-x0)
+    return tan
