@@ -645,84 +645,186 @@ def calculate_inflec_point(activation):
 ###
 ###
 
-def calculate_activ_func(activation,x):
+def get_activ_func(activation):
     if activation == 'relu':
-        if x > 0:
-            f_x = x
-        else:
-            f_x = 0
+        f = lambda x: (x+np.abs(x))/2
     elif activation == 'sigmoid':
-        f_x = 1/(1+np.exp(-x))
-    return f_x
+        f = lambda x: 1/(1+np.exp(-x))
+    return f
 
 ###
 ###
 
-def calculate_activ_derv(activation,x):
+def get_activ_derv(activation):
     if activation == 'sigmoid':
-        df_x = np.exp(-x)/(np.power((1+np.exp(-x)),2))
-    return df_x
+        df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
+    return df
 
 ### Funcion que calcula el cv point de la funcion. Se requiere que el ub de la cota sea mayor al punto de inflexion de la funcion de activacion.
 ###
 
 def calculate_cv_point(activation,bounds,tol = 1E-05):
+    ## Se genera la funcion de activacion y su derivada
+    f  = get_activ_func(activation)
+    df = get_activ_derv(activation)
+    ## Se obtienen las cotas correspondientes
     lb,ub  = -bounds[0],bounds[1]
+    ## Se determina el cv point
     aux_lb = lb
     aux_ub = calculate_inflec_point(activation)
-    f_ub   = calculate_activ_func(activation,ub)
+    f_ub   = f(ub)
+    ## Busqueda binaria
     while True:
-        aux    = (aux_lb+aux_ub)/2
-        f_aux  = calculate_activ_func(activation,aux)
-        m      = (f_ub-f_aux)/(ub-aux)
-        df_aux = calculate_activ_derv(activation,aux)
-        dif    = m-df_aux
+        ## Se calcula el punto medio y el valor de la funcion en ese punto
+        aux   = (aux_lb+aux_ub)/2
+        f_aux = f(aux)
+        ## Pendiente de aux con respecto al ub
+        m = (f_ub-f_aux)/(ub-aux)
+        ## Derivada en aux
+        df_aux = df(aux)
+        ## Diferencia entre la pendiente y la derivada
+        dif = m-df_aux
+        ## Caso cv point
         if -tol <= dif and dif <= tol:
             break
+        ## Caso a la derecha del cv point
         elif -tol >= dif:
             aux_ub = aux
+        ## Caso a la izquierda del cv point
         else:
             aux_lb = aux
+        ## Caso en que no existe el cv point o este es el lb
         if aux-lb <= tol:
             aux = lb
             break
+    ## Se retorna el cv point
     return aux
 
 ### Funcion que calcula el cc point de la funcion. Se requiere que el lb de la cota sea menor al punto de inflexion de la funcion de activacion.
 ###
 
 def calculate_cc_point(activation,bounds,tol = 1E-05):
+    ## Se genera la funcion de activacion y su derivada
+    f  = get_activ_func(activation)
+    df = get_activ_derv(activation)
+    ## Se obtienen las cotas correspondientes
     lb,ub  = -bounds[0],bounds[1]
+    ## Se determina el cc point
     aux_lb = calculate_inflec_point(activation)
     aux_ub = ub
-    f_lb   = calculate_activ_func(activation,lb)
+    f_lb   = f(lb)
+    ## Busqueda binaria
     while True:
-        aux    = (aux_lb+aux_ub)/2
-        f_aux  = calculate_activ_func(activation,aux)
-        m      = (f_aux-f_lb)/(aux-lb)
-        df_aux = calculate_activ_derv(activation,aux)
-        dif    = m-df_aux
+        ## Se calcula el punto medio y el valor de la funcion en ese punto
+        aux   = (aux_lb+aux_ub)/2
+        f_aux = f(aux)
+        ## Pendiente de aux con respecto al lb
+        m = (f_aux-f_lb)/(aux-lb)
+        ## Derivada en aux
+        df_aux = df(aux)
+        ## Diferencia entre la pendiente y la derivada
+        dif = m-df_aux
+        ## Caso cc point
         if -tol <= dif and dif <= tol:
             break
+        ## Caso a la izquierda del cc point
         elif -tol >= dif:
             aux_lb = aux
+        ## Caso a la derecha del cc point    
         else:
             aux_ub = aux
+        ## Caso en que no existe el cc point o este es el ub
         if ub-aux <= tol:
             aux = ub
             break
+    ## Se retorna el cc point    
     return aux
 
 ###
 ###
 
-def calculate_tan_func(activation,x,x0,aux = None):
-    f_x0 = calculate_activ_func(activation, x0) 
-    tan  = f_x0 
+def get_tan_func(activation,x0,aux = None):
+    ## Se genera la funcion de activacion y su derivada
+    f  = get_activ_func(activation)
+    df = get_activ_derv(activation)
+    ## Se evalua la funcione en el punto de referencia
+    f_x0 = f(x0)
+    ## Caso en que se debe calcular la recta con respecto a un segundo punto
     if not aux == None:
-        f_aux = calculate_activ_func(activation, aux)
+        f_aux = f(aux)
         m = (f_x0-f_aux)/(x0-aux)
+    ## Caso en el que solo se utiliza la derivada
     else:
-        m = calculate_activ_derv(activation,x0)
-    tan += m*(x-x0)
+        m = df(x0)
+    ## Funcion lambda correspondiente a la tangente
+    tan = lambda x:  f_x0 + m*(x-x0)
+    ## Se retorna la funcion tangente
     return tan
+
+###
+###
+
+def calculate_k_points(activation,k,lb,ub,tol = 1E-03):
+    flag = True
+    if flag:
+        ## Se genera la funcion de activacion y su derivada
+        f  = get_activ_func(activation)
+        df = get_activ_derv(activation)
+        ## Lista donde se guardaran los k puntos para generar las tangentes de la funcion 
+        k_points = []
+        ## Se calcula el valor de las derivadas en lb y ub
+        df_lb = df(lb)
+        df_ub = df(ub)
+        ## Se determina si en [lb,ub] la funcion es convexa o concava
+        ## Caso intervalo concavo
+        if df_lb > df_ub:
+            ## Se generan los puntos desde el mayor hasta el menor
+            x0 = ub
+            xf = lb
+        ## Caso intervalo convexo
+        else:
+            x0 = lb
+            xf = ub
+        ## Se determina a partir de que valor la funcion comienza a cambiar su pendiente
+        aux_x0 = x0
+        aux_xf = xf
+        ## Busqueda binaria
+        while np.abs(aux_x0-aux_xf) >= tol:
+            ## Se calcula el punto medio y el valor de la funcion y su derivada
+            aux    = (aux_x0+aux_xf)/2
+            f_aux  = f(aux)
+            df_aux = df(aux)
+            ## Pendiente de aux con respecto al x0
+            m = (f_aux-f(x0))/(aux-x0)
+            ## Diferencia con la pendiente inicial
+            dif = m - df_aux
+            ## Caso en que la pendiente aun se parece
+            if -tol <= dif and dif <= tol:
+                aux_x0 = aux
+            ## Caso en que la pendiente aumento mucho
+            else:
+                aux_xf = aux
+        ## Se verifica si es util el nuevo punto inicial
+        if np.abs(aux_xf - x0) > np.abs(xf-x0)/k:
+            x0 = aux_xf
+        else:
+            flag = False
+    else:
+        x0 = lb
+        xf = ub
+    ## Se generan los k puntos
+    if flag:
+        ## Paso para calcular los k puntos
+        step = (xf-x0)/k
+        k_points = [x0+1.05*i*step for i in range(k)]
+    else:
+        ## Paso para calcular los k puntos
+        step = (xf-x0)/(k+1)
+        k_points = [x0+1.05*(i+1)*step for i in range(k)]
+    ## Se ordenan los puntos de menos a mayor
+    k_points.sort()
+    ## Se entregan los k puntos
+    return k_points
+
+###
+###
