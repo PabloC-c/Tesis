@@ -142,6 +142,7 @@ def set_objective_function(neuron_model,inpt,params,bounds,l,i,sense):
 ###
 
 def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 'relu',exact = 'no_exact', apply_bounds = True):
+    k = 4
     n_input = len(inpt)
     ## Parametros de la capa l   
     weight,bias = get_w_b_names(l)
@@ -213,7 +214,18 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
                     neuron_model.addCons(scip.log(1+scip.exp(z)) == a, name = 'actv{},{}'.format(l,i))
                 if activation == 'sigmoid':
                     neuron_model.addCons((1/(1+scip.exp(-z))) == a, name = 'actv{},{}'.format(l,i))
-        
+                ## Se obtienen las cotas de la neurona 
+                bounds_l_i = bounds[l][i]
+                ## Se obtienen las tuplas correspondientes a la envoltura
+                cv_env,cc_env = get_activation_env_list(activation,bounds_l_i, k)
+                ## Se añaden los planos cortantes convexos
+                for q in range(len(cv_env)):
+                    x0,f_x0,m = cv_env[q]
+                    neuron_model.addCons(f_x0+m*(z-x0) <= a, name = 'cv_env{}_{},{}'.format(q,l,i))
+                ## Se añaden los planos cortantes concavos
+                for q in range(len(cc_env)):
+                    x0,f_x0,m = cc_env[q]
+                    neuron_model.addCons(f_x0+m*(z-x0) >= a, name = 'cc_env{}_{},{}'.format(q,l,i))
     return neuron_model,aux_input,all_vars
 
 
@@ -759,12 +771,12 @@ def get_tan_func(activation,x0,aux = None):
     ## Funcion lambda correspondiente a la tangente
     tan = lambda x:  f_x0 + m*(x-x0)
     ## Se retorna la funcion tangente
-    return tan
+    return tan,m
 
 ###
 ###
 
-def calculate_k_points(activation,k,lb,ub,tol = 1E-03):
+def calculate_k_points(activation,k,lb,ub,tol = 1E-05):
     flag = True
     if flag:
         ## Se genera la funcion de activacion y su derivada
@@ -828,3 +840,64 @@ def calculate_k_points(activation,k,lb,ub,tol = 1E-03):
 
 ###
 ###
+
+def is_convexoconcave(activation,bounds):
+    cv_list = ['softplus']
+    cc_list = []
+    if activation in cv_list:
+        convexoconcave = 'convex'
+    elif activation in cc_list:
+        convexoconcave = 'concave'
+    else:
+        lb,ub = -bounds[0],bounds[1]
+        inflec_point = calculate_inflec_point(activation)
+        if ub <= inflec_point:
+            convexoconcave = 'convex'
+        elif lb >= inflec_point:
+            convexoconcave = 'concave'
+        else:
+            convexoconcave = 'convexoconcave'
+    return convexoconcave
+
+###
+###
+
+def get_activation_env_list(activation,bounds,k):
+    ## Se determina si la funcion es convex, concave o convexoconcave
+    convexoconcave = is_convexoconcave(activation, bounds)
+    ## Se obtiene la funcion de activacion
+    f = get_activ_func(activation)
+    ## Se obtienen las cotas
+    lb,ub = -bounds[0],bounds[1]
+    ## Lista para guardar las tuplas (x0,inter.,pend.) de la env convexa y concava
+    cv_env = []
+    cc_env = []
+    ## Caso en que la funcion es convex o concave
+    if convexoconcave in ['convex','concave']:
+        ## Se genera la envoltura
+        func = (lb,f(lb),get_tan_func(activation,lb,ub)[1])
+        ## Caso convex
+        if convexoconcave == 'convex':
+            cc_env.append(func)
+        ## Caso cocave
+        else:
+            cv_env.append(func)
+    else:
+        ## Se obtiene los cv y cc point
+         cv = calculate_cv_point(activation, bounds)
+         cc = calculate_cc_point(activation, bounds)
+         ## Se añaden las envolturas de las cv y cc point
+         cv_env.append((cv,ub,get_tan_func(activation,cv,ub)[1]))
+         cc_env.append((lb,cc,get_tan_func(activation,lb,cc)[1]))
+         ## Se añaden las demas envolturas convexas
+         cv_points = calculate_k_points(activation,k,lb,cv)
+         for i in range(k):
+             aux = cv_points[i]
+             cv_env.append((aux,f(aux),get_tan_func(activation,aux)[1]))
+         ## Se añaden las demas envolturas concavas
+         cc_points = calculate_k_points(activation,k,cc,ub)
+         for i in range(k):
+             aux = cc_points[i]
+             cc_env.append((aux,f(aux),get_tan_func(activation,aux)[1]))
+    ## Se retorna las listas con las funciones de la envoltura
+    return cv_env,cc_env
