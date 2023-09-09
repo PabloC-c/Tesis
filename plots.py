@@ -10,7 +10,7 @@ f  = get_activ_func(activation)
 df = get_activ_derv(activation)
 
 ## Bounds correspondientes 
-bounds = (3,3)
+bounds = (588.3372,1077.1571)
 lb,ub = -bounds[0],bounds[1]
 
 ## Se calculan los cc y cv points
@@ -28,7 +28,7 @@ tan_cc = get_tan_func(activation,cc,lb)[0]
 tan_cv = get_tan_func(activation,cv,ub)[0]
 
 ## Se generan los vectores del eje x
-q = 1000
+q = 10000
 x    = [(lb)+i*(ub-lb)/q for i in range(q+1)]
 x_cc = [(lb)+i*(cc+2-lb)/q for i in range(q+1)] 
 x_cv = [(cv-2)+i*(ub-cv+2)/q for i in range(q+1)] 
@@ -79,7 +79,8 @@ for i in range(k):
 #plt.axvline(0, color="black", linewidth = 1.5)
 
 ## Limites de los ejes
-plt.xlim(lb-0.1, ub+0.1)
+#plt.xlim(lb-0.1, ub+0.1)
+plt.xlim(-20, 20)
 plt.ylim(max(-0.05,f_lb-0.05), min(1.05,f_ub+0.05))
 
 ## Plot y/o guardar como imagen

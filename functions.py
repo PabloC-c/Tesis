@@ -887,8 +887,8 @@ def get_activation_env_list(activation,bounds,k):
          cv = calculate_cv_point(activation, bounds)
          cc = calculate_cc_point(activation, bounds)
          ## Se añaden las envolturas de las cv y cc point
-         cv_env.append((cv,ub,get_tan_func(activation,cv,ub)[1]))
-         cc_env.append((lb,cc,get_tan_func(activation,lb,cc)[1]))
+         cv_env.append((cv,f(cv),get_tan_func(activation,cv,ub)[1]))
+         cc_env.append((lb,f(lb),get_tan_func(activation,lb,cc)[1]))
          ## Se añaden las demas envolturas convexas
          cv_points = calculate_k_points(activation,k,lb,cv)
          for i in range(k):
