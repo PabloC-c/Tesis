@@ -4,12 +4,12 @@ import pandas as pd
 from torchvision import datasets, transforms
 from functions import *
 
-activation_list = ['sigmoid']
-layer_list = [2]
-neuron_list = [5]
+activation_list = ['softplus','sigmoid']
+layer_list = [2,3,4]
+neuron_list = [5,10]
 form_list = ['no_exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
 apply_bounds_list = [True]
-type_bounds_list = ['mix']
+type_bounds_list = ['prop','mix']
 minutes = 15
 save_image = False
 apply_softmax = False
@@ -17,12 +17,12 @@ apply_softmax = False
 root_node_only = False
 set_initial_sol = True
 print_output = True
-save_results = False
+save_results = True
 real_output = 1
 target_output = 7
 input_lb =0 
 input_ub = 1
-tols_list = [0.05]
+tols_list = [0.01,0.05]
 
 if len(sys.argv) > 1:
     activation_list = [sys.argv[1]]

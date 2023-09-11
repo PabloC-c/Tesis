@@ -660,6 +660,8 @@ def calculate_inflec_point(activation):
 def get_activ_func(activation):
     if activation == 'relu':
         f = lambda x: (x+np.abs(x))/2
+    elif activation == 'softplus':
+        f = lambda x: np.log(1 + np.exp(x))
     elif activation == 'sigmoid':
         f = lambda x: 1/(1+np.exp(-x))
     return f
@@ -670,6 +672,8 @@ def get_activ_func(activation):
 def get_activ_derv(activation):
     if activation == 'sigmoid':
         df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
+    elif activation == 'softplus':
+        df = lambda x: 1/(1+np.exp(-x))
     return df
 
 ### Funcion que calcula el cv point de la funcion. Se requiere que el ub de la cota sea mayor al punto de inflexion de la funcion de activacion.
