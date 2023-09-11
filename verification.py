@@ -57,12 +57,6 @@ for activation in activation_list:
         for n_neurons in neuron_list:
             ## Se recorren las formulaciones
             for exact in form_list:
-                if root_node_only:
-                     file_name = 'root_node/{}/datos_verificacion_{}_{}como{}.xlsx'.format(exact,activation,real_output,target_output)
-                else:
-                    file_name = 'verif_results/{}/datos_verificacion_{}_{}como{}.xlsx'.format(exact,activation,real_output,target_output)
-                #if activation != 'relu' and exact == 'no_exact':
-                #    break
                 for tol_distance in tols_list:
                     ## Lista de info a guardar 
                     new_line = [n_layers,n_neurons,tol_distance]
@@ -76,32 +70,32 @@ for activation in activation_list:
                             aux_bounds_list = ['-']
                         ## Se recorren los tipos de cotas
                         for type_bounds in aux_bounds_list:
-                            ## Caso donde se deben aplicar las cotas
-                            if apply_bounds:
-                                if type_bounds == 'prop':
-                                    bounds_file = 'nn_bounds/{}_prop_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
-                                else:
-                                    bounds_file = 'nn_bounds/{}_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
-                                ## Se cargan las cotas de la red
-                                if os.path.exists(bounds_file):
-                                    bounds = read_bounds(n_layers,n_neurons,activation,bounds_file)
-                                else:
-                                    print('archivo no existe')
-                                    print(bounds_file)
-                                    break
-                            else:
-                                bounds = OrderedDict()
+                            ## Nombre del archivo xlsx donde se guardan los resultados de los experimentos
+                            file_name = calculate_verif_file_name(exact,activation,real_output,target_output,root_node_only)
+                            ## Nombre del archivo de las cotas
+                            bounds_file = calculate_bounds_file_name(type_bounds,activation,n_layers,n_neurons)
+                            ## Se cargan las cotas del modelo
+                            bounds = read_bounds(apply_bounds,n_layers,n_neurons,activation,bounds_file)
+                            if apply_bounds and len(bounds) == 0:
+                                    continue
                             ## Se crea la instancia de la red neuronal
                             net = neural_network(n_neurons,n_layers,activation)
                             ## Se cargan los parámetros de la red
                             net.load_state_dict(torch.load('nn_parameters/{}_model_weights_L{}_n{}.pth'.format(activation,n_layers, n_neurons)))
-                            params = net.state_dict()
                             ## Se filtran los parametros
-                            filtered_params = filter_params(params)
+                            filtered_params = filter_params(net.state_dict())
                             ## Busqueda de ejemplo adversarial
                             print('\n===== Capas {} Neuronas {} =====\n'.format(n_layers,n_neurons))
                             print('Tolerancia: {} '.format(tol_distance))
                             adv_ex = False
+                            ## Se ajustan los parametros en el caso root_node_only
+                            if root_node_only:
+                                sol_file = 'defaul_sols/{}/{}_default_verif_sol_L{}_n{}.sol'.format(exact,activation,n_layers,n_neurons)
+                                default_run = False
+                                if not os.path.exists(sol_file):
+                                    default_run = True
+                                    if apply_bounds:
+                                        apply_bounds = False
                             ## Se crea el modelo de verificacion
                             verif_model,all_vars = create_verification_model(params,bounds,activation,tol_distance,apply_softmax,image_list,target_output,real_output,exact,apply_bounds)
                             ## Se añade la solucion inicial
@@ -113,6 +107,10 @@ for activation in activation_list:
                             if root_node_only:
                                 verif_model.setParam('limits/totalnodes',1)
                                 verif_model.setParam('branching/random/priority',1000000)
+                                ## Se lee la solucion default
+                                if not default_run:
+                                    verif_model.readSol(sol_file)
+                                    verif_model.setHeuristics(SCIP_PARAMSETTING.OFF)
                             if print_output:
                                 verif_model.redirectOutput()
                             else:
@@ -179,6 +177,12 @@ for activation in activation_list:
                                     adv_aux = 'Si'
                                 ## Tipo de cota | Tiempo total [s] | Cantidad de nodos | Gap [%] | Existe algun ejemplo adv | Estatus del problema de optimizacion
                                 new_line += [type_bounds,dt,nnodes,gap,adv_aux,model_status]
+                            ## Guardar la solucion para el caso node root
+                            if default_run:
+                                verif_model.writeBestSol(file_name = sol_file, write_zeros = True)
+                    ## Nombre del archivo xlsx donde se guardan los resultados de los experimentos
+                    file_name = calculate_verif_file_name(exact,activation,real_output,target_output,root_node_only)
+                    ## Se guardan los resultados
                     if save_results:
                         ## Se lee el df existente o se genera uno nuevo
                         df = read_df(file_name)

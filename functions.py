@@ -83,6 +83,62 @@ def get_w_b_names(l):
         bias   = 'fc_hidden.{}.bias'.format(l)
     return weight,bias
 
+###
+###
+
+def calculate_verif_file_name(exact,activation,real_output,target_output,root_node_only):
+    if root_node_only:
+         file_name = 'root_node/{}/datos_verificacion_{}_{}como{}.xlsx'.format(exact,activation,real_output,target_output)
+    else:
+        file_name = 'verif_results/{}/datos_verificacion_{}_{}como{}.xlsx'.format(exact,activation,real_output,target_output)
+    return file_name
+
+###
+###
+
+def calculate_bounds_file_name(type_bounds,activation,n_layers,n_neurons):
+    if type_bounds == 'prop':
+        bounds_file = 'nn_bounds/{}_prop_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
+    else:
+        bounds_file = 'nn_bounds/{}_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
+    return bounds_file 
+
+###
+###
+
+def write_bounds(bounds,n_layers,n_neurons,activation,file_name):
+    with open(file_name,'w') as bounds_file:
+        for layer,layer_bounds in bounds.items():
+            for lb,ub in layer_bounds:
+                line = f"{lb} {ub}"
+                bounds_file.write(line + '\n')
+            bounds_file.write('\n')
+    bounds_file.close()        
+    return True
+
+###
+###
+
+def read_bounds(apply_bounds,n_layers,n_neurons,activation,bounds_file):
+    bounds = OrderedDict()
+    if os.path.exists(bounds_file) and apply_bounds:
+        with open(bounds_file, 'r') as bf:
+            layer = -1
+            value = []
+            for line in bf:
+                if line.strip() == "":
+                    bounds[layer] = value
+                    layer += 1
+                    value = []
+                else:
+                    lb,ub = line.strip().split()
+                    value.append((float(lb), float(ub)))
+                bounds[layer] = value
+    return bounds
+        
+
+###
+###
 
 #### Funciones de NN's ############################################################################################################################################################
 
@@ -411,38 +467,6 @@ def set_verification_model(net_model,net_input_var,net_output_var,input_value,re
     ## Se genera la restriccion correspondiente a la funcion objetivo
     net_model.setObjective(net_output_var[output_target] - net_output_var[real_output], 'maximize')
     return net_model
-
-###
-###
-
-def write_bounds(bounds,n_layers,n_neurons,activation,file_name):
-    with open(file_name,'w') as bounds_file:
-        for layer,layer_bounds in bounds.items():
-            for lb,ub in layer_bounds:
-                line = f"{lb} {ub}"
-                bounds_file.write(line + '\n')
-            bounds_file.write('\n')
-    bounds_file.close()        
-    return True
-
-###
-###
-
-def read_bounds(n_layers,n_neurons,activation,file_name):
-    bounds = OrderedDict()
-    with open(file_name, 'r') as bounds_file:
-        layer = -1
-        value = []
-        for line in bounds_file:
-            if line.strip() == "":
-                bounds[layer] = value
-                layer += 1
-                value = []
-            else:
-                lb,ub = line.strip().split()
-                value.append((float(lb), float(ub)))
-        bounds[layer] = value
-    return bounds
 
 ###
 ###
