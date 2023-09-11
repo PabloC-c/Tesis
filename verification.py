@@ -14,12 +14,12 @@ minutes = 15
 save_image = False
 apply_softmax = False
 
-root_node_only = False
+root_node_only = True
 set_initial_sol = True
 print_output = True
-save_results = True
+save_results = False
 real_output = 1
-target_output = 7
+target_output = 2
 input_lb =0 
 input_ub = 1
 tols_list = [0.01,0.05]
@@ -77,7 +77,7 @@ for activation in activation_list:
                             ## Se cargan las cotas del modelo
                             bounds = read_bounds(apply_bounds,n_layers,n_neurons,activation,bounds_file)
                             if apply_bounds and len(bounds) == 0:
-                                    continue
+                                continue
                             ## Se crea la instancia de la red neuronal
                             net = neural_network(n_neurons,n_layers,activation)
                             ## Se cargan los parámetros de la red
@@ -90,7 +90,7 @@ for activation in activation_list:
                             adv_ex = False
                             ## Se ajustan los parametros en el caso root_node_only
                             if root_node_only:
-                                sol_file = 'defaul_sols/{}/1como{}/{}_default_verif_sol_L{}_n{}.sol'.format(exact,,activation,n_layers,n_neurons)
+                                sol_file = 'defaul_sols/{}/{}/{}_default_verif_sol_L{}_n{}_1como{}.sol'.format(exact,tol_distance,activation,n_layers,n_neurons,target_output)
                                 default_run = False
                                 if not os.path.exists(sol_file):
                                     default_run = True
@@ -105,10 +105,10 @@ for activation in activation_list:
                                 print('\n Solucion inicial aceptada:',accepted,'\n')
                             ## Node root only
                             if root_node_only:
-                                verif_model.setParam('limits/totalnodes',1)
-                                verif_model.setParam('branching/random/priority',1000000)
-                                ## Se lee la solucion default
                                 if not default_run:
+                                    verif_model.setParam('limits/totalnodes',1)
+                                    verif_model.setParam('branching/random/priority',1000000)
+                                    ## Se lee la solucion default
                                     verif_model.readSol(sol_file)
                                     verif_model.setHeuristics(SCIP_PARAMSETTING.OFF)
                             if print_output:
