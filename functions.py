@@ -99,8 +99,10 @@ def calculate_verif_file_name(exact,activation,real_output,target_output,root_no
 def calculate_bounds_file_name(type_bounds,activation,n_layers,n_neurons):
     if type_bounds == 'prop':
         bounds_file = 'nn_bounds/{}_prop_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
-    else:
+    elif type_bounds == 'mix':
         bounds_file = 'nn_bounds/{}_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
+    else:
+        bounds_file = '-1'
     return bounds_file 
 
 ###

@@ -7,7 +7,7 @@ from functions import *
 activation_list = ['relu']
 layer_list = [2,3,4]
 neuron_list = [5,10]
-form_list = ['no_exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
+form_list = ['exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
 apply_bounds_list = [False]
 type_bounds_list = []
 minutes = 15
@@ -22,7 +22,7 @@ real_output = 1
 target_output = 2
 input_lb =0 
 input_ub = 1
-tols_list = [0.01,0.05]
+tols_list = [0.01]
 
 if len(sys.argv) > 1:
     activation_list = [sys.argv[1]]
@@ -69,7 +69,9 @@ for activation in activation_list:
                         if not apply_bounds:
                             aux_bounds_list = ['-']
                         ## Se recorren los tipos de cotas
+                        print('antes de cotas',aux_bounds_list)
                         for type_bounds in aux_bounds_list:
+                            print('\n cotas \ n')
                             ## Nombre del archivo xlsx donde se guardan los resultados de los experimentos
                             file_name = calculate_verif_file_name(exact,activation,real_output,target_output,root_node_only)
                             ## Nombre del archivo de las cotas
@@ -90,17 +92,17 @@ for activation in activation_list:
                             adv_ex = False
                             ## Se ajustan los parametros en el caso root_node_only
                             if root_node_only:
-                                sol_file = 'defaul_sols/{}/{}/{}_default_verif_sol_L{}_n{}_1como{}.sol'.format(exact,tol_distance,activation,n_layers,n_neurons,target_output)
+                                sol_file = 'default_sols/{}/{}/{}_default_verif_sol_L{}_n{}_1como{}.sol'.format(exact,tol_distance,activation,n_layers,n_neurons,target_output)
                                 default_run = False
                                 if not os.path.exists(sol_file):
                                     default_run = True
                                     if apply_bounds:
                                         apply_bounds = False
                             ## Se crea el modelo de verificacion
-                            verif_model,all_vars = create_verification_model(params,bounds,activation,tol_distance,apply_softmax,image_list,target_output,real_output,exact,apply_bounds)
+                            verif_model,all_vars = create_verification_model(filtered_params,bounds,activation,tol_distance,apply_softmax,image_list,target_output,real_output,exact,apply_bounds)
                             ## Se añade la solucion inicial
                             if set_initial_sol:
-                                initial_sol,image_vars = create_initial_sol(verif_model,params,image_list,exact,activation,apply_softmax)
+                                initial_sol,image_vars = create_initial_sol(verif_model,filtered_params,image_list,exact,activation,apply_softmax)
                                 accepted = verif_model.addSol(initial_sol)
                                 print('\n Solucion inicial aceptada:',accepted,'\n')
                             ## Node root only
@@ -112,7 +114,11 @@ for activation in activation_list:
                                     verif_model.readSol(sol_file)
                                     verif_model.setHeuristics(SCIP_PARAMSETTING.OFF)
                             if print_output:
-                                verif_model.redirectOutput()
+                                if root_node_only:
+                                    if not default_run:
+                                        verif_model.redirectOutput()
+                                else:
+                                    verif_model.redirectOutput()
                             else:
                                 verif_model.hideOutput()
                             ## Se generan las variables correspondientes a la imagen entregada al modelo
@@ -179,7 +185,9 @@ for activation in activation_list:
                                 new_line += [type_bounds,dt,nnodes,gap,adv_aux,model_status]
                             ## Guardar la solucion para el caso node root
                             if default_run:
-                                verif_model.writeBestSol(file_name = sol_file, write_zeros = True)
+                                f = open(sol_file, "w+")
+                                f.close()
+                                a = verif_model.writeBestSol(sol_file, write_zeros = False)
                     ## Nombre del archivo xlsx donde se guardan los resultados de los experimentos
                     file_name = calculate_verif_file_name(exact,activation,real_output,target_output,root_node_only)
                     ## Se guardan los resultados
