@@ -4,12 +4,12 @@ import pandas as pd
 from torchvision import datasets, transforms
 from functions import *
 
-activation_list = ['softplus','sigmoid']
+activation_list = ['relu']
 layer_list = [2,3,4]
 neuron_list = [5,10]
 form_list = ['no_exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
-apply_bounds_list = [True]
-type_bounds_list = ['prop','mix']
+apply_bounds_list = [False]
+type_bounds_list = []
 minutes = 15
 save_image = False
 apply_softmax = False
@@ -90,7 +90,7 @@ for activation in activation_list:
                             adv_ex = False
                             ## Se ajustan los parametros en el caso root_node_only
                             if root_node_only:
-                                sol_file = 'defaul_sols/{}/{}_default_verif_sol_L{}_n{}.sol'.format(exact,activation,n_layers,n_neurons)
+                                sol_file = 'defaul_sols/{}/1como{}/{}_default_verif_sol_L{}_n{}.sol'.format(exact,,activation,n_layers,n_neurons)
                                 default_run = False
                                 if not os.path.exists(sol_file):
                                     default_run = True
