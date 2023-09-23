@@ -5,17 +5,17 @@ En este archivo se encuentran las funciones para training.py y optimizacion.py
 #### Librerias
 
 import os
+import csv
+import time
 import torch
 import numpy as np
 import pandas as pd
 import torch.nn as nn
+import pyscipopt.scip as scip
 import matplotlib.pyplot as plt
 import torch.nn.functional as F
-import pyscipopt.scip as scip
-from pyscipopt import Model,quicksum,SCIP_PARAMSETTING
 from collections import OrderedDict
-import time
-
+from pyscipopt import Model,quicksum,SCIP_PARAMSETTING
 
 #### Funciones generales ############################################################################################################################################################
 
@@ -931,3 +931,73 @@ def get_activation_env_list(activation,bounds,k):
              cc_env.append((aux,f(aux),get_tan_func(activation,aux)[1]))
     ## Se retorna las listas con las funciones de la envoltura
     return cv_env,cc_env
+
+###
+###
+
+def sol_to_bigM(sol_file,model,params,apply_softmax):    
+    sol_dict = {}
+    with open(sol_file, newline='\n') as csvfile:
+        reader = csv.reader(csvfile, delimiter='\t')
+        next(reader)  # skip header
+        for line in reader:
+            line_info = line[0].split()
+            if line_info[0][0] != 'a':
+                sol_dict[line_info[0]] = line_info[1]
+    weight,bias = get_w_b_names(0)
+    n_input = params[weight].size()[1]
+    for i in range(n_input):
+        input_name = 'h{},{}'.format(-1,i)
+        if not input_name in sol_dict:
+            sol_dict[input_name] = 0.0
+    ## Se calcula la cantidad de capas ocultas
+    n_layers = int(len(params)/2)
+    for l in range(n_layers):
+        ## Parametros de la capa l
+        weight,bias = get_w_b_names(l)
+        W = params[weight]
+        n_neurons = W.size()[0]
+        if l == n_layers-1:
+            aux_input = []
+        for i in range(n_neurons):
+            z_name = 'z{},{}'.format(l,i)
+            if z_name in sol_dict:
+                z = sol_dict[z_name]
+            else:
+                z = 0.0
+                sol_dict[z_name] = z
+            if z > 0:
+                h = z
+                not_h = 0
+                u = 1
+            else:
+                h = 0
+                not_h = -1.0*z
+                u     = 0 
+            sol_dict['h{},{}'.format(l,i)] = h
+            sol_dict['not_h{},{}'.format(l,i)] = not_h
+            sol_dict['u{},{}'.format(l,i)] = u
+            if l == n_layers-1:
+                aux_input.append(h)
+    if apply_softmax:
+        output = calculate_softmax(aux_input)
+        for i in range(len(output)):
+            soft_name = 'soft_output_{}'.format(i)
+            if not soft_name in sol_dict:
+                sol_dict[soft_name] = output[i]
+    return sol_dict
+
+###
+###
+
+def set_bigM_deafult_sol(sol_file,model,params,apply_softmax):
+    initial_sol = model.createSol()
+    model_vars  = model.getVars()
+    default_sol = sol_to_bigM(sol_file,model,params,apply_softmax)
+    for i in range(len(model_vars)):
+        var_i = model_vars[i]
+        var_name = var_i.name
+        var_val  = default_sol[var_name]
+        model.setSolVal(initial_sol, var_i, var_val)
+    return initial_sol,default_sol
+    

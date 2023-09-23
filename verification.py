@@ -102,14 +102,17 @@ for activation in activation_list:
                             if set_initial_sol:
                                 initial_sol,image_vars = create_initial_sol(verif_model,filtered_params,image_list,exact,activation,apply_softmax)
                                 accepted = verif_model.addSol(initial_sol)
-                                print('\n Solucion inicial aceptada:',accepted,'\n')
                             ## Node root only
                             if root_node_only:
                                 if not default_run:
                                     verif_model.setParam('limits/totalnodes',1)
                                     verif_model.setParam('branching/random/priority',1000000)
                                     ## Se lee la solucion default
-                                    verif_model.readSol(sol_file)
+                                    if activation == 'relu' and exact == 'no_exact':
+                                        initial_sol,default_vars = set_bigM_deafult_sol(sol_file,verif_model,filtered_params,apply_softmax)
+                                        accepted = verif_model.addSol(initial_sol)
+                                    else:
+                                        verif_model.readSol(sol_file)
                                     verif_model.setHeuristics(SCIP_PARAMSETTING.OFF)
                             if print_output:
                                 if root_node_only:
