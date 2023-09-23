@@ -7,22 +7,22 @@ from functions import *
 activation_list = ['relu']
 layer_list = [2,3,4]
 neuron_list = [5,10]
-form_list = ['exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
-apply_bounds_list = [False]
-type_bounds_list = []
+form_list = ['no_exact','exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
+apply_bounds_list = [False,True]
+type_bounds_list = ['prop','mix']
 minutes = 15
 save_image = False
 apply_softmax = False
 
-root_node_only = True
+root_node_only = False
 set_initial_sol = True
 print_output = True
-save_results = False
+save_results = True
 real_output = 1
-target_output = 2
+target_output = 7
 input_lb =0 
 input_ub = 1
-tols_list = [0.01]
+tols_list = [0.01,0.05]
 
 if len(sys.argv) > 1:
     activation_list = [sys.argv[1]]
@@ -69,9 +69,7 @@ for activation in activation_list:
                         if not apply_bounds:
                             aux_bounds_list = ['-']
                         ## Se recorren los tipos de cotas
-                        print('antes de cotas',aux_bounds_list)
                         for type_bounds in aux_bounds_list:
-                            print('\n cotas \ n')
                             ## Nombre del archivo xlsx donde se guardan los resultados de los experimentos
                             file_name = calculate_verif_file_name(exact,activation,real_output,target_output,root_node_only)
                             ## Nombre del archivo de las cotas
@@ -184,10 +182,11 @@ for activation in activation_list:
                                 ## Tipo de cota | Tiempo total [s] | Cantidad de nodos | Gap [%] | Existe algun ejemplo adv | Estatus del problema de optimizacion
                                 new_line += [type_bounds,dt,nnodes,gap,adv_aux,model_status]
                             ## Guardar la solucion para el caso node root
-                            if default_run:
-                                f = open(sol_file, "w+")
-                                f.close()
-                                a = verif_model.writeBestSol(sol_file, write_zeros = False)
+                            if root_node_only:
+                                if default_run:
+                                    f = open(sol_file, "w+")
+                                    f.close()
+                                    a = verif_model.writeBestSol(sol_file, write_zeros = False)
                     ## Nombre del archivo xlsx donde se guardan los resultados de los experimentos
                     file_name = calculate_verif_file_name(exact,activation,real_output,target_output,root_node_only)
                     ## Se guardan los resultados

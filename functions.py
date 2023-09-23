@@ -12,7 +12,7 @@ import torch.nn as nn
 import matplotlib.pyplot as plt
 import torch.nn.functional as F
 import pyscipopt.scip as scip
-from pyscipopt import Model,quicksum
+from pyscipopt import Model,quicksum,SCIP_PARAMSETTING
 from collections import OrderedDict
 import time
 
