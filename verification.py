@@ -7,15 +7,15 @@ from functions import *
 activation_list = ['relu']
 layer_list = [2,3,4]
 neuron_list = [5,10]
-form_list = ['no_exact','exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
-apply_bounds_list = [False,True]
+form_list = ['no_exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
+apply_bounds_list = [True]
 type_bounds_list = ['prop','mix']
 minutes = 15
 save_image = False
 apply_softmax = False
 
-root_node_only = False
-set_initial_sol = True
+root_node_only = True
+set_initial_sol = False
 print_output = True
 save_results = True
 real_output = 1
@@ -90,7 +90,7 @@ for activation in activation_list:
                             adv_ex = False
                             ## Se ajustan los parametros en el caso root_node_only
                             if root_node_only:
-                                sol_file = 'default_sols/{}/{}/{}_default_verif_sol_L{}_n{}_1como{}.sol'.format(exact,tol_distance,activation,n_layers,n_neurons,target_output)
+                                sol_file = 'default_sols/exact/{}/{}_default_verif_sol_L{}_n{}_1como{}.sol'.format(tol_distance,activation,n_layers,n_neurons,target_output)
                                 default_run = False
                                 if not os.path.exists(sol_file):
                                     default_run = True

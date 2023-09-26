@@ -943,7 +943,7 @@ def sol_to_bigM(sol_file,model,params,apply_softmax):
         for line in reader:
             line_info = line[0].split()
             if line_info[0][0] != 'a':
-                sol_dict[line_info[0]] = line_info[1]
+                sol_dict[line_info[0]] = float(line_info[1])
     weight,bias = get_w_b_names(0)
     n_input = params[weight].size()[1]
     for i in range(n_input):
