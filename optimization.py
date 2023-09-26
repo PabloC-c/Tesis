@@ -8,10 +8,10 @@ from pyscipopt import Model,quicksum
 from collections import OrderedDict
 from functions import *
 
-activation_list = ['relu']
+activation_list = ['sigmoid']
 layer_list = [2,3,4] 
-neuron_list = [5,10]
-exact = 'no_exact'
+neuron_list = [10]
+exact = 'exact'
 minutes = 10
 filter_tol = 1e-5
 
