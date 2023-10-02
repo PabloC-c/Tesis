@@ -5,8 +5,8 @@ from torchvision import datasets, transforms
 from functions import *
 
 activation_list = ['sigmoid']
-layer_list = [2]
-neuron_list = [5]
+layer_list = [2,3,4]
+neuron_list = [5,10]
 form_list = ['no_exact','exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
 apply_bounds_list = [True]
 type_bounds_list = ['prop','mix']
@@ -51,6 +51,8 @@ image_list = input_example[output_example == real_output][0].view(-1,784).tolist
 
 
 tol_distance = 0.01
+exact = 'exact'
+apply_bounds = True
 ## Por cada activacion
 for activation in activation_list:
     ## Se recorren las capas
