@@ -41,6 +41,37 @@ if len(sys.argv) > 1:
     if len(sys.argv) >= 9:    
         apply_softmax = bool(sys.argv[10])
 
+class LPstatEventhdlr(Eventhdlr):
+    """PySCIPOpt Event handler to collect data on LP events."""
+
+    varlist = {}
+
+    def collectNodeInfo(self):
+        objval = self.model.getSolObjVal(None)
+        if abs(objval) >= self.model.infinity(): #LP no acotado
+            return
+
+        LPsol = {}
+        if self.varlist == {}:
+            self.varlist = self.model.getVars(transformed=False)
+        for var in self.varlist:
+            solval = self.model.getSolVal(None, var)
+            # store only solution values above 1e-6
+            if abs(solval) > 1e-6:
+                LPsol[var.name] = solval
+        self.LPsol = LPsol
+        print("\nSeen sol\n", eventhdlr.LPsol)
+        
+    def eventexec(self, event):
+        if event.getType() == SCIP_EVENTTYPE.FIRSTLPSOLVED or event.getType() == SCIP_EVENTTYPE.LPSOLVED:
+            self.collectNodeInfo()
+        else:
+            print("unexpected event:" + str(event))
+        return {}
+
+    def eventinit(self):
+        self.model.catchEvent(SCIP_EVENTTYPE.LPEVENT, self)
+
 ## Se cargan las imagenes
 test_dataset = datasets.MNIST(root='./data', train=False, transform=transforms.ToTensor(),download=True)
 test_loader  = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=64, shuffle=False)
@@ -48,7 +79,6 @@ test_loader  = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=64, 
 input_example, output_example = next(iter(test_loader))
 ## Se transforma el input en una lista
 image_list = input_example[output_example == real_output][0].view(-1,784).tolist()[0]
-
 
 tol_distance = 0.01
 exact = 'exact'
@@ -88,6 +118,10 @@ for activation in activation_list:
                             apply_bounds = False
                 ## Se crea el modelo de verificacion
                 verif_model,all_vars = create_verification_model(filtered_params,bounds,activation,tol_distance,apply_softmax,image_list,target_output,real_output,exact,apply_bounds)
+                ## Se crea y añade el event handler
+                eventhdlr       = LPstatEventhdlr()
+                eventhdlr.LPsol = {}
+                verif_model.includeEventhdlr(eventhdlr, "LPrec", "rec LP sol after every LP event")
                 ## Se añade la solucion inicial
                 if set_initial_sol:
                     initial_sol,image_vars = create_initial_sol(verif_model,filtered_params,image_list,exact,activation,apply_softmax)
@@ -121,7 +155,9 @@ for activation in activation_list:
                 verif_model.optimize()
                 dt = time.time() - aux_t
                 new_sol_file = 'sols/{}_{}_sol_L{}_n{}_1como{}.sol'.format(activation,type_bounds,n_layers,n_neurons,target_output)
-                f = open(new_sol_file, "w+")
-                f.close()
-                a = verif_model.writeBestSol(new_sol_file, write_zeros = False)
+                max_len = max(len(clave) for clave in mi_diccionario)
+                with open(new_sol_file, "w+") as f:
+                    for key,value in eventhdlr.LPsol:
+                        file_line = f"{key:<{max_len}} {valor}\n"
+                        f.write(file_line)
                 

@@ -15,7 +15,7 @@ import pyscipopt.scip as scip
 import matplotlib.pyplot as plt
 import torch.nn.functional as F
 from collections import OrderedDict
-from pyscipopt import Model,quicksum,SCIP_PARAMSETTING
+from pyscipopt import Model,quicksum,SCIP_PARAMSETTING,Eventhdlr, SCIP_EVENTTYPE
 
 #### Funciones generales ############################################################################################################################################################
 
