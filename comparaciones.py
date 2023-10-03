@@ -7,9 +7,9 @@ from functions import *
 activation_list = ['sigmoid']
 layer_list = [2,3,4]
 neuron_list = [5,10]
-form_list = ['no_exact','exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
+form_list = ['exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
 apply_bounds_list = [True]
-type_bounds_list = ['prop','mix']
+type_bounds_list = ['-','prop','mix']
 minutes = 15
 save_image = False
 apply_softmax = False
@@ -60,7 +60,7 @@ class LPstatEventhdlr(Eventhdlr):
             if abs(solval) > 1e-6:
                 LPsol[var.name] = solval
         self.LPsol = LPsol
-        print("\nSeen sol\n", eventhdlr.LPsol)
+        #print("\nSeen sol\n", eventhdlr.LPsol)
         
     def eventexec(self, event):
         if event.getType() == SCIP_EVENTTYPE.FIRSTLPSOLVED or event.getType() == SCIP_EVENTTYPE.LPSOLVED:
@@ -96,8 +96,6 @@ for activation in activation_list:
                 bounds_file = calculate_bounds_file_name(type_bounds,activation,n_layers,n_neurons)
                 ## Se cargan las cotas del modelo
                 bounds = read_bounds(apply_bounds,n_layers,n_neurons,activation,bounds_file)
-                if apply_bounds and len(bounds) == 0:
-                    continue
                 ## Se crea la instancia de la red neuronal
                 net = neural_network(n_neurons,n_layers,activation)
                 ## Se cargan los parámetros de la red
@@ -117,7 +115,12 @@ for activation in activation_list:
                         if apply_bounds:
                             apply_bounds = False
                 ## Se crea el modelo de verificacion
-                verif_model,all_vars = create_verification_model(filtered_params,bounds,activation,tol_distance,apply_softmax,image_list,target_output,real_output,exact,apply_bounds)
+                if type_bounds == '-':
+                    if exact == 'no_exact':
+                        continue    
+                    verif_model,all_vars = create_verification_model(filtered_params,bounds,activation,tol_distance,apply_softmax,image_list,target_output,real_output,exact,False)
+                else:
+                    verif_model,all_vars = create_verification_model(filtered_params,bounds,activation,tol_distance,apply_softmax,image_list,target_output,real_output,exact,apply_bounds)
                 ## Se crea y añade el event handler
                 eventhdlr       = LPstatEventhdlr()
                 eventhdlr.LPsol = {}
@@ -154,10 +157,17 @@ for activation in activation_list:
                 aux_t = time.time()
                 verif_model.optimize()
                 dt = time.time() - aux_t
-                new_sol_file = 'sols/{}_{}_sol_L{}_n{}_1como{}.sol'.format(activation,type_bounds,n_layers,n_neurons,target_output)
-                max_len = max(len(clave) for clave in mi_diccionario)
-                with open(new_sol_file, "w+") as f:
-                    for key,value in eventhdlr.LPsol:
-                        file_line = f"{key:<{max_len}} {valor}\n"
-                        f.write(file_line)
+                if type_bounds == '-':
+                    new_sol_file = 'sols/{}_{}_sol_L{}_n{}_1como{}.txt'.format(activation,'unbound',n_layers,n_neurons,target_output)
+                else:
+                    new_sol_file = 'sols/{}_{}_sol_L{}_n{}_1como{}.txt'.format(activation,type_bounds,n_layers,n_neurons,target_output)
+                print(eventhdlr.LPsol)
+                
+                LPsol_dict = eventhdlr.LPsol
+                if len(LPsol_dict) > 0:
+                    max_len = max(len(key) for key in LPsol_dict)
+                    with open(new_sol_file, "w+") as f:
+                        for key,value in LPsol_dict.items():
+                            file_line = f"{key:<{max_len}} {value}\n"
+                            f.write(file_line)
                 
