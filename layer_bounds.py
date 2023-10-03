@@ -10,7 +10,7 @@ from functions import *
 
 activation_list = ['sigmoid']
 layer_list = [2,3,4] 
-neuron_list = [10]
+neuron_list = [5,10]
 exact = 'no_exact'
 apply_bounds = True
 type_bounds = 'mix'
@@ -105,9 +105,13 @@ for activation in activation_list:
                     ## Se aumenta la tolerancia de factibilidad
                     layer_model.setParam('numerics/feastol', 1E-5)
                     ## Se optimiza el modelo en busca del ejemplo adversarial
-                    aux_t = time.time()
-                    layer_model.optimize()
-                    dt = time.time() - aux_t
+                    t0 = time.time()
+                    try:
+                        aux_t = time.time()
+                        layer_model.optimize()
+                        dt = time.time() - aux_t
+                    except:
+                        dt = time.time() - t0
                     model_status = layer_model.getStatus()
                     if model_status == 'optimal':
                         obj_val = layer_model.getObjVal()
