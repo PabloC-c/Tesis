@@ -113,6 +113,7 @@ for activation in activation_list:
                     except:
                         dt = time.time() - t0
                     model_status = layer_model.getStatus()
+                    print('\n Status final del modelo:',model_status,'\n')
                     if model_status == 'optimal':
                         obj_val = layer_model.getObjVal()
                     else:
