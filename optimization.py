@@ -2,11 +2,12 @@ import os
 import sys
 import time
 import torch
-import torch.nn as nn
 import pandas as pd
-from pyscipopt import Model,quicksum
-from collections import OrderedDict
+import torch.nn as nn
 from functions import *
+from collections import OrderedDict
+from pyscipopt import Model,quicksum
+from torchvision import datasets, transforms
 
 activation_list = ['sigmoid']
 layer_list = [2,3,4] 
@@ -14,6 +15,9 @@ neuron_list = [10]
 exact = 'exact'
 minutes = 10
 filter_tol = 1e-5
+add_verif_bounds = True
+tol_distance = 0.01
+real_output = 1
 
 if len(sys.argv) > 1:
     activation_list = [sys.argv[1]]
@@ -28,11 +32,22 @@ if len(sys.argv) > 1:
     if len(sys.argv) >= 7:
         filter_tol = float(sys.argv[6])
         
-       
+if add_verif_bounds:
+    ## Se cargan las imagenes
+    test_dataset = datasets.MNIST(root='./data', train=False, transform=transforms.ToTensor(),download=True)
+    test_loader  = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=64, shuffle=False)
+    ## Se selecciona un solo par de entrada y salida correspondiente del conjunto de datos
+    input_example, output_example = next(iter(test_loader))
+    ## Se transforma el input en una lista
+    image_list = input_example[output_example == real_output][0].view(-1,784).tolist()[0]
+
 for activation in activation_list:
     ## Caso solo propagacion
-    if exact == 'prop':
+    if add_verif_bounds:
         data_file = 'datos_{}_prop.xlsx'.format(activation)
+    ## Caso cotas de verificacion
+    elif exact == 'prop':
+        data_file = 'datos_{}_verif_bounds.xlsx'.format(activation)
     ## Caso mixto
     else:
         data_file = 'datos_{}.xlsx'.format(activation)
@@ -47,7 +62,10 @@ for activation in activation_list:
         for n_layers in layer_list:
             ## Se define el archivo donde se guardaran las cotas
             ## Caso solo propagacion
-            if exact == 'prop':
+            if add_verif_bounds:
+                bounds_file = 'nn_bounds/{}_verif_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
+            ## Caso cotas de verificacion
+            elif exact == 'prop':
                 bounds_file = 'nn_bounds/{}_prop_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
             ## Caso mixto
             else:
@@ -64,7 +82,7 @@ for activation in activation_list:
                 ## Se filtran los parametros de la red
                 filtered_params = filter_params(params,filter_tol)
                 ## Se calculan las cotas
-                bounds,layers_time,net_model,input_var,output_var,all_vars = calculate_bounds(filtered_params,activation,exact,minutes)
+                bounds,layers_time,net_model,input_var,output_var,all_vars = calculate_bounds(filtered_params,activation,exact,minutes,add_verif_bounds,tol_distance,image_list)
                 ## Se obtiene informacion con respecto a las cotas
                 avg_width,stables = analysis_bounds(bounds)
                 ## Se guardan las cotas en el archivo txt correspondiente

@@ -171,7 +171,7 @@ class neural_network(nn.Module):
 ### Funcion que inicializa el modelo de la red, solo genera las variables de input
 ###
 
-def initialize_neuron_model(bounds):
+def initialize_neuron_model(bounds,add_verif_bounds,tol_distance,image_list):
     neuron_model = Model()
     if len(bounds) == 0:
         bounds[-1] = [(0,1) for i in range(784)]
@@ -180,6 +180,12 @@ def initialize_neuron_model(bounds):
     all_vars = {}
     for i in range(n_input):
         all_vars['h{},{}'.format(-1,i)] = inpt[i]
+    ## Caso cotas de verificacion
+    if add_verif_bounds:
+        ## Se crean las restricciones de proximidad en el input
+        for i in range(n_input):
+            neuron_model.addCons( inpt[i] - image_list[i] <= tol_distance, name = 'inpt_dist_{},1'.format(i))
+            neuron_model.addCons( inpt[i] - image_list[i] >= -tol_distance, name = 'inpt_dist_{},2'.format(i))
     return neuron_model,inpt,all_vars
 
 
@@ -389,7 +395,7 @@ def calculate_aprox_bound(params,bounds,l,i,sense,activation = 'relu',tol = 1e-0
 ###
 ###
 
-def calculate_bounds(params,activation = 'relu',exact = 'no_exact',minutes = 10):
+def calculate_bounds(params,activation = 'relu',exact = 'no_exact',minutes = 10,add_verif_bounds = False,tol_distance = 0,image_list = []):
     ## Calcular cantidad de capas
     n_layers = int(len(params)/2)
     ## Crear arreglo para guardar cotas de las capas
@@ -397,7 +403,7 @@ def calculate_bounds(params,activation = 'relu',exact = 'no_exact',minutes = 10)
     bounds     = OrderedDict()
     bounds[-1] = [(0,1) for i in range(784)]
     ## Se inicializa el modelo
-    neuron_model,inpt,all_vars = initialize_neuron_model(bounds)
+    neuron_model,inpt,all_vars = initialize_neuron_model(bounds,add_verif_bounds,tol_distance,image_list)
     input_var  = inpt
     layers_time = []
     ## Se recorren las capas
