@@ -16,6 +16,7 @@ exact = 'exact'
 minutes = 10
 filter_tol = 1e-5
 add_verif_bounds = True
+
 tol_distance = 0.01
 real_output = 1
 
@@ -42,15 +43,22 @@ if add_verif_bounds:
     image_list = input_example[output_example == real_output][0].view(-1,784).tolist()[0]
 
 for activation in activation_list:
-    ## Caso solo propagacion
-    if add_verif_bounds:
-        data_file = 'datos_{}_prop.xlsx'.format(activation)
     ## Caso cotas de verificacion
-    elif exact == 'prop':
-        data_file = 'datos_{}_verif_bounds.xlsx'.format(activation)
-    ## Caso mixto
+    if add_verif_bounds:
+        ## Caso propagacion
+        if exact == 'prop':
+            data_file = 'datos_{}_verifbounds_target{}_tolper{}_prop.xlsx'.format(activation,real_output,tol_distance*100)
+        ## Caso mixo
+        else:
+            data_file = 'datos_{}_verifbounds_target{}_tolper{}_mix.xlsx'.format(activation,real_output,tol_distance*100)
+    ## Caso cotas iniciales
     else:
-        data_file = 'datos_{}.xlsx'.format(activation)
+        ## Caso propagacion
+        if exact == 'prop':
+            data_file = 'datos_{}_prop.xlsx'.format(activation)
+        ## Caso mixo
+        else:
+            data_file = 'datos_{}_mix.xlsx'.format(activation)
     ## Caso donde ya existe un df con datos previos
     if os.path.exists(data_file):
         df = pd.read_excel(data_file,header=None)
@@ -63,13 +71,20 @@ for activation in activation_list:
             ## Se define el archivo donde se guardaran las cotas
             ## Caso solo propagacion
             if add_verif_bounds:
-                bounds_file = 'nn_bounds/{}_verif_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
+                ## Caso propagacion
+                if exact == 'prop':
+                    bounds_file = 'nn_bounds/{}_verifbounds_target{}_tolper{}_prop_L{}_n{}.txt'.format(activation,real_output,tol_distance*100,n_layers,n_neurons)
+                ## Caso mixto
+                else:
+                    bounds_file = 'nn_bounds/{}_verifbounds_target{}_tolper{}_L{}_n{}.txt'.format(activation,real_output,tol_distance*100,n_layers,n_neurons)
             ## Caso cotas de verificacion
-            elif exact == 'prop':
-                bounds_file = 'nn_bounds/{}_prop_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
-            ## Caso mixto
             else:
-                bounds_file = 'nn_bounds/{}_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
+                ## Caso propagacion
+                if exact == 'prop':
+                    bounds_file = 'nn_bounds/{}_bounds_prop_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
+                ## Caso mixto
+                else:
+                    bounds_file = 'nn_bounds/{}_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
             ## Se calculan las cotas en caso de no haber
             if True:#not os.path.exists(bounds_file):
                 print('\n Capas: ',n_layers,' Neuronas: ',n_neurons,'\n')
@@ -81,8 +96,17 @@ for activation in activation_list:
                 params = net.state_dict()
                 ## Se filtran los parametros de la red
                 filtered_params = filter_params(params,filter_tol)
+                ## Filtro personal
+                if exact == 'prop':
+                    type_model = exact
+                else:
+                    ## Se asume que exact == 'exact'
+                    if activation == 'relu':
+                        type_model = 'no_exact'
+                    else:
+                        type_model = exact
                 ## Se calculan las cotas
-                bounds,layers_time,net_model,input_var,output_var,all_vars = calculate_bounds(filtered_params,activation,exact,minutes,add_verif_bounds,tol_distance,image_list)
+                bounds,layers_time,net_model,input_var,output_var,all_vars = calculate_bounds(filtered_params,activation,type_model,minutes,add_verif_bounds,tol_distance,image_list)
                 ## Se obtiene informacion con respecto a las cotas
                 avg_width,stables = analysis_bounds(bounds)
                 ## Se guardan las cotas en el archivo txt correspondiente

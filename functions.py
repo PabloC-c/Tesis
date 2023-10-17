@@ -174,18 +174,17 @@ class neural_network(nn.Module):
 def initialize_neuron_model(bounds,add_verif_bounds,tol_distance,image_list):
     neuron_model = Model()
     if len(bounds) == 0:
-        bounds[-1] = [(0,1) for i in range(784)]
+        if add_verif_bounds:
+            bounds[-1] = [(-(-tol_distance+image_list[i]),tol_distance+image_list[i]) for i in range(len(image_list))]
+        else:
+            bounds[-1] = [(0,1) for i in range(784)]
+    ## Tamaño del input
     n_input = len(bounds[-1])
-    inpt = [neuron_model.addVar(lb = bounds[-1][k][0], ub = bounds[-1][k][1], name = 'h{},{}'.format(-1,k)) for k in range(n_input)]
+    ## Se generan las variables de input
+    inpt = [neuron_model.addVar(lb = -bounds[-1][k][0], ub = bounds[-1][k][1], name = 'h{},{}'.format(-1,k)) for k in range(n_input)]
     all_vars = {}
     for i in range(n_input):
         all_vars['h{},{}'.format(-1,i)] = inpt[i]
-    ## Caso cotas de verificacion
-    if add_verif_bounds:
-        ## Se crean las restricciones de proximidad en el input
-        for i in range(n_input):
-            neuron_model.addCons( inpt[i] - image_list[i] <= tol_distance, name = 'inpt_dist_{},1'.format(i))
-            neuron_model.addCons( inpt[i] - image_list[i] >= -tol_distance, name = 'inpt_dist_{},2'.format(i))
     return neuron_model,inpt,all_vars
 
 
