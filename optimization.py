@@ -11,13 +11,13 @@ from torchvision import datasets, transforms
 
 activation_list = ['sigmoid']
 layer_list = [2,3,4] 
-neuron_list = [10]
+neuron_list = [5,10]
 exact = 'exact'
 minutes = 10
 filter_tol = 1e-5
 add_verif_bounds = True
 
-tol_distance = 0.01
+tol_distance = 0.05
 real_output = 1
 
 if len(sys.argv) > 1:
@@ -47,10 +47,10 @@ for activation in activation_list:
     if add_verif_bounds:
         ## Caso propagacion
         if exact == 'prop':
-            data_file = 'datos_{}_verifbounds_target{}_tolper{}_prop.xlsx'.format(activation,real_output,tol_distance*100)
+            data_file = 'datos_{}_verifbounds_target{}_tolper{}_prop.xlsx'.format(activation,real_output,int(tol_distance*100))
         ## Caso mixo
         else:
-            data_file = 'datos_{}_verifbounds_target{}_tolper{}_mix.xlsx'.format(activation,real_output,tol_distance*100)
+            data_file = 'datos_{}_verifbounds_target{}_tolper{}_mix.xlsx'.format(activation,real_output,int(tol_distance*100))
     ## Caso cotas iniciales
     else:
         ## Caso propagacion
@@ -73,10 +73,10 @@ for activation in activation_list:
             if add_verif_bounds:
                 ## Caso propagacion
                 if exact == 'prop':
-                    bounds_file = 'nn_bounds/{}_verifbounds_target{}_tolper{}_prop_L{}_n{}.txt'.format(activation,real_output,tol_distance*100,n_layers,n_neurons)
+                    bounds_file = 'nn_bounds/{}_verifbounds_target{}_tolper{}_prop_L{}_n{}.txt'.format(activation,real_output,int(tol_distance*100),n_layers,n_neurons)
                 ## Caso mixto
                 else:
-                    bounds_file = 'nn_bounds/{}_verifbounds_target{}_tolper{}_L{}_n{}.txt'.format(activation,real_output,tol_distance*100,n_layers,n_neurons)
+                    bounds_file = 'nn_bounds/{}_verifbounds_target{}_tolper{}_L{}_n{}.txt'.format(activation,real_output,int(tol_distance*100),n_layers,n_neurons)
             ## Caso cotas de verificacion
             else:
                 ## Caso propagacion

@@ -175,7 +175,7 @@ def initialize_neuron_model(bounds,add_verif_bounds,tol_distance,image_list):
     neuron_model = Model()
     if len(bounds) == 0:
         if add_verif_bounds:
-            bounds[-1] = [(-(-tol_distance+image_list[i]),tol_distance+image_list[i]) for i in range(len(image_list))]
+            bounds[-1] = [(-(min(0,image_list[i]-tol_distance)),max(image_list[i]+tol_distance,1)) for i in range(len(image_list))]
         else:
             bounds[-1] = [(0,1) for i in range(784)]
     ## Tamaño del input
@@ -185,7 +185,7 @@ def initialize_neuron_model(bounds,add_verif_bounds,tol_distance,image_list):
     all_vars = {}
     for i in range(n_input):
         all_vars['h{},{}'.format(-1,i)] = inpt[i]
-    return neuron_model,inpt,all_vars
+    return neuron_model,bounds,inpt,all_vars
 
 
 ### Funcion que dada una neurona i en una capa l, fija la funcion objetivo correspondiente 
@@ -400,9 +400,8 @@ def calculate_bounds(params,activation = 'relu',exact = 'no_exact',minutes = 10,
     ## Crear arreglo para guardar cotas de las capas
     ## Inicia con las cotas del input
     bounds     = OrderedDict()
-    bounds[-1] = [(0,1) for i in range(784)]
     ## Se inicializa el modelo
-    neuron_model,inpt,all_vars = initialize_neuron_model(bounds,add_verif_bounds,tol_distance,image_list)
+    neuron_model,bounds,inpt,all_vars = initialize_neuron_model(bounds,add_verif_bounds,tol_distance,image_list)
     input_var  = inpt
     layers_time = []
     ## Se recorren las capas
