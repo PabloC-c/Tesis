@@ -4,12 +4,12 @@ import pandas as pd
 from torchvision import datasets, transforms
 from functions import *
 
-activation_list = ['relu']
+activation_list = ['sigmoid']
 layer_list = [2,3,4]
 neuron_list = [5,10]
 form_list = ['no_exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
-apply_bounds_list = [True]
-type_bounds_list = ['prop','mix']
+apply_bounds_list = [False,True]
+type_bounds_list = ['prop','mix','verif_bounds']
 minutes = 15
 save_image = False
 apply_softmax = False
@@ -20,7 +20,7 @@ print_output = True
 save_results = True
 real_output = 1
 target_output = 7
-input_lb =0 
+input_lb = 0 
 input_ub = 1
 tols_list = [0.01,0.05]
 
@@ -73,11 +73,12 @@ for activation in activation_list:
                             ## Nombre del archivo xlsx donde se guardan los resultados de los experimentos
                             file_name = calculate_verif_file_name(exact,activation,real_output,target_output,root_node_only)
                             ## Nombre del archivo de las cotas
-                            bounds_file = calculate_bounds_file_name(type_bounds,activation,n_layers,n_neurons)
+                            bounds_file = calculate_bounds_file_name(type_bounds,activation,n_layers,n_neurons,tol_distance,real_output)
                             ## Se cargan las cotas del modelo
                             bounds = read_bounds(apply_bounds,n_layers,n_neurons,activation,bounds_file)
                             if apply_bounds and len(bounds) == 0:
                                 continue
+                            print('despues')
                             ## Se crea la instancia de la red neuronal
                             net = neural_network(n_neurons,n_layers,activation)
                             ## Se cargan los parámetros de la red

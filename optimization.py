@@ -10,14 +10,15 @@ from pyscipopt import Model,quicksum
 from torchvision import datasets, transforms
 
 activation_list = ['sigmoid']
-layer_list = [2,3,4] 
-neuron_list = [5,10]
+layer_list = [3] 
+neuron_list = [10]
 exact = 'exact'
 minutes = 10
 filter_tol = 1e-5
 add_verif_bounds = True
+print_output=True
 
-tol_distance = 0.05
+tol_distance = 0.01
 real_output = 1
 
 if len(sys.argv) > 1:
@@ -41,6 +42,8 @@ if add_verif_bounds:
     input_example, output_example = next(iter(test_loader))
     ## Se transforma el input en una lista
     image_list = input_example[output_example == real_output][0].view(-1,784).tolist()[0]
+else:
+    image_list = []
 
 for activation in activation_list:
     ## Caso cotas de verificacion
@@ -106,7 +109,7 @@ for activation in activation_list:
                     else:
                         type_model = exact
                 ## Se calculan las cotas
-                bounds,layers_time,net_model,input_var,output_var,all_vars = calculate_bounds(filtered_params,activation,type_model,minutes,add_verif_bounds,tol_distance,image_list)
+                bounds,layers_time,net_model,input_var,output_var,all_vars = calculate_bounds(filtered_params,activation,type_model,minutes,add_verif_bounds,tol_distance,image_list,print_output)
                 ## Se obtiene informacion con respecto a las cotas
                 avg_width,stables = analysis_bounds(bounds)
                 ## Se guardan las cotas en el archivo txt correspondiente

@@ -96,11 +96,13 @@ def calculate_verif_file_name(exact,activation,real_output,target_output,root_no
 ###
 ###
 
-def calculate_bounds_file_name(type_bounds,activation,n_layers,n_neurons):
+def calculate_bounds_file_name(type_bounds,activation,n_layers,n_neurons,tol_distance,real_output):
     if type_bounds == 'prop':
         bounds_file = 'nn_bounds/{}_prop_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
     elif type_bounds == 'mix':
         bounds_file = 'nn_bounds/{}_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
+    elif type_bounds == 'verif_bounds':
+        bounds_file = 'nn_bounds/{}_verifbounds_target{}_tolper{}_L{}_n{}.txt'.format(activation,real_output,int(tol_distance*100),n_layers,n_neurons)
     else:
         bounds_file = '-1'
     return bounds_file 
@@ -175,7 +177,7 @@ def initialize_neuron_model(bounds,add_verif_bounds,tol_distance,image_list):
     neuron_model = Model()
     if len(bounds) == 0:
         if add_verif_bounds:
-            bounds[-1] = [(-(min(0,image_list[i]-tol_distance)),max(image_list[i]+tol_distance,1)) for i in range(len(image_list))]
+            bounds[-1] = [(-(max(0,image_list[i]-tol_distance)),min(image_list[i]+tol_distance,1)) for i in range(len(image_list))]
         else:
             bounds[-1] = [(0,1) for i in range(784)]
     ## Tamaño del input
@@ -295,7 +297,7 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
 ### Funcion que optimiza el problema de optimizacion asociado a la evaluacion de una neurona de la red
 ### El parametro neuron_model es el modelo de la neurona, sense es el sentido del problema de optimziacion, tol es la holgura que se añade a las cotas duales
 
-def solve_neuron_model(neuron_model,sense,params,bounds,l,i,exact = 'no_exact',minutes = 10,tol = 1e-03,print_output = False,digits = 4):
+def solve_neuron_model(neuron_model,sense,params,bounds,l,i,exact = 'no_exact',minutes = 10,print_output = False,tol = 1e-03,digits = 4):
     ## Se calcula la cota con el metodo de propagacion
     propb = calculate_aprox_bound(params,bounds,l,i,sense)
     if exact in ['exact','no_exact']:
@@ -303,6 +305,7 @@ def solve_neuron_model(neuron_model,sense,params,bounds,l,i,exact = 'no_exact',m
         ## Se resuelve el problema
         if print_output:
             neuron_model.redirectOutput()
+            print('\nCaso',sense,'\n')
         else:
             neuron_model.hideOutput()
         t0 = time.time()
@@ -322,8 +325,8 @@ def solve_neuron_model(neuron_model,sense,params,bounds,l,i,exact = 'no_exact',m
     if model_status == 'optimal':
         ## Se entrega el valor objetivo optimo
         obj_val = neuron_model.getObjVal()
-        if (sense == 'maximize' and propb < obj_val) or (sense == 'minimize' and propb > obj_val):
-            obj_val = propb
+        #if (sense == 'maximize' and propb < obj_val) or (sense == 'minimize' and propb > obj_val):
+        #    obj_val = propb
         sol = [True,obj_val]
         aprox_bound = calculate_aprox_bound(params,bounds,l,i,sense)
         print('\t Caso sol optima \n')
@@ -336,6 +339,8 @@ def solve_neuron_model(neuron_model,sense,params,bounds,l,i,exact = 'no_exact',m
         else:
             try:
                 dual_val = neuron_model.getDualbound()
+                #dual_val = propb
+                print('bounds capa previa: ',bounds[l-1])
             except:
                 dual_val = propb
         sol = [False,dual_val]
@@ -394,7 +399,7 @@ def calculate_aprox_bound(params,bounds,l,i,sense,activation = 'relu',tol = 1e-0
 ###
 ###
 
-def calculate_bounds(params,activation = 'relu',exact = 'no_exact',minutes = 10,add_verif_bounds = False,tol_distance = 0,image_list = []):
+def calculate_bounds(params,activation = 'relu',exact = 'no_exact',minutes = 10,add_verif_bounds = False,tol_distance = 0,image_list = [],print_output=False):
     ## Calcular cantidad de capas
     n_layers = int(len(params)/2)
     ## Crear arreglo para guardar cotas de las capas
@@ -428,11 +433,11 @@ def calculate_bounds(params,activation = 'relu',exact = 'no_exact',minutes = 10,
             else:
                 ## Se determina el valor maximo de la neurona i
                 neuron_model = set_objective_function(neuron_model,inpt,params,bounds,l,i,'maximize')
-                sol_max,dt1  = solve_neuron_model(neuron_model,'maximize',params,bounds,l,i,exact,minutes)
+                sol_max,dt1  = solve_neuron_model(neuron_model,'maximize',params,bounds,l,i,exact,minutes,print_output)
                 neuron_model.freeTransform()
                 ## Se determina el minimo de la neurona i
                 neuron_model = set_objective_function(neuron_model,inpt,params,bounds,l,i,'minimize')
-                sol_min,dt2  = solve_neuron_model(neuron_model,'minimize',params,bounds,l,i,exact,minutes)
+                sol_min,dt2  = solve_neuron_model(neuron_model,'minimize',params,bounds,l,i,exact,minutes,print_output)
                 neuron_model.freeTransform()
                 ## Se añaden las cotas de la neurona al arreglo de la capa
                 aux.append((sol_min[1],sol_max[1]))
@@ -481,7 +486,7 @@ def create_verification_model(params,bounds,activation,tol_distance,apply_softma
     ## Se calcula la cantidad de capas ocultas
     n_layers = int(len(params)/2)
     ## Se inicializa el modelo de verificacion
-    verif_model,inpt,all_vars = initialize_neuron_model(bounds)
+    verif_model,bounds,inpt,all_vars = initialize_neuron_model(bounds,False,0,[])
     ## Se crean las restricciones de proximidad en el input
     for i in range(len(inpt)):
         verif_model.addCons( inpt[i] - image_list[i] <= tol_distance, name = 'inpt_dist_{},1'.format(i))

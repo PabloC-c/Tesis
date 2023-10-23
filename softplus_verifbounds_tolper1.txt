@@ -1,0 +1,1988 @@
+[solve.c:3916] ERROR: (node 121) unresolved numerical troubles in LP 409 cannot be dealt with
+[solve.c:4197] ERROR: Error <-6> in function call
+[solve.c:4993] ERROR: Error <-6> in function call
+[scip_solve.c:2780] ERROR: Error <-6> in function call
+
+ Capas:  2  Neuronas:  5 
+
+
+ ===== Capa 0, neurona 0 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 8.079639052202264, valor prop: 8.079639052202264
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 7.068101046018795, valor prop: 7.068101046018793
+
+ ===== Capa 0, neurona 1 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 0.4947663228616246, valor prop: 0.49476632286162503
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -0.552947327614968, valor prop: -0.5529473276149695
+
+ ===== Capa 0, neurona 2 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 2.249064556372429, valor prop: 2.249064556372435
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 1.1661534243534724, valor prop: 1.1661534243534724
+
+ ===== Capa 0, neurona 3 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 3.567939216307234, valor prop: 3.567939216307235
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 2.6329695271785605, valor prop: 2.6329695271785574
+
+ ===== Capa 0, neurona 4 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 4.574862970940223, valor prop: 4.574862970940224
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 3.566896533159097, valor prop: 3.566896533159095
+
+ ===== Capa 1, neurona 0 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -7.880194509571187, valor prop: -7.356023168002069
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -8.9970938364577, valor prop: -10.183495797483623
+
+ ===== Capa 1, neurona 1 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 7.587926505180066, valor prop: 8.849844446486236
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 6.2920593500168485, valor prop: 5.864286137588321
+
+ ===== Capa 1, neurona 2 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 3.695892712745808, valor prop: 4.140916308414938
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 2.4258306370940423, valor prop: 1.958459503334761
+
+ ===== Capa 1, neurona 3 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 3.3302041346136932, valor prop: 3.804382886213064
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 1.9494710102005652, valor prop: 1.0684513804942375
+
+ ===== Capa 1, neurona 4 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -1.8290687955063158, valor prop: -0.1386899921625857
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -3.642867558555258, valor prop: -4.196962521344425
+
+ ===== Capa 1, neurona 5 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -1.8478237951609158, valor prop: -1.239493020127713
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -2.9830883343517227, valor prop: -4.053191466759145
+
+ ===== Capa 1, neurona 6 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -0.06639860045567214, valor prop: 1.0559054380502548
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -1.7461877623314088, valor prop: -2.2264871687024828
+
+ ===== Capa 1, neurona 7 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 1.039111820955458, valor prop: 2.1428934614896775
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -0.8544712281668407, valor prop: -1.9928516820937396
+
+ ===== Capa 1, neurona 8 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 2.1892932749373313, valor prop: 2.2270811711166054
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 1.6866688489696573, valor prop: 1.449511019357294
+
+ ===== Capa 1, neurona 9 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -0.7671862121204073, valor prop: -0.18553275417536497
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -1.9537156627080845, valor prop: -2.543994204364717
+Tiempos:  [0.005880165100097656, 3.7450031280517577]
+Tamaños:  [1.0190000000000001, 1.32951]
+Estables:  13
+
+ Capas:  3  Neuronas:  5 
+
+
+ ===== Capa 0, neurona 0 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 2.498508672791207, valor prop: 2.498508672791207
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 1.6839405546756079, valor prop: 1.6839405546756079
+
+ ===== Capa 0, neurona 1 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 6.6543822133326795, valor prop: 6.6543822133326795
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 5.810506029829303, valor prop: 5.810506029829303
+
+ ===== Capa 0, neurona 2 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 3.9718379922581994, valor prop: 3.9718379922581994
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 2.888818559133939, valor prop: 2.888818559133939
+
+ ===== Capa 0, neurona 3 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 3.2928842866439365, valor prop: 3.2928842866439365
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 2.348845671488039, valor prop: 2.348845671488037
+
+ ===== Capa 0, neurona 4 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -0.14417590059563518, valor prop: -0.14417590059563448
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -1.0924691288572388, valor prop: -1.0924691288572421
+
+ ===== Capa 1, neurona 0 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 2.4666101084841414, valor prop: 2.4666101084841414
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 1.8061221482202683, valor prop: 1.0943788777416572
+
+ ===== Capa 1, neurona 1 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 7.710889083380906, valor prop: 8.088165534468601
+
+ Status unknown 
+
+
+ ===== Capa 1, neurona 2 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 7.861015717071031, valor prop: 8.206055252064159
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 6.377471804847286, valor prop: 5.909091160237184
+
+ ===== Capa 1, neurona 3 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 10.02693035730971, valor prop: 11.033701798469574
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 8.505962538429182, valor prop: 8.296419414291531
+
+ ===== Capa 1, neurona 4 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 4.051046049766327, valor prop: 4.538356229129061
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 2.491543137037448, valor prop: 1.8916814433272924
+
+ ===== Capa 2, neurona 0 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -7.943295852194976, valor prop: -7.033592758625748
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -9.319672886661538, valor prop: -10.485196911588313
+
+ ===== Capa 2, neurona 1 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 6.960193836024454, valor prop: 8.432914910221102
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 5.72949784685642, valor prop: 4.656462083601953
+
+ ===== Capa 2, neurona 2 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 3.118626538424126, valor prop: 3.721238259956241
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 1.6333078485799466, valor prop: 0.9718314538054168
+
+ ===== Capa 2, neurona 3 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 3.040315676121447, valor prop: 3.864379619220645
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 1.6491359294888388, valor prop: 0.8281199480809278
+
+ ===== Capa 2, neurona 4 =====
+
+ Status [solve.c:3916] ERROR: (node 1836) unresolved numerical troubles in LP 12509 cannot be dealt with
+[solve.c:4197] ERROR: Error <-6> in function call
+[solve.c:4993] ERROR: Error <-6> in function call
+[scip_solve.c:2780] ERROR: Error <-6> in function call
+[solve.c:3916] ERROR: (node 7293) unresolved numerical troubles in LP 45158 cannot be dealt with
+[solve.c:4197] ERROR: Error <-6> in function call
+[solve.c:4993] ERROR: Error <-6> in function call
+[scip_solve.c:2780] ERROR: Error <-6> in function call
+[solve.c:3916] ERROR: (node 9651) unresolved numerical troubles in LP 48461 cannot be dealt with
+[solve.c:4197] ERROR: Error <-6> in function call
+[solve.c:4993] ERROR: Error <-6> in function call
+[scip_solve.c:2780] ERROR: Error <-6> in function call
+[solve.c:3916] ERROR: (node 16031) unresolved numerical troubles in LP 58807 cannot be dealt with
+[solve.c:4197] ERROR: Error <-6> in function call
+[solve.c:4993] ERROR: Error <-6> in function call
+[scip_solve.c:2780] ERROR: Error <-6> in function call
+[solve.c:3916] ERROR: (node 39682) unresolved numerical troubles in LP 124434 cannot be dealt with
+[solve.c:4197] ERROR: Error <-6> in function call
+[solve.c:4993] ERROR: Error <-6> in function call
+[scip_solve.c:2780] ERROR: Error <-6> in function call
+[solve.c:3916] ERROR: (node 69723) unresolved numerical troubles in LP 227579 cannot be dealt with
+[solve.c:4197] ERROR: Error <-6> in function call
+[solve.c:4993] ERROR: Error <-6> in function call
+[scip_solve.c:2780] ERROR: Error <-6> in function call
+[solve.c:3916] ERROR: (node 12685) unresolved numerical troubles in LP 46784 cannot be dealt with
+[solve.c:4197] ERROR: Error <-6> in function call
+[solve.c:4993] ERROR: Error <-6> in function call
+[scip_solve.c:2780] ERROR: Error <-6> in function call
+[solve.c:3916] ERROR: (node 12557) unresolved numerical troubles in LP 58353 cannot be dealt with
+[solve.c:4197] ERROR: Error <-6> in function call
+[solve.c:4993] ERROR: Error <-6> in function call
+[scip_solve.c:2780] ERROR: Error <-6> in function call
+[solve.c:3916] ERROR: (node 3388) unresolved numerical troubles in LP 19285 cannot be dealt with
+[solve.c:4197] ERROR: Error <-6> in function call
+[solve.c:4993] ERROR: Error <-6> in function call
+[scip_solve.c:2780] ERROR: Error <-6> in function call
+[solve.c:3916] ERROR: (node 2381) unresolved numerical troubles in LP 15447 cannot be dealt with
+[solve.c:4197] ERROR: Error <-6> in function call
+[solve.c:4993] ERROR: Error <-6> in function call
+[scip_solve.c:2780] ERROR: Error <-6> in function call
+[solve.c:3916] ERROR: (node 17172) unresolved numerical troubles in LP 51668 cannot be dealt with
+[solve.c:4197] ERROR: Error <-6> in function call
+[solve.c:4993] ERROR: Error <-6> in function call
+[scip_solve.c:2780] ERROR: Error <-6> in function call
+[solve.c:3916] ERROR: (node 25678) unresolved numerical troubles in LP 105986 cannot be dealt with
+[solve.c:4197] ERROR: Error <-6> in function call
+[solve.c:4993] ERROR: Error <-6> in function call
+[scip_solve.c:2780] ERROR: Error <-6> in function call
+[solve.c:3916] ERROR: (node 561) unresolved numerical troubles in LP 2939 cannot be dealt with
+[solve.c:4197] ERROR: Error <-6> in function call
+[solve.c:4993] ERROR: Error <-6> in function call
+[scip_solve.c:2780] ERROR: Error <-6> in function call
+optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -1.9836535079499358, valor prop: -0.7065482134819049
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -4.3918653970264225, valor prop: -5.42610055692792
+
+ ===== Capa 2, neurona 5 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -2.25464584145875, valor prop: -1.3522923842787746
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -3.737253674800883, valor prop: -4.764512367835643
+
+ ===== Capa 2, neurona 6 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -0.33089963250211807, valor prop: 0.449029410484433
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -1.4910163575206044, valor prop: -1.8176031818673015
+
+ ===== Capa 2, neurona 7 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 1.1784335744338914, valor prop: 1.9999568824470053
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -0.5376499967089159, valor prop: -1.6478389499723902
+
+ ===== Capa 2, neurona 8 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 2.03403235096344, valor prop: 2.11342823159378
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 1.5087910574925227, valor prop: 1.3877659100641497
+
+ ===== Capa 2, neurona 9 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -0.3564184472498244, valor prop: 0.49775160798430407
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -1.7227153489785623, valor prop: -2.6808732005044815
+Tiempos:  [0.006036186218261718, 3.313036394119263, 28.63906388282776]
+Tamaños:  [0.92878, 1.31762, 1.41621]
+Estables:  19
+
+ Capas:  4  Neuronas:  5 
+
+
+ ===== Capa 0, neurona 0 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 0.4412510530364844, valor prop: 0.4412510530364847
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -0.4648730410085344, valor prop: -0.46487304100853616
+
+ ===== Capa 0, neurona 1 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 5.472764018636766, valor prop: 5.472764018636766
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 4.6363677157497305, valor prop: 4.6363677157497305
+
+ ===== Capa 0, neurona 2 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 3.1649531498731243, valor prop: 3.1649531498731243
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 2.2383189342687295, valor prop: 2.2383189342687295
+
+ ===== Capa 0, neurona 3 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 4.006765125958812, valor prop: 4.0067651259588155
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 3.18115392062789, valor prop: 3.18115392062789
+
+ ===== Capa 0, neurona 4 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 5.282311224873166, valor prop: 5.282311224873167
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 4.353972686986692, valor prop: 4.353972686986692
+
+ ===== Capa 1, neurona 0 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 5.004021632900753, valor prop: 5.466203216084373
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 3.6934832345642583, valor prop: 2.869079817330372
+
+ ===== Capa 1, neurona 1 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 3.824393182985112, valor prop: 3.824393182985112
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 2.800528216426621, valor prop: 1.8196150280471892
+
+ ===== Capa 1, neurona 2 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 11.383946758096766, valor prop: 11.667444547800159
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 10.011599817983901, valor prop: 9.23405575258229
+
+ ===== Capa 1, neurona 3 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 8.966332555081967, valor prop: 10.011561928612924
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 7.803394775056007, valor prop: 7.6426983944037925
+
+ ===== Capa 1, neurona 4 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 3.9330838202493625, valor prop: 4.495368592698406
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 2.416596414085293, valor prop: 1.6568232409632762
+
+ ===== Capa 2, neurona 0 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 2.6302885357456764, valor prop: 3.5942000079545666
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 1.3799343996885973, valor prop: 0.30671703592161736
+
+ ===== Capa 2, neurona 1 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 12.48001084706123, valor prop: 12.888525590692462
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 10.803608329990732, valor prop: 10.440630079430342
+
+ ===== Capa 2, neurona 2 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 5.704370524536358, valor prop: 6.8490115851520565
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 4.0705859422739925, valor prop: 2.9159800254154025
+
+ ===== Capa 2, neurona 3 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 4.8460379002025205, valor prop: 5.083307564027233
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 3.298967578646875, valor prop: 3.019556608397513
+
+ ===== Capa 2, neurona 4 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 11.609660828372462, valor prop: 12.35101948800646
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 9.44678476365811, valor prop: 8.577243539034948
+
+ ===== Capa 3, neurona 0 =====
+
+ Status unknown 
+
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -10.255702384243026, valor prop: -11.512531069901584
+
+ ===== Capa 3, neurona 1 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 7.470343147176279, valor prop: 8.685116517904401
+
+ Status unknown 
+
+
+ ===== Capa 3, neurona 2 =====
+
+ Status unknown 
+
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 2.068712828711615, valor prop: 1.444395398873091
+
+ ===== Capa 3, neurona 3 =====
+
+ Status unknown 
+
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 1.406697132399167, valor prop: 0.6739868449747561
+
+ ===== Capa 3, neurona 4 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -0.17482943773537807, valor prop: 1.1170557343587255
+
+ Status unknown 
+
+
+ ===== Capa 3, neurona 5 =====
+
+ Status unknown 
+
+
+ Status unknown 
+
+
+ ===== Capa 3, neurona 6 =====
+
+ Status unknown 
+
+
+ Status unknown 
+
+
+ ===== Capa 3, neurona 7 =====
+
+ Status unknown 
+
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -0.9472568934802057, valor prop: -2.1802000020712606
+
+ ===== Capa 3, neurona 8 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 2.246415612812157, valor prop: 2.3743509522810573
+
+ Status unknown 
+
+
+ ===== Capa 3, neurona 9 =====
+
+ Status unknown 
+
+
+ Status unknown 
+
+Tiempos:  [0.005475139617919922, 2.60178599357605, 24.826105499267577, 364.04342646598815]
+Tamaños:  [0.8866399999999999, 1.27922, 1.6561, 1.74562]
+Estables:  22
+
+ Capas:  2  Neuronas:  10 
+
+
+ ===== Capa 0, neurona 0 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 0.1772323127940526, valor prop: 0.1772323127940526
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -0.5923600440287582, valor prop: -0.5923600440287582
+
+ ===== Capa 0, neurona 1 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 7.054306243894554, valor prop: 7.054306243894568
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 6.269789472829527, valor prop: 6.269789472829527
+
+ ===== Capa 0, neurona 2 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 5.593492287939862, valor prop: 5.593492287939862
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 4.813692471755208, valor prop: 4.8136924717552
+
+ ===== Capa 0, neurona 3 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 1.3714474518628914, valor prop: 1.3714474518628919
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 0.6400343549939305, valor prop: 0.640034354993929
+
+ ===== Capa 0, neurona 4 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 4.357247669712824, valor prop: 4.357247669712824
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 3.573357346043037, valor prop: 3.573357346043036
+
+ ===== Capa 0, neurona 5 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -2.197707502108441, valor prop: -2.1977075021084396
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -3.0112754895627085, valor prop: -3.011275489562709
+
+ ===== Capa 0, neurona 6 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -0.12076180007390815, valor prop: -0.12076180007390812
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -1.0440826903433917, valor prop: -1.0440826903433917
+
+ ===== Capa 0, neurona 7 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -0.09726681989414038, valor prop: -0.09726681989414025
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -0.9877361970577755, valor prop: -0.9877361970577769
+
+ ===== Capa 0, neurona 8 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -1.010421507014077, valor prop: -1.010421507014077
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -1.8996093589577991, valor prop: -1.8996093589577998
+
+ ===== Capa 0, neurona 9 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 0.27728181503692007, valor prop: 0.2772818150369202
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -0.555933024732246, valor prop: -0.555933024732246
+
+ ===== Capa 1, neurona 0 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -5.356984786711261, valor prop: -5.356984786711261
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -5.710265506813989, valor prop: -6.7975989156465975
+
+ ===== Capa 1, neurona 1 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 7.985794400832, valor prop: 9.650519657570124
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 7.744882335665823, valor prop: 7.744882335665823
+
+ ===== Capa 1, neurona 2 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 1.9920887445577422, valor prop: 1.9920887445577422
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 0.6153092843410789, valor prop: -0.4534254119518213
+
+ ===== Capa 1, neurona 3 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 2.0785335468000774, valor prop: 2.593690839979052
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 1.3216349196974901, valor prop: 1.2348964376032345
+
+ ===== Capa 1, neurona 4 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -2.5268455924820534, valor prop: -2.2873334277794704
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -3.338285095066236, valor prop: -3.674188006667886
+
+ ===== Capa 1, neurona 5 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 1.8199626298742062, valor prop: 2.284698348912597
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 0.9243259166218168, valor prop: 0.8783670462720097
+
+ ===== Capa 1, neurona 6 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 0.3973441340018066, valor prop: 0.3973441340018066
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 0.05341706241959926, valor prop: -0.5203808715458957
+
+ ===== Capa 1, neurona 7 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 2.5696378294519393, valor prop: 2.840628071039543
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 1.6178894205509664, valor prop: 1.1483064216163015
+
+ ===== Capa 1, neurona 8 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 2.918824870783773, valor prop: 3.9388828326947984
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 2.4757119077712297, valor prop: 2.4757119077712297
+
+ ===== Capa 1, neurona 9 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -1.2481440901048582, valor prop: -0.6312450970076028
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -2.19106578740946, valor prop: -2.263404171311855
+Tiempos:  [0.005707168579101562, 20.40164484977722]
+Tamaños:  [0.8218800000000002, 0.7136799999999999]
+Estables:  18
+
+ Capas:  3  Neuronas:  10 
+
+
+ ===== Capa 0, neurona 0 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 1.2906026966248525, valor prop: 1.2906026966248525
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 0.49187698866962754, valor prop: 0.49187698866962754
+
+ ===== Capa 0, neurona 1 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 3.3691561981728224, valor prop: 3.3691561981728224
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 2.6453217589528966, valor prop: 2.6453217589528966
+
+ ===== Capa 0, neurona 2 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -2.838187119166096, valor prop: -2.8381871191660952
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -3.5965764310489607, valor prop: -3.5965764310489634
+
+ ===== Capa 0, neurona 3 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 0.4027212871649526, valor prop: 0.40272128716495287
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -0.3211509487046957, valor prop: -0.3211509487046957
+
+ ===== Capa 0, neurona 4 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 0.8401470295698099, valor prop: 0.8401470295698111
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 0.04446037268154305, valor prop: 0.044460372681542834
+
+ ===== Capa 0, neurona 5 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 8.119013423688553, valor prop: 8.119013423688553
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 7.349978271120916, valor prop: 7.349978271120916
+
+ ===== Capa 0, neurona 6 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 4.142005832478521, valor prop: 4.1420058324785245
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 3.455384014860934, valor prop: 3.4553840148609303
+
+ ===== Capa 0, neurona 7 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 0.8015581082614641, valor prop: 0.8015581082614641
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -0.03951005809270291, valor prop: -0.039510058092703006
+
+ ===== Capa 0, neurona 8 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 4.429397027492468, valor prop: 4.429397027492468
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 3.6774758088034614, valor prop: 3.6774758088034614
+
+ ===== Capa 0, neurona 9 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 0.5636485399630092, valor prop: 0.5636485399630092
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -0.17761038004195623, valor prop: -0.17761038004195623
+
+ ===== Capa 1, neurona 0 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 2.905385669631369, valor prop: 3.467253209163993
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 1.8203931415608845, valor prop: 0.09653083905652304
+
+ ===== Capa 1, neurona 1 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 3.9565545593405727, valor prop: 5.678133296119887
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 2.9392257397258144, valor prop: 2.4419204129693095
+
+ ===== Capa 1, neurona 2 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 7.660412560801474, valor prop: 8.536220749705981
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 6.8056224822962115, valor prop: 6.027676544897631
+
+ ===== Capa 1, neurona 3 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -0.4827441108552046, valor prop: 0.2051386576330281
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -1.492735774845551, valor prop: -2.978238746845164
+
+ ===== Capa 1, neurona 4 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -3.855986987309854, valor prop: -3.4178166685471774
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -4.6768895842676415, valor prop: -5.630043272475758
+
+ ===== Capa 1, neurona 5 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -2.2112348114876963, valor prop: -1.486309138195589
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -2.862938596342542, valor prop: -3.403953054938093
+
+ ===== Capa 1, neurona 6 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 5.729037414247309, valor prop: 6.739248314140178
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 4.821197699728503, valor prop: 4.290992428453267
+
+ ===== Capa 1, neurona 7 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 2.7413178025404346, valor prop: 2.8651285124503074
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 1.94821857322059, valor prop: 0.30909707371890555
+
+ ===== Capa 1, neurona 8 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 0.6966880172480554, valor prop: 1.1855745876580477
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -0.14073195477477152, valor prop: -1.515966197144985
+
+ ===== Capa 1, neurona 9 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 2.229950192286081, valor prop: 2.711867964137718
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 1.5896169776369746, valor prop: 0.6758125270646069
+
+ ===== Capa 2, neurona 0 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 1 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 2 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 3 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 4 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 2.0464962596017373, valor prop: 2.6702677748191634
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 0.44826389718840864, valor prop: -0.2135882857935975
+
+ ===== Capa 2, neurona 5 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 6 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -0.3500655098944052, valor prop: 0.45842771275127403
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -1.8894137564135998, valor prop: -2.6228185461125344
+
+ ===== Capa 2, neurona 7 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 8 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 9 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+Tiempos:  [0.005681729316711426, 25.499378061294557, 1145.7170944213867]
+Tamaños:  [0.7610299999999999, 0.86385, 1.0949300000000002]
+Estables:  25
+
+ Capas:  4  Neuronas:  10 
+
+
+ ===== Capa 0, neurona 0 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 6.7349848052892645, valor prop: 6.7349848052892645
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 6.032056408754837, valor prop: 6.032056408754837
+
+ ===== Capa 0, neurona 1 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 2.1604208928591633, valor prop: 2.1604208928591633
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 1.3844260105828716, valor prop: 1.3844260105828716
+
+ ===== Capa 0, neurona 2 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -0.36977442616656103, valor prop: -0.3697744261665607
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -1.148869904385689, valor prop: -1.148869904385689
+
+ ===== Capa 0, neurona 3 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 0.5138338273707825, valor prop: 0.5138338273707825
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -0.3008163279258198, valor prop: -0.30081632792581997
+
+ ===== Capa 0, neurona 4 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 3.553435872974443, valor prop: 3.5534358729744433
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 2.7955608577128577, valor prop: 2.7955608577128577
+
+ ===== Capa 0, neurona 5 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -1.4322427018146264, valor prop: -1.4322427018146264
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -2.129365849320061, valor prop: -2.1293658493200613
+
+ ===== Capa 0, neurona 6 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 3.4237611690875114, valor prop: 3.4237611690875114
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 2.6533715793626342, valor prop: 2.6533715793626342
+
+ ===== Capa 0, neurona 7 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 0.7032257316632191, valor prop: 0.7032257316632197
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -0.02572643701405257, valor prop: -0.02572643701405257
+
+ ===== Capa 0, neurona 8 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 2.9323968427486795, valor prop: 2.9323968427486835
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 2.1912254337443193, valor prop: 2.1912254337443193
+
+ ===== Capa 0, neurona 9 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -0.5303948661745642, valor prop: -0.5303948661745642
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -1.3046880938957648, valor prop: -1.3046880938957648
+
+ ===== Capa 1, neurona 0 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 8.439999061375127, valor prop: 9.54769792595338
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 7.3009387697040395, valor prop: 6.943983507934027
+
+ ===== Capa 1, neurona 1 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 3.4314413750073878, valor prop: 3.679129858291149
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 2.75789572847323, valor prop: 2.048261117739603
+
+ ===== Capa 1, neurona 2 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 2.183853424560585, valor prop: 2.222319023416936
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 1.4897305625377317, valor prop: 0.6439436625212434
+
+ ===== Capa 1, neurona 3 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 1.18554907220988, valor prop: 1.7266884002906269
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 0.2475218538712855, valor prop: -0.511337154053431
+
+ ===== Capa 1, neurona 4 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 4.19675243771029, valor prop: 4.586486066842545
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 3.3987970284041586, valor prop: 2.745356191434432
+
+ ===== Capa 1, neurona 5 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 1.7174544877822706, valor prop: 2.3942842613160957
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 1.0895666350351527, valor prop: 0.951397688279336
+
+ ===== Capa 1, neurona 6 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 3.026401582171966, valor prop: 3.245892180584184
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 2.018199817820524, valor prop: 0.7232954017965123
+
+ ===== Capa 1, neurona 7 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 3.403159149192329, valor prop: 3.419428707784414
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 2.512038255880517, valor prop: 0.928849996353686
+
+ ===== Capa 1, neurona 8 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : -1.3837217430078859, valor prop: -1.2160784878214825
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : -1.9758444842746747, valor prop: -2.759953780775331
+
+ ===== Capa 1, neurona 9 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 4.705413662249691, valor prop: 4.923362210467457
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 3.807626383185384, valor prop: 3.063298585864902
+
+ ===== Capa 2, neurona 0 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 1 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 2 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 3 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 4 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 5 =====
+
+ Status timelimit 
+
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: minimize, valor obj : 3.09624777521401, valor prop: 1.9345854126099495
+
+ ===== Capa 2, neurona 6 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 7 =====
+
+ Status optimal 
+
+	 Caso sol optima 
+
+	 problema: maximize, valor obj : 6.087106232110391, valor prop: 7.205142573275371
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 8 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 2, neurona 9 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 3, neurona 0 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 3, neurona 1 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 3, neurona 2 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 3, neurona 3 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 3, neurona 4 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 3, neurona 5 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 3, neurona 6 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 3, neurona 7 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 3, neurona 8 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+
+ ===== Capa 3, neurona 9 =====
+
+ Status timelimit 
+
+
+ Status timelimit 
+
+Tiempos:  [0.005640697479248047, 18.505234694480897, 1190.9505819797516, 1200.0020944356918]
+Tamaños:  [0.7562399999999999, 0.8280000000000001, 1.06627, 1.42542]
+Estables:  33
