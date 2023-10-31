@@ -9,7 +9,7 @@ layer_list = [2,3,4]
 neuron_list = [5,10]
 form_list = ['exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
 apply_bounds_list = [True]
-type_bounds_list = ['-','prop','mix']
+type_bounds_list = ['verif_bounds','verif_bounds_prop']
 minutes = 15
 save_image = False
 apply_softmax = False
@@ -22,7 +22,7 @@ real_output = 1
 target_output = 2
 input_lb =0 
 input_ub = 1
-tols_list = [0.01]
+tols_list = [0.05]
 
 if len(sys.argv) > 1:
     activation_list = [sys.argv[1]]
@@ -80,7 +80,7 @@ input_example, output_example = next(iter(test_loader))
 ## Se transforma el input en una lista
 image_list = input_example[output_example == real_output][0].view(-1,784).tolist()[0]
 
-tol_distance = 0.01
+tol_distance = 0.05
 exact = 'exact'
 apply_bounds = True
 ## Por cada activacion
@@ -93,7 +93,7 @@ for activation in activation_list:
                 ## Nombre del archivo xlsx donde se guardan los resultados de los experimentos
                 file_name = calculate_verif_file_name(exact,activation,real_output,target_output,root_node_only)
                 ## Nombre del archivo de las cotas
-                bounds_file = calculate_bounds_file_name(type_bounds,activation,n_layers,n_neurons)
+                bounds_file = calculate_bounds_file_name(type_bounds,activation,n_layers,n_neurons,tol_distance,1)
                 ## Se cargan las cotas del modelo
                 bounds = read_bounds(apply_bounds,n_layers,n_neurons,activation,bounds_file)
                 ## Se crea la instancia de la red neuronal
@@ -158,9 +158,9 @@ for activation in activation_list:
                 verif_model.optimize()
                 dt = time.time() - aux_t
                 if type_bounds == '-':
-                    new_sol_file = 'sols/{}_{}_sol_L{}_n{}_1como{}.txt'.format(activation,'unbound',n_layers,n_neurons,target_output)
+                    new_sol_file = 'sols/{}_{}_sol_L{}_n{}_1como{}_tolpero{}.txt'.format(activation,'unbound',n_layers,n_neurons,target_output,int(100*tol_distance))
                 else:
-                    new_sol_file = 'sols/{}_{}_sol_L{}_n{}_1como{}.txt'.format(activation,type_bounds,n_layers,n_neurons,target_output)
+                    new_sol_file = 'sols/{}_{}_sol_L{}_n{}_1como{}_tolpero{}.txt'.format(activation,type_bounds,n_layers,n_neurons,target_output,int(100*tol_distance))
                 print(eventhdlr.LPsol)
                 
                 LPsol_dict = eventhdlr.LPsol
