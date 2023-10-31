@@ -9,16 +9,16 @@ from collections import OrderedDict
 from pyscipopt import Model,quicksum
 from torchvision import datasets, transforms
 
-activation_list = ['sigmoid']
-layer_list = [3] 
-neuron_list = [10]
-exact = 'exact'
+activation_list = ['relu','softplus','sigmoid']
+layer_list = [2,3,4] 
+neuron_list = [5,10]
+exact = 'prop'
 minutes = 10
 filter_tol = 1e-5
 add_verif_bounds = True
 print_output=True
 
-tol_distance = 0.01
+tol_distance = 0.05
 real_output = 1
 
 if len(sys.argv) > 1:

@@ -97,12 +97,14 @@ def calculate_verif_file_name(exact,activation,real_output,target_output,root_no
 ###
 
 def calculate_bounds_file_name(type_bounds,activation,n_layers,n_neurons,tol_distance,real_output):
-    if type_bounds == 'prop':
-        bounds_file = 'nn_bounds/{}_prop_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
+    if type_bounds == 'verif_bounds':
+        bounds_file = 'nn_bounds/{}_verifbounds_target{}_tolper{}_L{}_n{}.txt'.format(activation,real_output,int(tol_distance*100),n_layers,n_neurons)
+    elif type_bounds == 'verif_bounds_prop':
+        bounds_file = 'nn_bounds/{}_verifbounds_target{}_tolper{}_prop_L{}_n{}.txt'.format(activation,real_output,int(tol_distance*100),n_layers,n_neurons)
     elif type_bounds == 'mix':
         bounds_file = 'nn_bounds/{}_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
-    elif type_bounds == 'verif_bounds':
-        bounds_file = 'nn_bounds/{}_verifbounds_target{}_tolper{}_L{}_n{}.txt'.format(activation,real_output,int(tol_distance*100),n_layers,n_neurons)
+    elif type_bounds == 'prop':
+        bounds_file = 'nn_bounds/{}_prop_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
     else:
         bounds_file = '-1'
     return bounds_file 

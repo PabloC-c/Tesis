@@ -6,6 +6,7 @@ import torch.nn as nn
 import pandas as pd
 from pyscipopt import Model,quicksum
 from collections import OrderedDict
+from torchvision import datasets, transforms
 from functions import *
 
 activation_list = ['sigmoid']
@@ -13,9 +14,11 @@ layer_list = [2,3,4]
 neuron_list = [5,10]
 exact = 'no_exact'
 apply_bounds = True
-type_bounds = 'mix'
+type_bounds = 'verif_bounds_prop'
 minutes = 10
 filter_tol = 1e-5
+
+tol_distance = 0.01
 
 if len(sys.argv) > 1:
     activation_list = [sys.argv[1]]
@@ -30,9 +33,9 @@ if len(sys.argv) > 1:
     if len(sys.argv) >= 7:
         filter_tol = float(sys.argv[6])
 
-def create_layer_bound_problem(l,params,bounds,activation,exact,apply_bounds):
+def create_layer_bound_problem(l,params,bounds,activation,exact,apply_bounds,add_verif_bounds,tol_distance,image_list):
     ## Se inicializa el modelo de verificacion
-    layer_model,inpt,all_vars = initialize_neuron_model(bounds)
+    layer_model,bounds,inpt,all_vars = initialize_neuron_model(bounds,add_verif_bounds,tol_distance,image_list)
     ## Se genera la evaluacion de la red
     ## Se recorren las capas
     for j in range(l):
@@ -58,9 +61,28 @@ def create_layer_bound_problem(l,params,bounds,activation,exact,apply_bounds):
     ## Se retorna el modelo de verificacion
     return layer_model,all_vars
 
+if type_bounds in ['verif_bounds','verif_bounds_prop']:
+    add_verif_bounds = True
+else:
+    add_verif_bounds = False
+
+if add_verif_bounds:
+    real_output = 1
+    ## Se cargan las imagenes
+    test_dataset = datasets.MNIST(root='./data', train=False, transform=transforms.ToTensor(),download=True)
+    test_loader  = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=64, shuffle=False)
+    ## Se selecciona un solo par de entrada y salida correspondiente del conjunto de datos
+    input_example, output_example = next(iter(test_loader))
+    ## Se transforma el input en una lista
+    image_list = input_example[output_example == real_output][0].view(-1,784).tolist()[0]
+else:
+    image_list = []
        
 for activation in activation_list:
-    data_file = 'layers_bounds/{}_{}.xlsx'.format(activation,type_bounds)
+    if type_bounds in ['verif_bounds','verif_bounds_prop']:
+        data_file = 'layers_bounds/{}_{}_{}_tolper{}.xlsx'.format(activation,exact,type_bounds,int(100*tol_distance))
+    else:
+        data_file = 'layers_bounds/{}_{}_{}.xlsx'.format(activation,exact,type_bounds)
     ## Caso donde ya existe un df con datos previos
     if os.path.exists(data_file):
         df = pd.read_excel(data_file,header=None)
@@ -71,13 +93,6 @@ for activation in activation_list:
     for n_neurons in neuron_list:
         for n_layers in layer_list:
             new_line = [n_neurons,n_layers]
-            ## Se define el archivo donde se guardaran las cotas
-            ## Caso solo propagacion
-            if exact == 'prop':
-                bounds_file = 'nn_bounds/{}_prop_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
-            ## Caso mixto
-            else:
-                bounds_file = 'nn_bounds/{}_bounds_L{}_n{}.txt'.format(activation,n_layers,n_neurons)
             ## Se calculan las cotas en caso de no haber
             if True:#not os.path.exists(bounds_file):
                 print('\n Capas: ',n_layers,' Neuronas: ',n_neurons,'\n')
@@ -90,7 +105,7 @@ for activation in activation_list:
                 ## Se filtran los parametros de la red
                 filtered_params = filter_params(params,filter_tol)
                 ## Archivo que contiene las cotas
-                bounds_file = calculate_bounds_file_name(type_bounds,activation,n_layers,n_neurons)
+                bounds_file = calculate_bounds_file_name(type_bounds,activation,n_layers,n_neurons,tol_distance,1)
                 ## Se pre-cargan las cotas en caso de necesitarlas
                 bounds = read_bounds(apply_bounds,n_layers,n_neurons,activation,bounds_file)
                 real_bounds = read_bounds(True,n_layers,n_neurons,activation,bounds_file) 
@@ -99,7 +114,7 @@ for activation in activation_list:
                 new_line = []
                 ## Se recorren las capas de la red
                 for l in range(n_layers):
-                    layer_model,all_vars = create_layer_bound_problem(l,params,bounds,activation,exact,apply_bounds)
+                    layer_model,all_vars = create_layer_bound_problem(l,params,bounds,activation,exact,apply_bounds,add_verif_bounds,tol_distance,image_list)
                     ## Se limita el tiempo de resolucion
                     layer_model.setParam('limits/time', int(60*minutes))
                     ## Se aumenta la tolerancia de factibilidad

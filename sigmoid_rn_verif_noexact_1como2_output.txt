@@ -1,206 +1,52 @@
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: overflow encountered in power
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-/home/pablo/Tesis/functions.py:701: RuntimeWarning: overflow encountered in exp
-  f = lambda x: 1/(1+np.exp(-x))
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: overflow encountered in exp
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: invalid value encountered in scalar divide
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
 primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L2_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 1748 constraints
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L2_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 1748 constraints
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L2_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 1667 constraints
-despues
-
-===== Capas 2 Neuronas 5 =====
-
-Tolerancia: 0.01 
-1/1 feasible solution given by solution candidate storage, new primal bound -6.711264e-02
-
-presolving:
-(round 1, fast)       0 del vars, 1584 del conss, 0 add conss, 918 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       0 del vars, 1631 del conss, 0 add conss, 954 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       0 del vars, 1638 del conss, 0 add conss, 954 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) no symmetry present
-presolving (4 rounds: 4 fast, 1 medium, 1 exhaustive):
- 0 deleted vars, 1638 deleted constraints, 0 added constraints, 954 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-presolved problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 110 constraints
-     95 constraints of type <linear>
-     15 constraints of type <nonlinear>
-Presolving Time: 0.01
-transformed 1/1 original solutions to the transformed problem space
-
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |   418 |     - |  9691k |   0 | 859 | 110 | 225 |   0 |  0 |   0 |   0 | 9.158899e-01 |-6.711264e-02 |    Inf | unknown
-  0.0s|     1 |     0 |   454 |     - |  9695k |   0 | 859 | 110 | 234 |   9 |  1 |   0 |   0 | 9.158882e-01 |-6.711264e-02 |    Inf | unknown
-  0.0s|     1 |     0 |   468 |     - |  9695k |   0 | 859 | 110 | 241 |  16 |  2 |   0 |   0 | 9.158882e-01 |-6.711264e-02 |    Inf | unknown
-  0.0s|     1 |     0 |   529 |     - |  9695k |   0 | 859 | 110 | 245 |  20 |  3 |   0 |   0 | 9.158882e-01 |-6.711264e-02 |    Inf | unknown
-  0.0s|     1 |     0 |   547 |     - |  9695k |   0 | 859 | 110 | 248 |  23 |  4 |   0 |   0 | 9.158882e-01 |-6.711264e-02 |    Inf | unknown
-  0.0s|     1 |     0 |   553 |     - |  9695k |   0 | 859 | 110 | 251 |  26 |  5 |   0 |   0 | 9.158882e-01 |-6.711264e-02 |    Inf | unknown
-  0.0s|     1 |     0 |   557 |     - |  9695k |   0 | 859 | 110 | 253 |  28 |  6 |   0 |   0 | 9.158882e-01 |-6.711264e-02 |    Inf | unknown
-  0.0s|     1 |     0 |   561 |     - |  9695k |   0 | 859 | 110 | 256 |  31 |  7 |   0 |   0 | 9.158882e-01 |-6.711264e-02 |    Inf | unknown
-  0.0s|     1 |     0 |   564 |     - |  9695k |   0 | 859 | 110 | 258 |  33 |  8 |   0 |   0 | 9.158882e-01 |-6.711264e-02 |    Inf | unknown
-  0.3s|     1 |     0 |  6212 |     - |    10M |   0 | 859 | 108 | 258 |  33 | 10 |   0 |   0 | 9.158882e-01 |-6.711264e-02 |    Inf | unknown
-  0.3s|     1 |     0 |  6213 |     - |    10M |   0 | 859 | 108 | 259 |  34 | 11 |   0 |   0 | 9.158882e-01 |-6.711264e-02 |    Inf | unknown
-  0.3s|     1 |     0 |  6736 |     - |    10M |   0 | 859 | 108 | 259 |  34 | 13 |   0 |   0 | 9.158882e-01 |-6.711264e-02 |    Inf | unknown
-  0.3s|     1 |     2 |  6736 |     - |    10M |   0 | 859 | 108 | 259 |  34 | 15 |   0 |   0 | 9.158882e-01 |-6.711264e-02 |    Inf | unknown
-
-SCIP Status        : solving was interrupted [total node limit reached]
-Solving Time (sec) : 0.32
-Solving Nodes      : 1
-Primal Bound       : -6.71126382807860e-02 (1 solutions)
-Dual Bound         : +9.15888157905269e-01
-Gap                : infinite
-despues
-
-===== Capas 2 Neuronas 5 =====
-
-Tolerancia: 0.01 
-1/1 feasible solution given by solution candidate storage, new primal bound -6.711264e-02
-
-presolving:
-(round 1, fast)       0 del vars, 1584 del conss, 0 add conss, 918 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       0 del vars, 1631 del conss, 0 add conss, 954 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       0 del vars, 1638 del conss, 0 add conss, 954 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) no symmetry present
-presolving (4 rounds: 4 fast, 1 medium, 1 exhaustive):
- 0 deleted vars, 1638 deleted constraints, 0 added constraints, 954 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-presolved problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 110 constraints
-     95 constraints of type <linear>
-     15 constraints of type <nonlinear>
-Presolving Time: 0.01
-transformed 1/1 original solutions to the transformed problem space
-
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |   485 |     - |  9691k |   0 | 859 | 110 | 223 |   0 |  0 |   0 |   0 | 9.158914e-01 |-6.711264e-02 |    Inf | unknown
-  0.0s|     1 |     0 |   588 |     - |  9695k |   0 | 859 | 110 | 232 |   9 |  1 |   0 |   0 | 9.158896e-01 |-6.711264e-02 |    Inf | unknown
-  0.0s|     1 |     0 |   611 |     - |  9695k |   0 | 859 | 110 | 239 |  16 |  2 |   0 |   0 | 9.158896e-01 |-6.711264e-02 |    Inf | unknown
-  0.0s|     1 |     0 |   622 |     - |  9695k |   0 | 859 | 110 | 243 |  20 |  3 |   0 |   0 | 9.158896e-01 |-6.711264e-02 |    Inf | unknown
-  0.0s|     1 |     0 |   641 |     - |  9695k |   0 | 859 | 110 | 246 |  23 |  4 |   0 |   0 | 9.158896e-01 |-6.711264e-02 |    Inf | unknown
-  0.0s|     1 |     0 |   649 |     - |  9695k |   0 | 859 | 110 | 249 |  26 |  5 |   0 |   0 | 9.158896e-01 |-6.711264e-02 |    Inf | unknown
-  0.0s|     1 |     0 |   655 |     - |  9695k |   0 | 859 | 110 | 252 |  29 |  6 |   0 |   0 | 9.158896e-01 |-6.711264e-02 |    Inf | unknown
-  0.0s|     1 |     0 |   660 |     - |  9695k |   0 | 859 | 110 | 254 |  31 |  7 |   0 |   0 | 9.158896e-01 |-6.711264e-02 |    Inf | unknown
-  0.0s|     1 |     0 |   662 |     - |  9695k |   0 | 859 | 110 | 256 |  33 |  8 |   0 |   0 | 9.158896e-01 |-6.711264e-02 |    Inf | unknown
-  0.0s|     1 |     0 |   663 |     - |  9695k |   0 | 859 | 110 | 257 |  34 |  9 |   0 |   0 | 9.158896e-01 |-6.711264e-02 |    Inf | unknown
-  0.0s|     1 |     0 |   665 |     - |  9695k |   0 | 859 | 110 | 259 |  36 | 10 |   0 |   0 | 9.158896e-01 |-6.711264e-02 |    Inf | unknown
-  0.1s|     1 |     0 |   666 |     - |  9695k |   0 | 859 | 110 | 146 |  37 | 11 |   0 |   0 | 9.158896e-01 |-6.711264e-02 |    Inf | unknown
-  0.2s|     1 |     0 |  3510 |     - |    10M |   0 | 859 | 108 | 146 |  37 | 11 |   0 |   0 | 9.158896e-01 |-6.711264e-02 |    Inf | unknown
-  0.2s|     1 |     0 |  3523 |     - |    10M |   0 | 859 | 108 | 149 |  40 | 12 |   0 |   0 | 9.158896e-01 |-6.711264e-02 |    Inf | unknown
-  0.2s|     1 |     0 |  3524 |     - |    10M |   0 | 859 | 108 | 150 |  41 | 13 |   0 |   0 | 9.158896e-01 |-6.711264e-02 |    Inf | unknown
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.2s|     1 |     2 |  3524 |     - |    10M |   0 | 859 | 108 | 150 |  41 | 15 |   0 |   0 | 9.158896e-01 |-6.711264e-02 |    Inf | unknown
-
-SCIP Status        : solving was interrupted [total node limit reached]
-Solving Time (sec) : 0.18
-Solving Nodes      : 1
-Primal Bound       : -6.71126382807860e-02 (1 solutions)
-Dual Bound         : +9.15889579823036e-01
-Gap                : infinite
-despues
-
-===== Capas 2 Neuronas 5 =====
-
-Tolerancia: 0.01 
-  [linear] <cc_env1_0,0>: <a0,0>[C] (+0.000408948749) -0.197210819<z0,0>[C] (-7.80053641) <= 0.533849735034094;
-;
-violation: right hand side is violated by 1.00490938759944
-all 1 solutions given by solution candidate storage are infeasible
-
-presolving:
-(round 1, fast)       0 del vars, 1569 del conss, 0 add conss, 52 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       0 del vars, 1577 del conss, 0 add conss, 70 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       0 del vars, 1578 del conss, 0 add conss, 86 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: overflow encountered in power
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-/home/pablo/Tesis/functions.py:701: RuntimeWarning: overflow encountered in exp
-  f = lambda x: 1/(1+np.exp(-x))
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: overflow encountered in exp
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: invalid value encountered in scalar divide
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L2_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 1748 constraints
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L2_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 1748 constraints
+original problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 1676 constraints
 primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L2_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
 original problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 1748 constraints
 primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L2_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1808 constraints
-(round 4, fast)       0 del vars, 1579 del conss, 0 add conss, 104 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 5, fast)       0 del vars, 1579 del conss, 0 add conss, 119 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 6, fast)       0 del vars, 1580 del conss, 0 add conss, 134 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 7, fast)       0 del vars, 1581 del conss, 0 add conss, 151 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 8, fast)       0 del vars, 1581 del conss, 0 add conss, 164 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 9, fast)       0 del vars, 1581 del conss, 0 add conss, 174 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 10, fast)       0 del vars, 1582 del conss, 0 add conss, 178 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 11, exhaustive) 0 del vars, 1596 del conss, 0 add conss, 178 chg bounds, 8 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1628 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L2_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1718 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L3_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1691 constraints
+despues
+
+===== Capas 2 Neuronas 5 =====
+
+Tolerancia: 0.01 
+  [linear] <cc_env1_0,0>: <a0,0>[C] (+0.000408948749) -0.197305727<z0,0>[C] (-7.80053641) <= 0.533755503517481;
+;
+violation: right hand side is violated by 1.00574394939699
+all 1 solutions given by solution candidate storage are infeasible
+
+presolving:
+(round 1, fast)       0 del vars, 1568 del conss, 0 add conss, 56 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 2, fast)       0 del vars, 1574 del conss, 0 add conss, 78 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 3, fast)       0 del vars, 1574 del conss, 0 add conss, 93 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 4, fast)       0 del vars, 1575 del conss, 0 add conss, 107 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 5, fast)       0 del vars, 1575 del conss, 0 add conss, 117 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 6, fast)       0 del vars, 1576 del conss, 0 add conss, 129 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 7, fast)       0 del vars, 1578 del conss, 0 add conss, 135 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 8, fast)       0 del vars, 1578 del conss, 0 add conss, 144 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 9, exhaustive) 0 del vars, 1584 del conss, 0 add conss, 150 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
    (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
    (0.0s) no symmetry present
-presolving (12 rounds: 12 fast, 2 medium, 2 exhaustive):
- 0 deleted vars, 1596 deleted constraints, 0 added constraints, 178 tightened bounds, 0 added holes, 8 changed sides, 0 changed coefficients
+presolving (10 rounds: 10 fast, 2 medium, 2 exhaustive):
+ 0 deleted vars, 1584 deleted constraints, 0 added constraints, 150 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
  0 implications, 0 cliques
-presolved problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 71 constraints
-     56 constraints of type <linear>
+presolved problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 92 constraints
+     77 constraints of type <linear>
      15 constraints of type <nonlinear>
-Presolving Time: 0.02
+Presolving Time: 0.01
 
  time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |   117 |     - |  9535k |   0 | 859 |  71 | 177 |   0 |  0 |   0 |   0 |    cutoff    |      --      |   0.00%| unknown
-  0.0s|     1 |     0 |   117 |     - |  9535k |   0 | 859 |  71 | 177 |   0 |  0 |   0 |   0 |    cutoff    |      --      |   0.00%| unknown
+  0.0s|     1 |     0 |   117 |     - |  9597k |   0 | 859 |  92 | 204 |   0 |  0 |   0 |   0 |    cutoff    |      --      |   0.00%| unknown
+  0.0s|     1 |     0 |   117 |     - |  9597k |   0 | 859 |  92 | 204 |   0 |  0 |   0 |   0 |    cutoff    |      --      |   0.00%| unknown
 
 SCIP Status        : problem is solved [infeasible]
-Solving Time (sec) : 0.02
+Solving Time (sec) : 0.03
 Solving Nodes      : 1
 Primal Bound       : -1.00000000000000e+20 (objective limit, 0 solutions)
 Dual Bound         : -1.00000000000000e+20
-Gap                : 0.00 %
-despues
-
-===== Capas 2 Neuronas 5 =====
-
-Tolerancia: 0.05 
-1/1 feasible solution given by solution candidate storage, new primal bound 9.999662e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1568 del conss, 0 add conss, 908 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-presolving (2 rounds: 2 fast, 0 medium, 0 exhaustive):
- 0 deleted vars, 1577 deleted constraints, 0 added constraints, 921 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-transformed 1/1 original solutions to the transformed problem space
-Presolving Time: 0.01
-
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.01
-Solving Nodes      : 0
-Primal Bound       : +9.99966235366061e-01 (1 solutions)
-Dual Bound         : +9.99966235366061e-01
-Gap                : 0.00 %
-despues
-
-===== Capas 2 Neuronas 5 =====
-
-Tolerancia: 0.05 
-1/1 feasible solution given by solution candidate storage, new primal bound 9.999662e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1568 del conss, 0 add conss, 908 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-presolving (2 rounds: 2 fast, 0 medium, 0 exhaustive):
- 0 deleted vars, 1577 deleted constraints, 0 added constraints, 921 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-transformed 1/1 original solutions to the transformed problem space
-Presolving Time: 0.01
-
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.01
-Solving Nodes      : 0
-Primal Bound       : +9.99966235366061e-01 (1 solutions)
-Dual Bound         : +9.99966235366061e-01
 Gap                : 0.00 %
 despues
 
@@ -231,103 +77,12 @@ Tolerancia: 0.01
 1/1 feasible solution given by solution candidate storage, new primal bound -9.113187e-01
 
 presolving:
-(round 1, fast)       0 del vars, 1647 del conss, 0 add conss, 952 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       121 del vars, 1705 del conss, 0 add conss, 1030 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       121 del vars, 1741 del conss, 0 add conss, 1032 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) no symmetry present
-presolving (4 rounds: 4 fast, 1 medium, 1 exhaustive):
- 121 deleted vars, 1741 deleted constraints, 0 added constraints, 1034 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-presolved problem has 703 variables (0 bin, 0 int, 0 impl, 703 cont) and 67 constraints
-     47 constraints of type <linear>
-     20 constraints of type <nonlinear>
-Presolving Time: 0.02
-transformed 1/1 original solutions to the transformed problem space
-
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |   333 |     - |  9920k |   0 | 763 |  67 | 306 |   0 |  0 |   0 |   0 |-9.036847e-01 |-9.113187e-01 |   0.84%| unknown
-  0.0s|     1 |     0 |   333 |     - |  9920k |   0 | 763 |  67 | 306 |   0 |  0 |   0 |   0 |-9.036847e-01 |-9.113187e-01 |   0.84%| unknown
-  0.0s|     1 |     0 |   351 |     - |  9920k |   0 | 763 |  67 | 325 |  19 |  1 |   0 |   0 |-9.043448e-01 |-9.113187e-01 |   0.77%| unknown
-  0.0s|     1 |     0 |   352 |     - |  9920k |   0 | 763 |  67 | 326 |  20 |  2 |   0 |   0 |-9.043448e-01 |-9.113187e-01 |   0.77%| unknown
-  0.0s|     1 |     0 |   353 |     - |  9920k |   0 | 763 |  67 | 327 |  21 |  3 |   0 |   0 |-9.043448e-01 |-9.113187e-01 |   0.77%| unknown
-  0.3s|     1 |     0 |  5371 |     - |    10M |   0 | 763 |  53 | 327 |  21 |  5 |   0 |   0 |-9.058986e-01 |-9.113187e-01 |   0.60%| unknown
-  0.3s|     1 |     0 |  5533 |     - |    10M |   0 | 763 |  53 | 349 |  43 |  6 |   0 |   0 |-9.095537e-01 |-9.113187e-01 |   0.19%| unknown
-  0.3s|     1 |     0 |  5540 |     - |    10M |   0 | 763 |  53 | 355 |  49 |  7 |   0 |   0 |-9.096471e-01 |-9.113187e-01 |   0.18%| unknown
-  0.3s|     1 |     0 |  5543 |     - |    10M |   0 | 763 |  53 | 358 |  52 |  8 |   0 |   0 |-9.096478e-01 |-9.113187e-01 |   0.18%| unknown
-  0.3s|     1 |     0 |  5812 |     - |    10M |   0 | 763 |  53 | 358 |  52 | 10 |   0 |   0 |-9.096478e-01 |-9.113187e-01 |   0.18%| unknown
-  0.3s|     1 |     0 |  5820 |     - |    10M |   0 | 763 |  53 | 365 |  59 | 11 |   0 |   0 |-9.096478e-01 |-9.113187e-01 |   0.18%| unknown
-  0.3s|     1 |     2 |  5820 |     - |    10M |   0 | 763 |  53 | 365 |  59 | 13 |   0 |   0 |-9.096478e-01 |-9.113187e-01 |   0.18%| unknown
-
-SCIP Status        : solving was interrupted [total node limit reached]
-Solving Time (sec) : 0.32
-Solving Nodes      : 1
-Primal Bound       : -9.11318673528966e-01 (1 solutions)
-Dual Bound         : -9.09647763675643e-01
-Gap                : 0.18 %
-despues
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L2_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1808 constraints
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L2_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1628 constraints
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L2_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1808 constraints
-
-===== Capas 2 Neuronas 10 =====
-
-Tolerancia: 0.01 
-1/1 feasible solution given by solution candidate storage, new primal bound -9.113187e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1647 del conss, 0 add conss, 952 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       121 del vars, 1706 del conss, 0 add conss, 1030 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       121 del vars, 1741 del conss, 0 add conss, 1032 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) no symmetry present
-presolving (4 rounds: 4 fast, 1 medium, 1 exhaustive):
- 121 deleted vars, 1741 deleted constraints, 0 added constraints, 1034 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-presolved problem has 703 variables (0 bin, 0 int, 0 impl, 703 cont) and 67 constraints
-     47 constraints of type <linear>
-     20 constraints of type <nonlinear>
-Presolving Time: 0.02
-transformed 1/1 original solutions to the transformed problem space
-
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |   417 |     - |  9920k |   0 | 763 |  67 | 306 |   0 |  0 |   0 |   0 |-9.036847e-01 |-9.113187e-01 |   0.84%| unknown
-  0.0s|     1 |     0 |   417 |     - |  9920k |   0 | 763 |  67 | 306 |   0 |  0 |   0 |   0 |-9.036847e-01 |-9.113187e-01 |   0.84%| unknown
-  0.0s|     1 |     0 |   435 |     - |  9920k |   0 | 763 |  67 | 325 |  19 |  1 |   0 |   0 |-9.043448e-01 |-9.113187e-01 |   0.77%| unknown
-  0.0s|     1 |     0 |   436 |     - |  9920k |   0 | 763 |  67 | 326 |  20 |  2 |   0 |   0 |-9.043448e-01 |-9.113187e-01 |   0.77%| unknown
-  0.0s|     1 |     0 |   437 |     - |  9920k |   0 | 763 |  67 | 327 |  21 |  3 |   0 |   0 |-9.043448e-01 |-9.113187e-01 |   0.77%| unknown
-  0.3s|     1 |     0 |  5456 |     - |    10M |   0 | 763 |  53 | 327 |  21 |  5 |   0 |   0 |-9.058986e-01 |-9.113187e-01 |   0.60%| unknown
-  0.3s|     1 |     0 |  5644 |     - |    10M |   0 | 763 |  53 | 347 |  41 |  6 |   0 |   0 |-9.095537e-01 |-9.113187e-01 |   0.19%| unknown
-  0.3s|     1 |     0 |  5652 |     - |    10M |   0 | 763 |  53 | 353 |  47 |  7 |   0 |   0 |-9.096471e-01 |-9.113187e-01 |   0.18%| unknown
-  0.3s|     1 |     0 |  5654 |     - |    10M |   0 | 763 |  53 | 355 |  49 |  8 |   0 |   0 |-9.096478e-01 |-9.113187e-01 |   0.18%| unknown
-  0.3s|     1 |     0 |  6097 |     - |    10M |   0 | 763 |  53 | 355 |  49 | 10 |   0 |   0 |-9.096478e-01 |-9.113187e-01 |   0.18%| unknown
-  0.3s|     1 |     0 |  6103 |     - |    10M |   0 | 763 |  53 | 361 |  55 | 11 |   0 |   0 |-9.096478e-01 |-9.113187e-01 |   0.18%| unknown
-  0.3s|     1 |     0 |  6104 |     - |    10M |   0 | 763 |  53 | 362 |  56 | 13 |   0 |   0 |-9.096478e-01 |-9.113187e-01 |   0.18%| unknown
-  0.3s|     1 |     2 |  6104 |     - |    10M |   0 | 763 |  53 | 362 |  56 | 15 |   0 |   0 |-9.096478e-01 |-9.113187e-01 |   0.18%| unknown
-
-SCIP Status        : solving was interrupted [total node limit reached]
-Solving Time (sec) : 0.33
-Solving Nodes      : 1
-Primal Bound       : -9.11318673528966e-01 (1 solutions)
-Dual Bound         : -9.09647763927522e-01
-Gap                : 0.18 %
-despues
-
-===== Capas 2 Neuronas 10 =====
-
-Tolerancia: 0.01 
-1/1 feasible solution given by solution candidate storage, new primal bound -9.113187e-01
-
-presolving:
 (round 1, fast)       0 del vars, 1568 del conss, 0 add conss, 40 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       121 del vars, 1568 del conss, 0 add conss, 46 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 2, fast)       121 del vars, 1568 del conss, 0 add conss, 43 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
    (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
    (0.0s) no symmetry present
 presolving (3 rounds: 3 fast, 1 medium, 1 exhaustive):
- 121 deleted vars, 1568 deleted constraints, 0 added constraints, 48 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+ 121 deleted vars, 1568 deleted constraints, 0 added constraints, 45 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
  0 implications, 0 cliques
 presolved problem has 703 variables (0 bin, 0 int, 0 impl, 703 cont) and 60 constraints
      40 constraints of type <linear>
@@ -336,176 +91,44 @@ Presolving Time: 0.02
 transformed 1/1 original solutions to the transformed problem space
 
  time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |   242 |     - |    10M |   0 | 763 |  60 | 294 |   0 |  0 |   0 |   0 |-9.103125e-01 |-9.113187e-01 |   0.11%| unknown
-  0.0s|     1 |     0 |   263 |     - |    10M |   0 | 763 |  60 | 309 |  15 |  1 |   0 |   0 |-9.103338e-01 |-9.113187e-01 |   0.11%| unknown
-  0.2s|     1 |     0 |  3207 |     - |    10M |   0 | 763 |  60 | 309 |  15 |  3 |   0 |   0 |-9.103338e-01 |-9.113187e-01 |   0.11%| unknown
-  0.2s|     1 |     0 |  3242 |     - |    10M |   0 | 763 |  60 | 321 |  27 |  4 |   0 |   0 |-9.109407e-01 |-9.113187e-01 |   0.04%| unknown
-  0.2s|     1 |     0 |  3255 |     - |    10M |   0 | 763 |  60 | 332 |  38 |  5 |   0 |   0 |-9.109702e-01 |-9.113187e-01 |   0.04%| unknown
-  0.2s|     1 |     0 |  3260 |     - |    10M |   0 | 763 |  60 | 334 |  40 |  6 |   0 |   0 |-9.109849e-01 |-9.113187e-01 |   0.04%| unknown
-  0.2s|     1 |     0 |  3261 |     - |    10M |   0 | 763 |  60 | 335 |  41 |  7 |   0 |   0 |-9.109850e-01 |-9.113187e-01 |   0.04%| unknown
-  0.2s|     1 |     0 |  3263 |     - |    10M |   0 | 763 |  60 | 337 |  43 |  9 |   0 |   0 |-9.109851e-01 |-9.113187e-01 |   0.04%| unknown
-  0.2s|     1 |     2 |  3263 |     - |    10M |   0 | 763 |  60 | 337 |  43 | 11 |   0 |   0 |-9.109851e-01 |-9.113187e-01 |   0.04%| unknown
+  0.0s|     1 |     0 |   320 |     - |    10M |   0 | 763 |  60 | 299 |   0 |  0 |   0 |   0 |-9.054133e-01 |-9.113187e-01 |   0.65%| unknown
+  0.0s|     1 |     0 |   320 |     - |    10M |   0 | 763 |  60 | 299 |   0 |  0 |   0 |   0 |-9.054133e-01 |-9.113187e-01 |   0.65%| unknown
+  0.0s|     1 |     0 |   336 |     - |    10M |   0 | 763 |  60 | 315 |  16 |  1 |   0 |   0 |-9.054718e-01 |-9.113187e-01 |   0.65%| unknown
+  0.3s|     1 |     0 |  4871 |     - |    10M |   0 | 763 |  59 | 315 |  16 |  3 |   0 |   0 |-9.074695e-01 |-9.113187e-01 |   0.42%| unknown
+  0.3s|     1 |     0 |  5063 |     - |    10M |   0 | 763 |  59 | 335 |  36 |  4 |   0 |   0 |-9.098438e-01 |-9.113187e-01 |   0.16%| unknown
+  0.3s|     1 |     0 |  5072 |     - |    10M |   0 | 763 |  59 | 343 |  44 |  5 |   0 |   0 |-9.099592e-01 |-9.113187e-01 |   0.15%| unknown
+  0.3s|     1 |     0 |  5073 |     - |    10M |   0 | 763 |  59 | 344 |  45 |  7 |   0 |   0 |-9.099592e-01 |-9.113187e-01 |   0.15%| unknown
+  0.3s|     1 |     2 |  5073 |     - |    10M |   0 | 763 |  59 | 344 |  45 |  9 |   0 |   0 |-9.099592e-01 |-9.113187e-01 |   0.15%| unknown
 
 SCIP Status        : solving was interrupted [total node limit reached]
-Solving Time (sec) : 0.19
+Solving Time (sec) : 0.27
 Solving Nodes      : 1
 Primal Bound       : -9.11318673528966e-01 (1 solutions)
-Dual Bound         : -9.10985060945982e-01
-Gap                : 0.04 %
+Dual Bound         : -9.09959184440740e-01
+Gap                : 0.15 %
 despues
 
 ===== Capas 2 Neuronas 10 =====
 
 Tolerancia: 0.05 
-1/1 feasible solution given by solution candidate storage, new primal bound -6.731787e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1638 del conss, 0 add conss, 942 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       121 del vars, 1678 del conss, 0 add conss, 1000 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       121 del vars, 1696 del conss, 0 add conss, 1000 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) no symmetry present
-presolving (4 rounds: 4 fast, 1 medium, 1 exhaustive):
- 121 deleted vars, 1696 deleted constraints, 0 added constraints, 1000 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-presolved problem has 703 variables (0 bin, 0 int, 0 impl, 703 cont) and 112 constraints
-     92 constraints of type <linear>
-     20 constraints of type <nonlinear>
-Presolving Time: 0.02
-transformed 1/1 original solutions to the transformed problem space
-
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |   236 |     - |    10M |   0 | 763 | 112 | 352 |   0 |  0 |   0 |   0 | 2.155966e-01 |-6.731787e-01 |    Inf | unknown
-  0.0s|     1 |     0 |   265 |     - |    10M |   0 | 763 | 112 | 376 |  24 |  1 |   0 |   0 | 1.668326e-01 |-6.731787e-01 |    Inf | unknown
-  0.0s|     1 |     0 |   278 |     - |    10M |   0 | 763 | 112 | 394 |  42 |  2 |   0 |   0 | 1.665119e-01 |-6.731787e-01 |    Inf | unknown
-  0.0s|     1 |     0 |   285 |     - |    10M |   0 | 763 | 112 | 403 |  51 |  3 |   0 |   0 | 1.664993e-01 |-6.731787e-01 |    Inf | unknown
-  0.0s|     1 |     0 |   292 |     - |    10M |   0 | 763 | 112 | 409 |  57 |  4 |   0 |   0 | 1.664929e-01 |primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L2_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1808 constraints
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L2_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1655 constraints
--6.731787e-01 |    Inf | unknown
-  0.0s|     1 |     0 |   297 |     - |    10M |   0 | 763 | 112 | 412 |  60 |  5 |   0 |   0 | 1.664912e-01 |-6.731787e-01 |    Inf | unknown
-  0.3s|     1 |     0 |  5300 |     - |    10M |   0 | 763 | 112 | 415 |  63 |  7 |   0 |   0 | 1.664912e-01 |-6.731787e-01 |    Inf | unknown
-  0.6s|     1 |     0 | 10378 |     - |    10M |   0 | 763 | 109 | 415 |  63 |  9 |   0 |   0 | 5.510837e-04 |-6.731787e-01 |    Inf | unknown
-  0.6s|     1 |     0 | 10715 |     - |    10M |   0 | 763 | 109 | 431 |  79 | 10 |   0 |   0 |-1.421064e-02 |-6.731787e-01 |4637.15%| unknown
-  0.8s|     1 |     0 | 15528 |     - |    10M |   0 | 763 | 103 | 431 |  79 | 11 |   0 |   0 |-1.063804e-01 |-6.731787e-01 | 532.80%| unknown
-  0.8s|     1 |     0 | 15553 |     - |    10M |   0 | 763 | 103 | 446 |  94 | 12 |   0 |   0 |-1.065975e-01 |-6.731787e-01 | 531.51%| unknown
-  0.8s|     1 |     0 | 15570 |     - |    10M |   0 | 763 | 103 | 457 | 105 | 13 |   0 |   0 |-1.067135e-01 |-6.731787e-01 | 530.83%| unknown
-  0.8s|     1 |     0 | 15580 |     - |    10M |   0 | 763 | 103 | 216 | 115 | 14 |   0 |   0 |-1.067173e-01 |-6.731787e-01 | 530.81%| unknown
-  0.8s|     1 |     0 | 15587 |     - |    10M |   0 | 763 | 103 | 224 | 123 | 15 |   0 |   0 |-1.067175e-01 |-6.731787e-01 | 530.80%| unknown
-  0.8s|     1 |     0 | 15593 |     - |    10M |   0 | 763 | 103 | 230 | 129 | 17 |   0 |   0 |-1.067175e-01 |-6.731787e-01 | 530.80%| unknown
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.8s|     1 |     0 | 15596 |     - |    10M |   0 | 763 | 103 | 232 | 131 | 19 |   0 |   0 |-1.067175e-01 |-6.731787e-01 | 530.80%| unknown
-  0.8s|     1 |     0 | 15598 |     - |    10M |   0 | 763 | 103 | 234 | 133 | 21 |   0 |   0 |-1.067175e-01 |-6.731787e-01 | 530.80%| unknown
-  0.8s|     1 |     2 | 15598 |     - |    10M |   0 | 763 | 103 | 234 | 133 | 23 |   0 |   0 |-1.067175e-01 |-6.731787e-01 | 530.80%| unknown
-
-SCIP Status        : solving was interrupted [total node limit reached]
-Solving Time (sec) : 0.83
-Solving Nodes      : 1
-Primal Bound       : -6.73178710118135e-01 (1 solutions)
-Dual Bound         : -1.06717488397914e-01
-Gap                : 530.80 %
-despues
-
-===== Capas 2 Neuronas 10 =====
-
-Tolerancia: 0.05 
-1/1 feasible solution given by solution candidate storage, new primal bound -6.731787e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1638 del conss, 0 add conss, 940 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       121 del vars, 1678 del conss, 0 add conss, 998 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       121 del vars, 1696 del conss, 0 add conss, 998 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) no symmetry present
-presolving (4 rounds: 4 fast, 1 medium, 1 exhaustive):
- 121 deleted vars, 1696 deleted constraints, 0 added constraints, 998 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-presolved problem has 703 variables (0 bin, 0 int, 0 impl, 703 cont) and 112 constraints
-     92 constraints of type <linear>
-     20 constraints of type <nonlinear>
-Presolving Time: 0.02
-transformed 1/1 original solutions to the transformed problem space
-
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |   237 |     - |    10M |   0 | 763 | 112 | 352 |   0 |  0 |   0 |   0 | 2.155966e-01 |-6.731787e-01 |    Inf | unknown
-  0.0s|     1 |     0 |   267 |     - |    10M |   0 | 763 | 112 | 376 |  24 |  1 |   0 |   0 | 1.667653e-01 |-6.731787e-01 |    Inf | unknown
-  0.0s|     1 |     0 |   292 |     - |    10M |   0 | 763 | 112 | 394 |  42 |  2 |   0 |   0 | 1.665249e-01 |-6.731787e-01 |    Inf | unknown
-  0.0s|     1 |     0 |   307 |     - |    10M |   0 | 763 | 112 | 406 |  54 |  3 |   0 |   0 | 1.665129e-01 |-6.731787e-01 |    Inf | unknown
-  0.0s|     1 |     0 |   313 |     - |    10M |   0 | 763 | 112 | 412 |  60 |  4 |   0 |   0 | 1.665101e-01 |-6.731787e-01 |    Inf | unknown
-  0.0s|     1 |     0 |   316 |     - |    10M |   0 | 763 | 112 | 414 |  62 |  5 |   0 |   0 | 1.665094e-01 |-6.731787e-01 |    Inf | unknown
-  0.0s|     1 |     0 |   319 |     - |    10M |   0 | 763 | 112 | 416 |  64 |  6 |   0 |   0 | 1.665092e-01 |-6.731787e-01 |    Inf | unknown
-  0.0s|     1 |     0 |   321 |     - |    10M |   0 | 763 | 112 | 417 |  65 |  7 |   0 |   0 | 1.665092e-01 |-6.731787e-01 |    Inf | unknown
-  0.3s|     1 |     0 |  5326 |     - |    10M |   0 | 763 | 112 | 420 |  68 |  9 |   0 |   0 | 1.665091e-01 |-6.731787e-01 |    Inf | unknown
-  0.5s|     1 |     0 | 10402 |     - |    10M |   0 | 763 | 109 | 420 |  68 | 11 |   0 |   0 | 2.782589e-04 |-6.731787e-01 |    Inf | unknown
-  0.6s|     1 |     0 | 10506 |     - |    10M |   0 | 763 | 109 | 214 |  86 | 12 |   0 |   0 |-1.441563e-02 |-6.731787e-01 |4569.78%| unknown
-  0.6s|     1 |     0 | 12495 |     - |    10M |   0 | 763 | 102 | 214 |  86 | 13 |   0 |   0 |-1.047770e-01 |-6.731787e-01 | 542.49%| unknown
-  0.6s|     1 |     0 | 12528 |     - |    10M |   0 | 763 | 102 | 206 | 107 | 14 |   0 |   0 |-1.049165e-01 |-6.731787e-01 | 541.63%| unknown
-  0.7s|     1 |     0 | 12544 |     - |    10M |   0 | 763 | 102 | 213 | 114 | 15 |   0 |   0 |-1.049571e-01 |-6.731787e-01 | 541.38%| unknown
-  0.7s|     1 |     0 | 12545 |     - |    10M |   0 | 763 | 102 | 214 | 115 | 16 |   0 |   0 |-1.049572e-01 |-6.731787e-01 | 541.38%| unknown
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.7s|     1 |     0 | 12546 |     - |    10M |   0 | 763 | 102 | 215 | 116 | 17 |   0 |   0 |-1.049573e-01 |-6.731787e-01 | 541.38%| unknown
-  0.7s|     1 |     0 | 12547 |     - |    10M |   0 | 763 | 102 | 216 | 117 | 18 |   0 |   0 |-1.049573e-01 |-6.731787e-01 | 541.38%| unknown
-  0.7s|     1 |     0 | 12549 |     - |    10M |   0 | 763 | 102 | 218 | 119 | 19 |   0 |   0 |-1.049573e-01 |-6.731787e-01 | 541.38%| unknown
-  0.7s|     1 |     0 | 12550 |     - |    10M |   0 | 763 | 102 | 203 | 120 | 21 |   0 |   0 |-1.049574e-01 |-6.731787e-01 | 541.38%| unknown
-  0.7s|     1 |     2 | 12550 |     - |    10M |   0 | 763 | 102 | 203 | 120 | 23 |   0 |   0 |-1.049574e-01 |-6.731787e-01 | 541.38%| unknown
-
-SCIP Status        : solving was interrupted [total node limit reached]
-Solving Time (sec) : 0.66
-Solving Nodes      : 1
-Primal Bound       : -6.73178710118135e-01 (1 solutions)
-Dual Bound         : -1.04957362527890e-01
-Gap                : 541.38 %
-despues
-
-===== Capas 2 Neuronas 10 =====
-
-Tolerancia: 0.05 
-  [linear] <cv_env1_0,4>: <a0,4>[C] (+0.867767942) -0.24572629<z0,4>[C] (+1.88135482) >= 0.499252399674962;
+  [linear] <cv_env1_0,4>: <a0,4>[C] (+0.867767942) -0.245759598<z0,4>[C] (+1.88135482) >= 0.499261142348632;
 ;
-violation: left hand side is violated by 0.0937827988168421
+violation: left hand side is violated by 0.0938542053482569
 all 1 solutions given by solution candidate storage are infeasible
 
 presolving:
-(round 1, fast)       0 del vars, 1568 del conss, 0 add conss, 59 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       121 del vars, 1568 del conss, 0 add conss, 68 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       121 del vars, 1568 del conss, 0 add conss, 76 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 4, fast)       121 del vars, 1568 del conss, 0 add conss, 84 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 5, fast)       121 del vars, 1568 del conss, 0 add conss, 90 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 6, fast)       121 del vars, 1568 del conss, 0 add conss, 97 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 7, exhaustive) 121 del vars, 1577 del conss, 0 add conss, 101 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: overflow encountered in power
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-/home/pablo/Tesis/functions.py:701: RuntimeWarning: overflow encountered in exp
-  f = lambda x: 1/(1+np.exp(-x))
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: overflow encountered in exp
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: invalid value encountered in scalar divide
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L3_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1808 constraints
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L3_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1808 constraints
-EMAISM: numerical violation after disaggregating variable
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L3_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1673 constraints
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) no symmetry present
-presolving (8 rounds: 8 fast, 2 medium, 2 exhaustive):
- 121 deleted vars, 1577 deleted constraints, 0 added constraints, 101 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+(round 1, fast)       0 del vars, 1568 del conss, 0 add conss, 81 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 2, fast)       121 del vars, 1578 del conss, 0 add conss, 118 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 3, fast)       121 del vars, 1580 del conss, 0 add conss, 166 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+presolving (4 rounds: 4 fast, 0 medium, 0 exhaustive):
+ 121 deleted vars, 1584 deleted constraints, 0 added constraints, 208 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
  0 implications, 0 cliques
-presolved problem has 703 variables (0 bin, 0 int, 0 impl, 703 cont) and 78 constraints
-     58 constraints of type <linear>
-     20 constraints of type <nonlinear>
-Presolving Time: 0.02
-
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |   519 |     - |  9989k |   0 | 763 |  78 | 317 |   0 |  0 |   0 |   0 |    cutoff    |      --      |   0.00%| unknown
-  0.0s|     1 |     0 |   519 |     - |  9989k |   0 | 763 |  78 | 317 |   0 |  0 |   0 |   0 |    cutoff    |      --      |   0.00%| unknown
+presolving detected infeasibility
+Presolving Time: 0.01
 
 SCIP Status        : problem is solved [infeasible]
-Solving Time (sec) : 0.05
-Solving Nodes      : 1
+Solving Time (sec) : 0.02
+Solving Nodes      : 0
 Primal Bound       : -1.00000000000000e+20 (objective limit, 0 solutions)
 Dual Bound         : -1.00000000000000e+20
 Gap                : 0.00 %
@@ -514,128 +137,24 @@ despues
 ===== Capas 3 Neuronas 5 =====
 
 Tolerancia: 0.01 
-1/1 feasible solution given by solution candidate storage, new primal bound -9.989903e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1587 del conss, 0 add conss, 950 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       0 del vars, 1632 del conss, 0 add conss, 1005 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       0 del vars, 1670 del conss, 0 add conss, 1042 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 4, fast)       0 del vars, 1682 del conss, 0 add conss, 1042 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) no symmetry present
-presolving (5 rounds: 5 fast, 1 medium, 1 exhaustive):
- 0 deleted vars, 1682 deleted constraints, 0 added constraints, 1042 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-presolved problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 126 constraints
-    106 constraints of type <linear>
-     20 constraints of type <nonlinear>
-Presolving Time: 0.01
-transformed 1/1 original solutions to the transformed problem space
-
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |     0 |     - |  9582k |   0 | 884 | 126 |   0 |   0 |  0 |   0 |   0 |-9.989903e-01 |-9.989903e-01 |   0.00%| unknown
-
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.02
-Solving Nodes      : 1
-Primal Bound       : -9.98990260064602e-01 (1 solutions)
-Dual Bound         : -9.98990260064602e-01
-Gap                : 0.00 %
-despues
-
-===== Capas 3 Neuronas 5 =====
-
-Tolerancia: 0.01 
-1/1 feasible solution given by solution candidate storage, new primal bound -9.989903e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1587 del conss, 0 add conss, 950 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       0 del vars, 1635 del conss, 0 add conss, 1002 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       0 del vars, 1667 del conss, 0 add conss, 1038 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 4, fast)       0 del vars, 1682 del conss, 0 add conss, 1038 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) no symmetry present
-presolving (5 rounds: 5 fast, 1 medium, 1 exhaustive):
- 0 deleted vars, 1682 deleted constraints, 0 added constraints, 1038 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-presolved problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 126 constraints
-    106 constraints of type <linear>
-     20 constraints of type <nonlinear>
-Presolving Time: 0.01
-transformed 1/1 original solutions to the transformed problem space
-
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |   249 |     - |  9772k |   0 | 884 | 126 | 280 |   0 |  0 |   0 |   0 | 3.104187e-01 |-9.989903e-01 |    Inf | unknown
-  0.0s|     1 |     0 |   284 |     - |  9772k |   0 | 884 | 126 | 289 |   9 |  1 |   0 |   0 | 2.979525e-01 |-9.989903e-01 |    Inf | unknown
-  0.0s|     1 |     0 |   291 |     - |  9779k |   0 | 884 | 126 | 296 |  16 |  2 |   0 |   0 | 2.975109e-01 |-9.989903e-01 |    Inf | unknown
-  0.0s|     1 |     0 |   294 |     - |  9779k |   0 | 884 | 126 | 299 |  19 |  3 |   0 |   0 | 2.975100e-01 |-9.989903e-01 |    Inf | unknown
-  0.0s|     1 |     0 |   295 |     - |  9779k |   0 | 884 | 126 | 300 |  20 |  4 |   0 |   0 | 2.975100e-01 |-9.989903e-01 |    Inf | unknown
-  0.4s|     1 |     0 |  4076 |     - |    10M |   0 | 884 | 116 | 300 |  20 |  6 |   0 |   0 | 9.602691e-02 |-9.989903e-01 |    Inf | unknown
-  0.4s|     1 |     0 |  4079 |     - |    10M |   0 | 884 | 116 | 303 |  23 |  7 |   0 |   0 | 9.602691e-02 |-9.989903e-01 |    Inf | unknown
-  0.4s|     1 |     0 |  4080 |     - |    10M |   0 | 884 | 116 | 304 |  24 |  8 |   0 |   0 | 9.602691e-02 |-9.989903e-01 |    Inf | unknown
-  0.4s|     1 |     0 |  4081 |     - |    10M |   0 | 884 | 116 | 305 |  25 |  9 |   0 |   0 | 9.602691e-02 |-9.989903e-01 |    Inf | unknown
-  0.4s|     1 |     0 |  4082 |     - |    10M |   0 | 884 | 116 | 306 |  26 | 10 |   0 |   0 | 9.602691e-02 |-9.989903e-01 |    Inf | unknown
-  0.4s|     1 |     0 |  4083 |     - |    10M |   0 | 884 | 116 | 307 |  27 | 11 |   0 |   0 | 9.602691e-02 |-9.989903e-01 |    Inf | unknown
-  0.4s|     1 |     0 |  4086 |     - |    10M |   0 | 884 | 116 | 310 |  30 | 13 |   0 |   0 | 9.602691e-02 |-9.989903e-01 |    Inf | unknown
-  0.4s|     1 |     0 |  4089 |     - |    10M |   0 | 884 | 116 | 313 |  33 | 15 |   0 |   0 | 9.602691e-02 |-9.989903e-01 |    Inf | unknown
-  0.4s|     1 |     0 |  4091 |     - |    10M |   0 | 884 | 116 | 315 |  35 | 17 |   0 |   0 | 9.602691e-02 |-9.989903e-01 |    Inf | unknown
-  0.4s|     1 |     0 |  4092 |     - |    10M |   0 | 884 | 116 | 316 |  36 | 19 |   0 |   0 | 9.602691e-02 |-9.989903e-01 |    Inf | unknown
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.4s|     1 |     0 |  4093 |     - |    10M |   0 | 884 | 116 | 150 |  37 | 21 |   0 |   0 | 9.602691e-02 |-9.989903e-01 |    Inf | unknown
-  0.4s|     1 |     0 |  4094 |     - |    10M |   0 | 884 | 116 | 151 |  38 | 23 |   0 |   0 | 9.602691e-02 |-9.989903e-01 |    Inf | unknown
-  0.4s|     1 |     0 |  4095 |     - |    10M |   0 | 884 | 116 | 152 |  39 | 25 |   0 |   0 | 9.602691e-02 |-9.989903e-01 |    Inf | unknown
-  0.4s|     1 |     0 |  4096 |     - |    10M |   0 | 884 | 116 | 153 |  40 | 27 |   0 |   0 | 9.602691e-02 |-9.989903e-01 |    Inf | unknown
-  0.4s|     1 |     0 |  4097 |     - |    10M |   0 | 884 | 116 | 154 |  41 | 29 |   0 |   0 | 9.602691e-02 |-9.989903e-01 |    Inf | unknown
-  0.4s|     1 |     2 |  4097 |     - |    10M |   0 | 884 | 116 | 154 |  41 | 31 |   0 |   0 | 9.602691e-02 |-9.989903e-01 |    Inf | unknown
-
-SCIP Status        : solving was interrupted [total node limit reached]
-Solving Time (sec) : 0.41
-Solving Nodes      : 1
-Primal Bound       : -9.98990260064602e-01 (1 solutions)
-Dual Bound         : +9.60269092105613e-02
-Gap                : infinite
-despues
-
-===== Capas 3 Neuronas 5 =====
-
-Tolerancia: 0.01 
-  [linear] <cc_env1_0,0>: <a0,0>[C] (+0.000573137891) -0.122122047<z0,0>[C] (-7.46381092) <= 0.638330134173552;
+  [linear] <cc_env1_0,0>: <a0,0>[C] (+0.000573137891) -0.122212295<z0,0>[C] (-7.46381092) <= 0.638168141365403;
 ;
-violation: right hand side is violated by 0.273738872460064
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: overflow encountered in power
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-/home/pablo/Tesis/functions.py:701: RuntimeWarning: overflow encountered in exp
-  f = lambda x: 1/(1+np.exp(-x))
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: overflow encountered in exp
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: invalid value encountered in scalar divide
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L3_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1808 constraints
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L3_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1808 constraints
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L3_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1808 constraints
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: overflow encountered in power
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-/home/pablo/Tesis/functions.py:701: RuntimeWarning: overflow encountered in exp
-  f = lambda x: 1/(1+np.exp(-x))
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: overflow encountered in exp
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: invalid value encountered in scalar divide
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L3_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 844 variables (0 bin, 0 int, 0 impl, 844 cont) and 1928 constraints
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L3_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 844 variables (0 bin, 0 int, 0 impl, 844 cont) and 1928 constraints
+violation: right hand side is violated by 0.274574455714227
 all 1 solutions given by solution candidate storage are infeasible
 
 presolving:
-(round 1, fast)       0 del vars, 1570 del conss, 0 add conss, 63 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       0 del vars, 1577 del conss, 0 add conss, 90 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       0 del vars, 1585 del conss, 0 add conss, 135 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-presolving (4 rounds: 4 fast, 0 medium, 0 exhaustive):
- 0 deleted vars, 1587 deleted constraints, 0 added constraints, 135 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+(round 1, fast)       0 del vars, 1570 del conss, 0 add conss, 69 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 2, fast)       0 del vars, 1581 del conss, 0 add conss, 98 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+presolving (3 rounds: 3 fast, 0 medium, 0 exhaustive):
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L3_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1808 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L3_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
+original problem has 844 variables (0 bin, 0 int, 0 impl, 844 cont) and 1658 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L3_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
+original problem has 844 variables (0 bin, 0 int, 0 impl, 844 cont) and 1883 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L4_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
+original problem has 834 variables (0 bin, 0 int, 0 impl, 834 cont) and 1643 constraints
+ 0 deleted vars, 1599 deleted constraints, 0 added constraints, 130 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
  0 implications, 0 cliques
 presolving detected infeasibility
 Presolving Time: 0.01
@@ -645,64 +164,6 @@ Solving Time (sec) : 0.01
 Solving Nodes      : 0
 Primal Bound       : -1.00000000000000e+20 (objective limit, 0 solutions)
 Dual Bound         : -1.00000000000000e+20
-Gap                : 0.00 %
-despues
-
-===== Capas 3 Neuronas 5 =====
-
-Tolerancia: 0.05 
-1/1 feasible solution given by solution candidate storage, new primal bound 9.998973e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1568 del conss, 0 add conss, 942 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       0 del vars, 1576 del conss, 0 add conss, 954 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       0 del vars, 1602 del conss, 0 add conss, 989 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 4, fast)       0 del vars, 1663 del conss, 0 add conss, 1029 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 5, fast)       0 del vars, 1678 del conss, 0 add conss, 1041 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 6, fast)       0 del vars, 1679 del conss, 0 add conss, 1041 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 7, exhaustive) 0 del vars, 1680 del conss, 0 add conss, 1041 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) no symmetry present
-presolving (8 rounds: 8 fast, 2 medium, 2 exhaustive):
- 0 deleted vars, 1680 deleted constraints, 0 added constraints, 1041 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-presolved problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 128 constraints
-    108 constraints of type <linear>
-     20 constraints of type <nonlinear>
-Presolving Time: 0.02
-transformed 1/1 original solutions to the transformed problem space
-
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |   465 |     - |  9810k |   0 | 884 | 128 | 261 |   0 |  0 |   0 |   0 | 9.999029e-01 | 9.998973e-01 |   0.00%| unknown
-  0.0s|     1 |     0 |   481 |     - |  9817k |   0 | 884 | 128 | 271 |  10 |  1 |   0 |   0 | 9.998973e-01 | 9.998973e-01 |   0.00%| unknown
-  0.0s|     1 |     0 |   481 |     - |  9817k |   0 | 884 | 128 | 271 |  10 |  1 |   0 |   0 | 9.998973e-01 | 9.998973e-01 |   0.00%| unknown
-
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.04
-Solving Nodes      : 1
-Primal Bound       : +9.99897323581429e-01 (1 solutions)
-Dual Bound         : +9.99897323581429e-01
-Gap                : 0.00 %
-despues
-
-===== Capas 3 Neuronas 5 =====
-
-Tolerancia: 0.05 
-1/1 feasible solution given by solution candidate storage, new primal bound 9.998973e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1568 del conss, 0 add conss, 942 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-presolving (2 rounds: 2 fast, 0 medium, 0 exhaustive):
- 0 deleted vars, 1578 deleted constraints, 0 added constraints, 952 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-transformed 1/1 original solutions to the transformed problem space
-Presolving Time: 0.01
-
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.01
-Solving Nodes      : 0
-Primal Bound       : +9.99897323581429e-01 (1 solutions)
-Dual Bound         : +9.99897323581429e-01
 Gap                : 0.00 %
 despues
 
@@ -713,15 +174,29 @@ Tolerancia: 0.05
 
 presolving:
 (round 1, fast)       0 del vars, 1568 del conss, 0 add conss, 113 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-presolving (2 rounds: 2 fast, 0 medium, 0 exhaustive):
- 0 deleted vars, 1578 deleted constraints, 0 added constraints, 123 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+(round 2, fast)       0 del vars, 1576 del conss, 0 add conss, 125 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 3, fast)       0 del vars, 1602 del conss, 0 add conss, 160 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 4, fast)       0 del vars, 1663 del conss, 0 add conss, 200 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 5, fast)       0 del vars, 1677 del conss, 0 add conss, 212 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
+   (0.0s) no symmetry present
+presolving (6 rounds: 6 fast, 1 medium, 1 exhaustive):
+ 0 deleted vars, 1677 deleted constraints, 0 added constraints, 212 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
  0 implications, 0 cliques
-transformed 1/1 original solutions to the transformed problem space
+presolved problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 131 constraints
+    111 constraints of type <linear>
+     20 constraints of type <nonlinear>
 Presolving Time: 0.01
+transformed 1/1 original solutions to the transformed problem space
+
+ time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
+  0.0s|     1 |     0 |   384 |     - |  9811k |   0 | 884 | 131 | 265 |   0 |  0 |   0 |   0 | 9.998974e-01 | 9.998973e-01 |   0.00%| unknown
+  0.0s|     1 |     0 |   396 |     - |  9819k |   0 | 884 | 131 | 276 |  11 |  1 |   0 |   0 | 9.998973e-01 | 9.998973e-01 |   0.00%| unknown
+  0.0s|     1 |     0 |   396 |     - |  9819k |   0 | 884 | 131 | 276 |  11 |  1 |   0 |   0 | 9.998973e-01 | 9.998973e-01 |   0.00%| unknown
 
 SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.01
-Solving Nodes      : 0
+Solving Time (sec) : 0.04
+Solving Nodes      : 1
 Primal Bound       : +9.99897323581429e-01 (1 solutions)
 Dual Bound         : +9.99897323581429e-01
 Gap                : 0.00 %
@@ -733,23 +208,21 @@ Tolerancia: 0.01
 1/1 feasible solution given by solution candidate storage, new primal bound -9.995891e-01
 
 presolving:
-(round 1, fast)       0 del vars, 1628 del conss, 0 add conss, 1026 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       67 del vars, 1752 del conss, 0 add conss, 1114 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       67 del vars, 1833 del conss, 0 add conss, 1170 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 4, fast)       67 del vars, 1863 del conss, 0 add conss, 1170 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 1, fast)       0 del vars, 1580 del conss, 0 add conss, 60 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 2, fast)       67 del vars, 1580 del conss, 0 add conss, 60 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
    (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
    (0.0s) no symmetry present
-presolving (5 rounds: 5 fast, 1 medium, 1 exhaustive):
- 67 deleted vars, 1863 deleted constraints, 0 added constraints, 1170 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+presolving (3 rounds: 3 fast, 1 medium, 1 exhaustive):
+ 67 deleted vars, 1580 deleted constraints, 0 added constraints, 60 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
  0 implications, 0 cliques
-presolved problem has 777 variables (0 bin, 0 int, 0 impl, 777 cont) and 65 constraints
-     35 constraints of type <linear>
+presolved problem has 777 variables (0 bin, 0 int, 0 impl, 777 cont) and 78 constraints
+     48 constraints of type <linear>
      30 constraints of type <nonlinear>
-Presolving Time: 0.03
+Presolving Time: 0.02
 transformed 1/1 original solutions to the transformed problem space
 
  time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |     0 |     - |    10M |   0 | 867 |  65 |   0 |   0 |  0 |   0 |   0 |-9.995891e-01 |-9.995891e-01 |   0.00%| unknown
+  0.0s|     1 |     0 |     0 |     - |    10M |   0 | 867 |  78 |   0 |   0 |  0 |   0 |   0 |-9.995891e-01 |-9.995891e-01 |   0.00%| unknown
 
 SCIP Status        : problem is solved [optimal solution found]
 Solving Time (sec) : 0.03
@@ -761,163 +234,37 @@ despues
 
 ===== Capas 3 Neuronas 10 =====
 
-Tolerancia: 0.01 
-1/1 feasible solution given by solution candidate storage, new primal bound -9.995891e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1628 del conss, 0 add conss, 1024 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       67 del vars, 1753 del conss, 0 add conss, 1112 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       67 del vars, 1830 del conss, 0 add conss, 1168 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 4, fast)       67 del vars, 1862 del conss, 0 add conss, 1168 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) no symmetry present
-presolving (5 rounds: 5 fast, 1 medium, 1 exhaustive):
- 67 deleted vars, 1862 deleted constraints, 0 added constraints, 1168 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L3_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 844 variables (0 bin, 0 int, 0 impl, 844 cont) and 1658 constraints
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: overflow encountered in power
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-/home/pablo/Tesis/functions.py:701: RuntimeWarning: overflow encountered in exp
-  f = lambda x: 1/(1+np.exp(-x))
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: overflow encountered in exp
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: invalid value encountered in scalar divide
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L3_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 844 variables (0 bin, 0 int, 0 impl, 844 cont) and 1928 constraints
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L3_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 844 variables (0 bin, 0 int, 0 impl, 844 cont) and 1928 constraints
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L3_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 844 variables (0 bin, 0 int, 0 impl, 844 cont) and 1703 constraints
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: overflow encountered in power
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-/home/pablo/Tesis/functions.py:701: RuntimeWarning: overflow encountered in exp
-  f = lambda x: 1/(1+np.exp(-x))
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: overflow encountered in exp
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: invalid value encountered in scalar divide
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L4_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 834 variables (0 bin, 0 int, 0 impl, 834 cont) and 1868 constraints
-presolved problem has 777 variables (0 bin, 0 int, 0 impl, 777 cont) and 66 constraints
-     36 constraints of type <linear>
-     30 constraints of type <nonlinear>
-Presolving Time: 0.03
-transformed 1/1 original solutions to the transformed problem space
-
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |     0 |     - |    10M |   0 | 867 |  66 |   0 |   0 |  0 |   0 |   0 |-9.995891e-01 |-9.995891e-01 |   0.00%| unknown
-
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.03
-Solving Nodes      : 1
-Primal Bound       : -9.99589123850455e-01 (1 solutions)
-Dual Bound         : -9.99589123850455e-01
-Gap                : 0.00 %
-despues
-
-===== Capas 3 Neuronas 10 =====
-
-Tolerancia: 0.01 
-solution violates original bounds of variable <z1,0> [1e+20,-1e+20] solution value <2.27155>
+Tolerancia: 0.05 
+  [linear] <cc_env1_0,6>: <a0,6>[C] (+0) -0.196580795<z0,6>[C] (-23.2514229) <= 0.534477788873294;
+;
+violation: right hand side is violated by 4.03630540831102
 all 1 solutions given by solution candidate storage are infeasible
 
 presolving:
-problem infeasible: continuous variable <t_z2,9> has bounds [100000000000000000000.00000000000000000,-100000000000000000000.00000000000000000]
-presolving (1 rounds: 1 fast, 0 medium, 0 exhaustive):
- 0 deleted vars, 0 deleted constraints, 0 added constraints, 0 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-presolving detected infeasibility
-Presolving Time: 0.01
-
-SCIP Status        : problem is solved [infeasible]
-Solving Time (sec) : 0.01
-Solving Nodes      : 0
-Primal Bound       : -1.00000000000000e+20 (objective limit, 0 solutions)
-Dual Bound         : -1.00000000000000e+20
-Gap                : 0.00 %
-despues
-
-===== Capas 3 Neuronas 10 =====
-
-Tolerancia: 0.05 
-1/1 feasible solution given by solution candidate storage, new primal bound -9.995891e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1590 del conss, 0 add conss, 1007 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       67 del vars, 1618 del conss, 0 add conss, 1056 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       67 del vars, 1625 del conss, 0 add conss, 1065 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 1, fast)       0 del vars, 1569 del conss, 0 add conss, 145 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 2, fast)       67 del vars, 1575 del conss, 0 add conss, 167 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 3, fast)       67 del vars, 1578 del conss, 0 add conss, 193 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 4, fast)       67 del vars, 1580 del conss, 0 add conss, 215 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 5, fast)       67 del vars, 1581 del conss, 0 add conss, 247 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 6, fast)       67 del vars, 1581 del conss, 0 add conss, 263 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 7, fast)       67 del vars, 1582 del conss, 0 add conss, 266 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 8, exhaustive) 67 del vars, 1591 del conss, 0 add conss, 268 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
    (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
    (0.0s) no symmetry present
-presolving (4 rounds: 4 fast, 1 medium, 1 exhaustive):
- 67 deleted vars, 1625 deleted constraints, 0 added constraints, 1065 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+presolving (9 rounds: 9 fast, 2 medium, 2 exhaustive):
+ 67 deleted vars, 1591 deleted constraints, 0 added constraints, 268 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
  0 implications, 0 cliques
-presolved problem has 777 variables (0 bin, 0 int, 0 impl, 777 cont) and 303 constraints
-    273 constraints of type <linear>
+presolved problem has 777 variables (0 bin, 0 int, 0 impl, 777 cont) and 292 constraints
+    262 constraints of type <linear>
      30 constraints of type <nonlinear>
 Presolving Time: 0.03
-transformed 1/1 original solutions to the transformed problem space
 
  time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |     0 |     - |    10M |   0 | 867 | 303 |   0 |   0 |  0 |   0 |   0 |-9.995891e-01 |-9.995891e-01 |   0.00%| unknown
-
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.03
-Solving Nodes      : 1
-Primal Bound       : -9.99589123850455e-01 (1 solutions)
-Dual Bound         : -9.99589123850455e-01
-Gap                : 0.00 %
-despues
-
-===== Capas 3 Neuronas 10 =====
-
-Tolerancia: 0.05 
-1/1 feasible solution given by solution candidate storage, new primal bound -9.995891e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1590 del conss, 0 add conss, 1005 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       67 del vars, 1618 del conss, 0 add conss, 1052 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       67 del vars, 1625 del conss, 0 add conss, 1056 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) no symmetry present
-presolving (4 rounds: 4 fast, 1 medium, 1 exhaustive):
- 67 deleted vars, 1625 deleted constraints, 0 added constraints, 1056 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-presolved problem has 777 variables (0 bin, 0 int, 0 impl, 777 cont) and 303 constraints
-    273 constraints of type <linear>
-     30 constraints of type <nonlinear>
-Presolving Time: 0.03
-transformed 1/1 original solutions to the transformed problem space
-
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |     0 |     - |    10M |   0 | 867 | 303 |   0 |   0 |  0 |   0 |   0 |-9.995891e-01 |-9.995891e-01 |   0.00%| unknown
-
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.03
-Solving Nodes      : 1
-Primal Bound       : -9.99589123850455e-01 (1 solutions)
-Dual Bound         : -9.99589123850455e-01
-Gap                : 0.00 %
-despues
-
-===== Capas 3 Neuronas 10 =====
-
-Tolerancia: 0.05 
-solution violates original bounds of variable <z1,0> [1e+20,-1e+20] solution value <2.27155>
-all 1 solutions given by solution candidate storage are infeasible
-
-presolving:
-problem infeasible: continuous variable <t_z2,9> has bounds [100000000000000000000.00000000000000000,-100000000000000000000.00000000000000000]
-presolving (1 rounds: 1 fast, 0 medium, 0 exhaustive):
- 0 deleted vars, 0 deleted constraints, 0 added constraints, 0 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-presolving detected infeasibility
-Presolving Time: 0.01
+  0.0s|     1 |     0 |     0 |     - |    10M |   0 | 867 | 292 |   0 |   0 |  0 |   0 |   0 |    cutoff    |      --      |   0.00%| unknown
 
 SCIP Status        : problem is solved [infeasible]
-Solving Time (sec) : 0.01
-Solving Nodes      : 0
+Solving Time (sec) : 0.03
+Solving Nodes      : 1
 Primal Bound       : -1.00000000000000e+20 (objective limit, 0 solutions)
 Dual Bound         : -1.00000000000000e+20
 Gap                : 0.00 %
@@ -929,315 +276,96 @@ Tolerancia: 0.01
 1/1 feasible solution given by solution candidate storage, new primal bound -9.997835e-01
 
 presolving:
-(round 1, fast)       0 del vars, 1592 del conss, 0 add conss, 978 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       67 del vars, 1657 del conss, 0 add conss, 1049 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       67 del vars, 1712 del conss, 0 add conss, 1112 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 4, fast)       67 del vars, 1781 del conss, 0 add conss, 1163 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 5, fast)       67 del vars, 1807 del conss, 0 add conss, 1163 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 1, fast)       0 del vars, 1571 del conss, 0 add conss, 68 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 2, fast)       67 del vars, 1571 del conss, 0 add conss, 68 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
    (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
    (0.0s) no symmetry present
-presolving (6 rounds: 6 fast, 1 medium, 1 exhaustive):
- 67 deleted vars, 1807 deleted constraints, 0 added constraints, 1163 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+presolving (3 rounds: 3 fast, 1 medium, 1 exhaustive):
+ 67 deleted vars, 1571 deleted constraints, 0 added constraints, 68 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
  0 implications, 0 cliques
-presolved problem has 767 variables (0 bin, 0 int, 0 impl, 767 cont) and 61 constraints
-     36 constraints of type <linear>
+presolved problem has 767 variables (0 bin, 0 int, 0 impl, 767 cont) and 72 constraints
+     47 constraints of type <linear>
      25 constraints of type <nonlinear>
-Presolving Time: 0.02
-transformed 1/1 original solutions to the transformed problem space
-
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |    97 |     - |  9415k |   0 | 842 |  61 | 245 |   0 |  0 |   0 |   0 |-9.997825e-01 |-9.997835e-01 |   0.00%| unknown
-  0.0s|     1 |     0 |   132 |     - |  9415k |   0 | 842 |  61 | 246 |   1 |  1 |   0 |   0 |-9.997825e-01 |-9.997835e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |  1049 |     - |  9631k |   0 | 842 |  60 | 246 |   1 |  3 |   0 |   0 |-9.997825e-01 |-9.997835e-01 |   0.00%| unknown
-* 0.1s|     1 |     0 |  1049 |     - |    LP  |   0 | 842 |  60 | 246 |   1 |  5 |   0 |   0 |-9.997825e-01 |-9.997825e-01 |   0.00%|primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L4_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 834 variables (0 bin, 0 int, 0 impl, 834 cont) and 1868 constraints
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L4_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 834 variables (0 bin, 0 int, 0 impl, 834 cont) and 1643 constraints
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: overflow encountered in power
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-/home/pablo/Tesis/functions.py:701: RuntimeWarning: overflow encountered in exp
-  f = lambda x: 1/(1+np.exp(-x))
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: overflow encountered in exp
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: invalid value encountered in scalar divide
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L4_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 834 variables (0 bin, 0 int, 0 impl, 834 cont) and 1868 constraints
- unknown
-
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.08
-Solving Nodes      : 1
-Primal Bound       : -9.99782498874807e-01 (2 solutions)
-Dual Bound         : -9.99782498874807e-01
-Gap                : 0.00 %
-despues
-
-===== Capas 4 Neuronas 5 =====
-
-Tolerancia: 0.01 
-1/1 feasible solution given by solution candidate storage, new primal bound -9.997835e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1592 del conss, 0 add conss, 980 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       67 del vars, 1655 del conss, 0 add conss, 1041 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       67 del vars, 1709 del conss, 0 add conss, 1093 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 4, fast)       67 del vars, 1773 del conss, 0 add conss, 1145 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 5, fast)       67 del vars, 1807 del conss, 0 add conss, 1145 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) no symmetry present
-presolving (6 rounds: 6 fast, 1 medium, 1 exhaustive):
- 67 deleted vars, 1807 deleted constraints, 0 added constraints, 1145 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-presolved problem has 767 variables (0 bin, 0 int, 0 impl, 767 cont) and 61 constraints
-     36 constraints of type <linear>
-     25 constraints of type <nonlinear>
-Presolving Time: 0.02
-transformed 1/1 original solutions to the transformed problem space
-
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |    88 |     - |  9419k |   0 | 842 |  61 | 245 |   0 |  0 |   0 |   0 |-9.997794e-01 |-9.997835e-01 |   0.00%| unknown
-  0.0s|     1 |     0 |   154 |     - |  9419k |   0 | 842 |  61 | 247 |   2 |  1 |   0 |   0 |-9.997794e-01 |-9.997835e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   973 |     - |  9635k |   0 | 842 |  59 | 247 |   2 |  3 |   0 |   0 |-9.997794e-01 |-9.997835e-01 |   0.00%| unknown
-* 0.1s|     1 |     0 |   973 |     - |    LP  |   0 | 842 |  59 | 247 |   2 |  5 |   0 |   0 |-9.997794e-01 |-9.997794e-01 |   0.00%| unknown
-
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.08
-Solving Nodes      : 1
-Primal Bound       : -9.99779439195446e-01 (2 solutions)
-Dual Bound         : -9.99779439195446e-01
-Gap                : 0.00 %
-despues
-
-===== Capas 4 Neuronas 5 =====
-
-Tolerancia: 0.01 
-1/1 feasible solution given by solution candidate storage, new primal bound -9.997835e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1571 del conss, 0 add conss, 69 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-presolving (2 rounds: 2 fast, 0 medium, 0 exhaustive):
- 67 deleted vars, 1571 deleted constraints, 0 added constraints, 69 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-transformed 1/1 original solutions to the transformed problem space
 Presolving Time: 0.01
-
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.01
-Solving Nodes      : 0
-Primal Bound       : -9.99783461826964e-01 (1 solutions)
-Dual Bound         : -9.99783461826964e-01
-Gap                : 0.00 %
-despues
-
-===== Capas 4 Neuronas 5 =====
-
-Tolerancia: 0.05 
-1/1 feasible solution given by solution candidate storage, new primal bound 9.979468e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1569 del conss, 0 add conss, 969 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       67 del vars, 1577 del conss, 0 add conss, 979 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       67 del vars, 1603 del conss, 0 add conss, 1016 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 4, fast)       67 del vars, 1626 del conss, 0 add conss, 1039 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 5, fast)       67 del vars, 1634 del conss, 0 add conss, 1043 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) no symmetry present
-presolving (6 rounds: 6 fast, 1 medium, 1 exhaustive):
- 67 deleted vars, 1634 deleted constraints, 0 added constraints, 1043 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-presolved problem has 767 variables (0 bin, 0 int, 0 impl, 767 cont) and 234 constraints
-    209 constraints of type <linear>
-     25 constraints of type <nonlinear>
-Presolving Time: 0.02
 transformed 1/1 original solutions to the transformed problem space
 
  time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |   417 |     - |  9565k |   0 | 842 | 234 | 457 |   0 |  0 |   0 |   0 | 9.988829e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   441 |     - |  9580k |   0 | 842 | 234 | 475 |  18 |  1 |   0 |   0 | 9.988829e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   446 |     - |  9580k |   0 | 842 | 234 | 479 |  22 |  2 |   0 |   0 | 9.988829e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   465 |     - |  9580k |   0 | 842 | 234 | 482 |  25 |  3 |   0 |   0 | 9.988829e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   474 |     - |  9580k |   0 | 842 | 234 | 491 |  34 |  4 |   0 |   0 | 9.988829e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   477 |     - |  9580k |   0 | 842 | 234 | 492 |  35 |  5 |   0 |   0 | 9.988829e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   479 |     - |  9580k |   0 | 842 | 234 | 493 |  36 |  6 |   0 |   0 | 9.988829e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   481 |     - |  9580k |   0 | 842 | 234 | 494 |  37 |  7 |   0 |   0 | 9.988829e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   483 |     - |  9580k |   0 | 842 | 234 | 495 |  38 |  8 |   0 |   0 | 9.988829e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   485 |     - |  9580k |   0 | 842 | 234 | 496 |  39 |  9 |   0 |   0 | 9.988829e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   487 |     - |  9580k |   0 | 842 | 234 | 497 |  40 | 10 |   0 |   0 | 9.988829e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   488 |     - |  9580k |   0 | 842 | 234 | 272 |  41 | 11 |   0 |   0 | 9.988829e-01 | 9.979468e-01 |   0.09%| unknown
-  0.2s|     1 |     0 |  2045 |     - |  9828k |   0 | 842 | 153 | 272 |  41 | 11 |   0 |   0 | 9.988829e-01 | 9.979468e-01 |   0.09%| unknown
-  0.2s|     1 |     0 |  2061 |     - |  9828k |   0 | 842 | 153 | 287 |  56 | 12 |   0 |   0 | 9.988829e-01 | 9.979468e-01 |   0.09%| unknown
-  0.2s|     1 |     0 |  2067 |     - |  9828k |   0 | 842 | 153 | 292 |  61 | 13 |   0 |   0 | 9.988829e-01 | 9.979468e-01 |   0.09%| unknown
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.2s|     1 |     0 |  2069 |     - |  9828k |   0 | 842 | 153 | 263 |  62 | 14 |   0 |   0 | 9.988829e-01 | 9.979468e-01 |   0.09%| unknown
-  0.2s|     1 |     0 |  2071 |     - |  9828k |   0 | 842 | 153 | 264 |  63 | 15 |   0 |   0 | 9.988829e-01 | 9.979468e-01 |   0.09%| unknown
-  0.2s|     1 |     0 |  2072 |     - |  9828k |   0 | 842 | 153 | 265 |  64 | 16 |   0 |   0 | 9.988829e-01 | 9.979468e-01 |   0.09%| unknown
-  0.2s|     1 |     2 |  2072 |     - |  9867k |   0 | 842 | 153 | 265 |  64 | 18 |   0 |   0 | 9.988829e-01 | 9.979468e-01 |   0.09%| unknown
-
-SCIP Status        : solving was interrupted [total node limit reached]
-Solving Time (sec) : 0.17
-Solving Nodes      : 1
-Primal Bound       : +9.97946764216737e-01 (1 solutions)
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L4_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
+  0.0s|     1 |     0 |    93 |     - |  9336k |   0 | 842 |  72 | 256 |   0 |  0 |   0 |   0 |-9.997832e-01 |-9.997835e-01 |   0.00%| unknown
+  0.0s|     1 |     0 |   126 |     - |  9336k |   0 | 842 |  72 |primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L4_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
 original problem has 834 variables (0 bin, 0 int, 0 impl, 834 cont) and 1868 constraints
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L4_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 834 variables (0 bin, 0 int, 0 impl, 834 cont) and 1868 constraints
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: overflow encountered in power
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-/home/pablo/Tesis/functions.py:701: RuntimeWarning: overflow encountered in exp
-  f = lambda x: 1/(1+np.exp(-x))
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: overflow encountered in exp
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: invalid value encountered in scalar divide
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L4_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 2048 constraints
-Dual Bound         : +9.98882894375986e-01
-Gap                : 0.09 %
-despues
-
-===== Capas 4 Neuronas 5 =====
-
-Tolerancia: 0.05 
-1/1 feasible solution given by solution candidate storage, new primal bound 9.979468e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1569 del conss, 0 add conss, 971 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       67 del vars, 1577 del conss, 0 add conss, 983 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       67 del vars, 1606 del conss, 0 add conss, 1017 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 4, fast)       67 del vars, 1624 del conss, 0 add conss, 1040 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 5, fast)       67 del vars, 1632 del conss, 0 add conss, 1044 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) no symmetry present
-presolving (6 rounds: 6 fast, 1 medium, 1 exhaustive):
- 67 deleted vars, 1632 deleted constraints, 0 added constraints, 1044 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-presolved problem has 767 variables (0 bin, 0 int, 0 impl, 767 cont) and 236 constraints
-    211 constraints of type <linear>
-     25 constraints of type <nonlinear>
-Presolving Time: 0.02
-transformed 1/1 original solutions to the transformed problem space
-
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |   395 |     - |  9567k |   0 | 842 | 236 | 462 |   0 |  0 |   0 |   0 | 9.989243e-01 | 9.979468e-01 |   0.10%| unknown
-  0.0s|     1 |     0 |   418 |     - |  9567k |   0 | 842 | 236 | 478 |  16 |  1 |   0 |   0 | 9.988418e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   435 |     - |  9582k |   0 | 842 | 236 | 495 |  33 |  2 |   0 |   0 | 9.988418e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   441 |     - |  9582k |   0 | 842 | 236 | 500 |  38 |  3 |   0 |   0 | 9.988418e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   444 |     - |  9582k |   0 | 842 | 236 | 501 |  39 |  4 |   0 |   0 | 9.988418e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   446 |     - |  9582k |   0 | 842 | 236 | 502 |  40 |  5 |   0 |   0 | 9.988418e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   448 |     - |  9582k |   0 | 842 | 236 | 503 |  41 |  6 |   0 |   0 | 9.988418e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   450 |     - |  9582k |   0 | 842 | 236 | 504 |  42 |  7 |   0 |   0 | 9.988418e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   451 |     - |  9582k |   0 | 842 | 236 | 505 |  43 |  8 |   0 |   0 | 9.988418e-01 | 9.979468e-01 |   0.09%| unknown
-  0.2s|     1 |     0 |  3565 |     - |  9835k |   0 | 842 | 152 | 505 |  43 | 10 |   0 |   0 | 9.988418e-01 | 9.979468e-01 |   0.09%| unknown
-  0.2s|     1 |     0 |  3568 |     - |  9835k |   0 | 842 | 152 | 508 |  46 | 11 |   0 |   0 | 9.988417e-01 | 9.979468e-01 |   0.09%| unknown
-  0.2s|     1 |     2 |  3568 |     - |  9874k |   0 | 842 | 152 | 508 |  46 | 13 |   0 |   0 | 9.988417e-01 | 9.979468e-01 |   0.09%| unknown
-
-SCIP Status        : solving was interrupted [total node limit reached]
-Solving Time (sec) : 0.22
-Solving Nodes      : 1
-Primal Bound       : +9.97946764216737e-01 (1 solutions)
-Dual Bound         : +9.98841683118204e-01
-Gap                : 0.09 %
-despues
-
-===== Capas 4 Neuronas 5 =====
-
-Tolerancia: 0.05 
-1/1 feasible solution given by solution candidate storage, new primal bound 9.979468e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1568 del conss, 0 add conss, 139 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       67 del vars, 1576 del conss, 0 add conss, 151 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       67 del vars, 1605 del conss, 0 add conss, 185 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 4, fast)       67 del vars, 1624 del conss, 0 add conss, 209 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 5, fast)       67 del vars, 1630 del conss, 0 add conss, 212 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) no symmetry present
-presolving (6 rounds: 6 fast, 1 medium, 1 exhaustive):
- 67 deleted vars, 1630 deleted constraints, 0 added constraints, 212 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-presolved problem has 767 variables (0 bin, 0 int, 0 impl, 767 cont) and 238 constraints
-    213 constraints of type <linear>
-     25 constraints of type <nonlinear>
-Presolving Time: 0.02
-transformed 1/1 original solutions to the transformed problem space
-
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |   585 |     - |  9572k |   0 | 842 | 238 | 462 |   0 |  0 |   0 |   0 | 9.988817e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   599 |     - |  9572k |   0 | 842 | 238 | 477 |  15 |  1 |   0 |   0 | 9.988227e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   605 |     - |  9572k |   0 | 842 | 238 | 482 |  20 |  2 |   0 |   0 | 9.988227e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   608 |     - |  9587k |   0 | 842 | 238 | 484 |  22 |  3 |   0 |   0 | 9.988227e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   610 |     - |  9587k |   0 | 842 | 238 | 485 |  23 |  4 |   0 |   0 | 9.988227e-01 | 9.979468e-01 |   0.09%| unknown
-  0.0s|     1 |     0 |   612 |     - |  9587k |   0 | 842 | 238 | 486 |  24 |  5 |   0 |   0 | 9.988227e-01 | 9.979468e-01 |   0.09%| unknown
-  0.1s|     1 |     0 |   614 |     - |  9587k |   0 | 842 | 238 | 487 |  25 |  6 |   0 |   0 | 9.988227e-01 | 9.979468e-01 |   0.09%| unknown
-  0.1s|     1 |     0 |   616 |     - |  9587k |   0 | 842 | 238 | 488 |  26 |  7 |   0 |   0 | 9.988227e-01 | 9.979468e-01 |   0.09%| unknown
-  0.1s|     1 |     0 |   617 |     - |  9587k |   0 | 842 | 238 | 489 |  27 |  8 |   0 |   0 | 9.988227e-01 | 9.979468e-01 |   0.09%| unknown
-  0.3s|     1 |     0 |  4378 |     - |  9817k |   0 | 842 | 148 | 489 |  27 | 10 |   0 |   0 | 9.988227e-01 | 9.979468e-01 |   0.09%| unknown
-  0.3s|     1 |     0 |  4383 |     - |  9817k |   0 | 842 | 148 | 494 |  32 | 11 |   0 |   0 | 9.988220e-01 | 9.979468e-01 |   0.09%| unknown
-  0.3s|     1 |     2 |  4383 |     - |  9857k |   0 | 842 | 148 | 494 |  32 | 13 |   0 |   0 | 9.988220e-01 | 9.979468e-01 |   0.09%| unknown
-
-SCIP Status        : solving was interrupted [total node limit reached]
-Solving Time (sec) : 0.25
-Solving Nodes      : 1
-Primal Bound       : +9.97946764216737e-01 (1 solutions)
-Dual Bound         : +9.98822033158047e-01
-Gap                : 0.09 %
-despues
-
-===== Capas 4 Neuronas 10 =====
-
-Tolerancia: 0.01 
-1/1 feasible solution given by solution candidate storage, new primal bound -9.999201e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1608 del conss, 0 add conss, 1070 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       0 del vars, 1725 del conss, 0 add conss, 1187 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       0 del vars, 1818 del conss, 0 add conss, 1261 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 4, fast)       0 del vars, 1907 del conss, 0 add conss, 1318 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 5, fast)       0 del vars, 1936 del conss, 0 add conss, 1318 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L4_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 2048 constraints
 primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L4_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
 original problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 1688 constraints
+ 257 |   1 |  1 |   0 |   0 |-9.997832e-01 |-9.997835e-01 |   0.00%| unknown
+  0.0s|     1 |     0 |   128 |     - |  9336k |   0 | 842 |  72 | 258 |   2 |  2 |   0 |   0 |-9.997832e-01 |-9.997835e-01 |   0.00%| unknown
+  0.0s|     1 |     0 |   130 |     - |  9336k |   0 | 842 |  72 | 259 |   3 |  3 |   0 |   0 |-9.997832e-01 |-9.997835e-01 |   0.00%| unknown
+  0.1s|     1 |     0 |   790 |     - |  9582k |   0 | 842 |  72 | 259 |   3 |  5 |   0 |   0 |-9.997832e-01 |-9.997835e-01 |   0.00%| unknown
+  0.1s|     1 |     2 |   790 |     - |  9621k |   0 | 842 |  72 | 259 |   3 |  7 |   0 |   0 |-9.997832e-01 |-9.997835e-01 |   0.00%| unknown
+
+SCIP Status        : solving was interrupted [total node limit reached]
+Solving Time (sec) : 0.06
+Solving Nodes      : 1
+Primal Bound       : -9.99783461826964e-01 (1 solutions)
+Dual Bound         : -9.99783177981602e-01
+Gap                : 0.00 %
+despues
+
+===== Capas 4 Neuronas 5 =====
+
+Tolerancia: 0.05 
+1/1 feasible solution given by solution candidate storage, new primal bound 9.979468e-01
+
+presolving:
+(round 1, fast)       0 del vars, 1568 del conss, 0 add conss, 137 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 2, fast)       67 del vars, 1576 del conss, 0 add conss, 147 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 3, fast)       67 del vars, 1602 del conss, 0 add conss, 184 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 4, fast)       67 del vars, 1625 del conss, 0 add conss, 208 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 5, fast)       67 del vars, 1631 del conss, 0 add conss, 211 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
    (0.0s) no symmetry present
 presolving (6 rounds: 6 fast, 1 medium, 1 exhaustive):
- 0 deleted vars, 1936 deleted constraints, 0 added constraints, 1318 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+ 67 deleted vars, 1631 deleted constraints, 0 added constraints, 213 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
  0 implications, 0 cliques
-presolved problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 112 constraints
-     72 constraints of type <linear>
-     40 constraints of type <nonlinear>
-Presolving Time: 0.03
+presolved problem has 767 variables (0 bin, 0 int, 0 impl, 767 cont) and 237 constraints
+    212 constraints of type <linear>
+     25 constraints of type <nonlinear>
+Presolving Time: 0.02
 transformed 1/1 original solutions to the transformed problem space
 
  time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |   213 |     - |    12M |   0 | 984 | 112 | 439 |   0 |  0 |   0 |   0 |-9.999024e-01 |-9.999201e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |  1234 |     - |    12M |   0 | 984 | 112 | 455 |  16 |  1 |   0 |   0 |-9.999080e-01 |-9.999201e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |  1644 |     - |    12M |   0 | 984 | 112 | 470 |  31 |  2 |   0 |   0 |-9.999080e-01 |-9.999201e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |  2617 |     - |    12M |   0 | 984 | 112 | 475 |  36 |  3 |   0 |   0 |-9.999081e-01 |-9.999201e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |  2619 |     - |    12M |   0 | 984 | 112 | 476 |  37 |  4 |   0 |   0 |-9.999081e-01 |-9.999201e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |  2621 |     - |    12M |   0 | 984 | 112 | 477 |  38 |  5 |   0 |   0 |-9.999081e-01 |-9.999201e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |  2623 |     - |    12M |   0 | 984 | 112 | 478 |  39 |  6 |   0 |   0 |-9.999081e-01 |-9.999201e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |  2624 |     - |    12M |   0 | 984 | 112 | 479 |  40 |  7 |   0 |   0 |-9.999081e-01 |-9.999201e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |  2625 |     - |    12M |   0 | 984 | 112 | 480 |  41 |  8 |   0 |   0 |-9.999081e-01 |-9.999201e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |  2626 |     - |    12M |   0 | 984 | 112 | 481 |  42 |  9 |   0 |   0 |-9.999081e-01 |-9.999201e-01 |   0.00%| unknown
-  0.4s|     1 |     0 |  6230 |     - |    12M |   0 | 984 | 108 | 202 |  42 | 11 |   0 |   0 |-9.999081e-01 |-9.999201e-01 |   0.00%| unknown
-  0.4s|     1 |     0 |  6303 |     - |    12M |   0 | 984 | 108 | 207 |  57 | 12 |   0 |   0 |-9.999082e-01 |-9.999201e-01 |   0.00%| unknown
-  0.4s|     1 |     0 |  6304 |     - |    12M |   0 | 984 | 108 | 208 |  58 | 13 |   0 |   0 |-9.999082e-01 |-9.999201e-01 |   0.00%| unknown
-  0.4s|     1 |     0 |  6308 |     - |    12M |   0 | 984 | 108 | 212 |  62 | 15 |   0 |   0 |-9.999082e-01 |-9.999201e-01 |   0.00%| unknown
-  0.4s|     1 |     0 |  6309 |     - |    12M |   0 | 984 | 108 | 213 |  63 | 17 |   0 |   0 |-9.999082e-01 |-9.999201e-01 |   0.00%| unknown
+  0.0s|     1 |     0 |   491 |     - |  9569k |   0 | 842 | 237 | 463 |   0 |  0 |   0 |   0 | 9.988892e-01 | 9.979468e-01 |   0.09%| unknown
+  0.0s|     1 |     0 |   509 |     - |  9569k |   0 | 842 | 237 | 479 |  16 |  1 |   0 |   0 | 9.988892e-01 | 9.979468e-01 |   0.09%| unknown
+  0.0s|     1 |     0 |   517 |     - |  9584k |   0 | 842 | 237 | 483 |  20 |  2 |   0 |   0 | 9.988892e-01 | 9.979468e-01 |   0.09%| unknown
+  0.0s|     1 |     0 |   521 |     - |  9584k |   0 | 842 | 237 | 486 |  23 |  3 |   0 |   0 | 9.988892e-01 | 9.979468e-01 |   0.09%| unknown
+  0.0s|     1 |     0 |   524 |     - |  9584k |   0 | 842 | 237 | 488 |  25 |  4 |   0 |   0 | 9.988892e-01 | 9.979468e-01 |   0.09%| unknown
+  0.0s|     1 |     0 |   526 |     - |  9584k |   0 | 842 | 237 | 489 |  26 |  5 |   0 |   0 | 9.988892e-01 | 9.979468e-01 |   0.09%| unknown
+  0.0s|     1 |     0 |   528 |     - |  9584k |   0 | 842 | 237 | 490 |  27 |  6 |   0 |   0 | 9.988892e-01 | 9.979468e-01 |   0.09%| unknown
+  0.0s|     1 |     0 |   530 |     - |  9584k |   0 | 842 | 237 | 491 |  28 |  7 |   0 |   0 | 9.988892e-01 | 9.979468e-01 |   0.09%| unknown
+  0.0s|     1 |     0 |   532 |     - |  9584k |   0 | 842 | 237 | 492 |  29 |  8 |   0 |   0 | 9.988892e-01 | 9.979468e-01 |   0.09%| unknown
+  0.0s|     1 |     0 |   533 |     - |  9584k |   0 | 842 | 237 | 493 |  30 |  9 |   0 |   0 | 9.988892e-01 | 9.979468e-01 |   0.09%| unknown
+  0.3s|     1 |     0 |  5112 |     - |  9900k |   0 | 842 | 155 | 268 |  30 | 11 |   0 |   0 | 9.988892e-01 | 9.979468e-01 |   0.09%| unknown
+  0.3s|     1 |     0 |  5236 |     - |  9900k |   0 | 842 | 155 | 273 |  35 | 12 |   0 |   0 | 9.988878e-01 | 9.979468e-01 |   0.09%| unknown
+  0.3s|     1 |     0 |  5237 |     - |  9900k |   0 | 842 | 155 | 274 |  36 | 13 |   0 |   0 | 9.988878e-01 | 9.979468e-01 |   0.09%| unknown
+  0.3s|     1 |     0 |  5238 |     - |  9900k |   0 | 842 | 155 | 275 |  37 | 14 |   0 |   0 | 9.988878e-01 | 9.979468e-01 |   0.09%| unknown
+  0.3s|     1 |     0 |  5239 |     - |  9900k |   0 | 842 | 155 | 263 |  38 | 15 |   0 |   0 | 9.988878e-01 | 9.979468e-01 |   0.09%| unknown
  time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.4s|     1 |     0 |  6310 |     - |    12M |   0 | 984 | 108 | 180 |  64 | 19 |   0 |   0 |-9.999082e-01 |-9.999201e-01 |   0.00%| unknown
-  0.4s|     1 |     0 |  6311 |     - |    12M |   0 | 984 | 108 | 181 |  65 | 21 |   0 |   0 |-9.999082e-01 |-9.999201e-01 |   0.00%| unknown
-  0.4s|     1 |     0 |  6312 |     - |    12M |   0 | 984 | 108 | 182 |  66 | 23 |   0 |   0 |-9.999082e-01 |-9.999201e-01 |   0.00%| unknown
-  0.4s|     1 |     2 |  6312 |     - |    12M |   0 | 984 | 108 | 182 |  66 | 25 |   0 |   0 |-9.999082e-01 |-9.999201e-01 |   0.00%| unknown
+  0.3s|     1 |     0 |  5240 |     - |  9900k |   0 | 842 | 155 | 264 |  39 | 16 |   0 |   0 | 9.988878e-01 | 9.979468e-01 |   0.09%| unknown
+  0.3s|     1 |     0 |  5241 |     - |  9900k |   0 | 842 | 155 | 265 |  40 | 18 |   0 |   0 | 9.988878e-01 | 9.979468e-01 |   0.09%| unknown
+  0.3s|     1 |     0 |  5242 |     - |  9900k |   0 | 842 | 155 | 266 |  41 | 20 |   0 |   0 | 9.988878e-01 | 9.979468e-01 |   0.09%| unknown
+  0.3s|     1 |     0 |  5243 |     - |  9900k |   0 | 842 | 155 | 267 |  42 | 22 |   0 |   0 | 9.988878e-01 | 9.979468e-01 |   0.09%| unknown
+  0.3s|     1 |     0 |  5244 |     - |  9900k |   0 | 842 | 155 | 268 |  43 | 24 |   0 |   0 | 9.988878e-01 | 9.979468e-01 |   0.09%| unknown
+  0.3s|     1 |     0 |  5245 |     - |  9900k |   0 | 842 | 155 | 264 |  44 | 26 |   0 |   0 | 9.988878e-01 | 9.979468e-01 |   0.09%| unknown
+  0.3s|     1 |     0 |  5246 |     - |  9900k |   0 | 842 | 155 | 265 |  45 | 28 |   0 |   0 | 9.988878e-01 | 9.979468e-01 |   0.09%| unknown
+  0.3s|     1 |     0 |  5247 |     - |  9900k |   0 | 842 | 155 | 266 |  46 | 30 |   0 |   0 | 9.988878e-01 | 9.979468e-01 |   0.09%| unknown
+  0.3s|     1 |     0 |  5248 |     - |  9900k |   0 | 842 | 155 | 267 |  47 | 32 |   0 |   0 | 9.988878e-01 | 9.979468e-01 |   0.09%| unknown
+  0.3s|     1 |     0 |  5249 |     - |  9900k |   0 | 842 | 155 | 268 |  48 | 34 |   0 |   0 | 9.988878e-01 | 9.979468e-01 |   0.09%| unknown
+  0.3s|     1 |     2 |  5249 |     - |  9939k |   0 | 842 | 155 | 268 |  48 | 36 |   0 |   0 | 9.988878e-01 | 9.979468e-01 |   0.09%| unknown
 
 SCIP Status        : solving was interrupted [total node limit reached]
-Solving Time (sec) : 0.38
+Solving Time (sec) : 0.31
 Solving Nodes      : 1
-Primal Bound       : -9.99920136156805e-01 (1 solutions)
-Dual Bound         : -9.99908186851378e-01
-Gap                : 0.00 %
+Primal Bound       : +9.97946764216737e-01 (1 solutions)
+Dual Bound         : +9.98887772301818e-01
+Gap                : 0.09 %
 despues
 
 ===== Capas 4 Neuronas 10 =====
@@ -1246,284 +374,120 @@ Tolerancia: 0.01
 1/1 feasible solution given by solution candidate storage, new primal bound -9.999201e-01
 
 presolving:
-(round 1, fast)       0 del vars, 1608 del conss, 0 add conss, 1070 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       0 del vars, 1725 del conss, 0 add conss, 1182 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       0 del vars, 1818 del conss, 0 add conss, 1253 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 4, fast)       0 del vars, 1907 del conss, 0 add conss, 1310 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 5, fast)       0 del vars, 1935 del conss, 0 add conss, 1310 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 1, fast)       0 del vars, 1572 del conss, 0 add conss, 80 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
    (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
    (0.0s) no symmetry present
-presolving (6 rounds: 6 fast, 1 medium, 1 exhaustive):
- 0 deleted vars, 1935 deleted constraints, 0 added constraints, 1310 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+presolving (2 rounds: 2 fast, 1 medium, 1 exhaustive):
+ 0 deleted vars, 1572 deleted constraints, 0 added constraints, 80 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
  0 implications, 0 cliques
-presolved problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 113 constraints
-     73 constraints of type <linear>
+presolved problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 116 constraints
+     76 constraints of type <linear>
      40 constraints of type <nonlinear>
-Presolving Time: 0.03
+Presolving Time: 0.02
 transformed 1/1 original solutions to the transformed problem space
 
+(node 1) unresolved numerical troubles in LP 2 -- using pseudo solution instead (loop 1)
  time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |   241 |     - |    12M |   0 | 984 | 113 | 440 |   0 |  0 |   0 |   0 |-9.999024e-01 |-9.999201e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   459 |     - |    12M |   0 | 984 | 113 | 456 |  16 |  1 |   0 |   0 |-9.999080e-01 |-9.999201e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   481 |     - |    12M |   0 | 984 | 113 | 471 |  31 |  2 |   0 |   0 |-9.999081e-01 |-9.999201e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   625 |     - |    12M |   0 | 984 | 113 | 473 |  33 |  3 |   0 |   0 |-9.999081e-01 |-9.999201e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   633 |     - |    12M |   0 | 984 | 113 | 474 |  34 |  4 |   0 |   0 |-9.999081e-01 |-9.999201e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   636 |     - |    12M |   0 | 984 | 113 | 475 |  35 |  5 |   0 |   0 |-9.999081e-01 |-9.999201e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   637 |     - |    12M |   0 | 984 | 113 | 476 |  36 |  6 |   0 |   0 |-9.999081e-01 |-9.999201e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   639 |     - |    12M |   0 | 984 | 113 | 477 |  37 |  7 |   0 |   0 |-9.999081e-01 |-9.999201e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   640 |     - |    12M |   0 | 984 | 113 | 478 |  38 |  8 |   0 |   0 |-9.999081e-01 |-9.999201e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   641 |     - |    12M |   0 | 984 | 113 | 479 |  39 |  9 |   0 |   0 |-9.999081e-01 |-9.999201e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   642 |     - |    12M |   0 | 984 | 113 | 188 |  40 | 10 |   0 |   0 |-9.999081e-01 |-9.999201e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   643 |     - |    12M |   0 | 984 | 113 | 189 |  41 | 11 |   0 |   0 |-9.999081e-01 |-9.999201e-01 |   0.00%| unknown
-  0.3s|     1 |     0 |  3910 |     - |    12M |   0 | 984 | 112 | 189 |  41 | 11 |   0 |   0 |-9.999081e-01 |-9.999201e-01 |   0.00%| unknown
-  0.3s|     1 |     0 |  4026 |     - |    12M |   0 | 984 | 112 | 161 |  55 | 12 |   0 |   0 |-9.999082e-01 |-9.999201e-01 |   0.00%| unknown
-  0.3s|     1 |     0 |  4031 |     - |    12M |   0 | 984 | 112 | 166 |  60 | 14 |   0 |   0 |-9.999082e-01 |-9.999201e-01 |   0.00%| unknown
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.3s|     1 |     2 |  4031 |     - |    12M |   0 | 984 | 112 | 166 |  60 | 16 |   0 |   0 |-9.999082e-01 |-9.999201e-01 |   0.00%| unknown
+  0.0s|     1 |     2 |   334 |     - |    12M |   0 | 984 | 116 | 443 |   0 |  0 |   0 |   0 |-9.999024e-01 |-9.999201e-01 |   0.00%| unknown
 
 SCIP Status        : solving was interrupted [total node limit reached]
-Solving Time (sec) : 0.26
+Solving Time (sec) : 0.04
 Solving Nodes      : 1
 Primal Bound       : -9.99920136156805e-01 (1 solutions)
-Dual Bound         : -9.99908160603003e-01
+Dual Bound         : -9.99902424696730e-01
 Gap                : 0.00 %
 despues
 
 ===== Capas 4 Neuronas 10 =====
 
-Tolerancia: 0.01 
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: overflow encountered in power
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-/home/pablo/Tesis/functions.py:701: RuntimeWarning: overflow encountered in exp
-  f = lambda x: 1/(1+np.exp(-x))
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: overflow encountered in exp
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
-/home/pablo/Tesis/functions.py:709: RuntimeWarning: invalid value encountered in scalar divide
-  df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
 primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L4_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
 original problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 2048 constraints
-1/1 feasible solution given by solution candidate storage, new primal bound -9.999201e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1573 del conss, 0 add conss, 80 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-presolving (2 rounds: 2 fast, 0 medium, 0 exhaustive):
- 0 deleted vars, 1573 deleted constraints, 0 added constraints, 80 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-transformed 1/1 original solutions to the transformed problem space
-Presolving Time: 0.01
-
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.02
-Solving Nodes      : 0
-Primal Bound       : -9.99920136156805e-01 (1 solutions)
-Dual Bound         : -9.99920136156805e-01
-Gap                : 0.00 %
-despues
-
-===== Capas 4 Neuronas 10 =====
-
 Tolerancia: 0.05 
 1/1 feasible solution given by solution candidate storage, new primal bound 9.999974e-01
 
 presolving:
-(round 1, fast)       0 del vars, 1571 del conss, 0 add conss, 1059 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       0 del vars, 1579 del conss, 0 add conss, 1071 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       0 del vars, 1587 del conss, 0 add conss, 1079 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 4, fast)       0 del vars, 1591 del conss, 0 add conss, 1079 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 5, exhaustive) 0 del vars, 1592 del conss, 0 add conss, 1079 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) no symmetry present
-presolving (6 rounds: 6 fast, 2 medium, 2 exhaustive):
- 0 deleted vars, 1592 deleted constraints, 0 added constraints, 1079 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-presolved problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 456 constraints
-    416 constraints of type <linear>
-     40 constraints of type <nonlinear>
-Presolving Time: 0.03
-transformed 1/1 original solutions to the transformed problem space
-
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.1s|     1 |     0 |   427 |     - |    12M |   0 | 984 | 456 | 805 |   0 |  0 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   483 |     - |    12M |   0 | 984 | 456 | 838 |  33 |  1 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   566 |     - |    12M |   0 | 984 | 456 | 872 |  67 |  2 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   626 |     - |    12M |   0 | 984 | 456 | 900 |  95 |  3 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   673 |     - |    12M |   0 | 984 | 456 | 931 | 126 |  4 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   725 |     - |    12M |   0 | 984 | 456 | 962 | 157 |  5 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   755 |     - |    12M |   0 | 984 | 456 | 985 | 180 |  6 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   785 |     - |    12M |   0 | 984 | 456 |1011 | 206 |  7 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   814 |     - |    12M |   0 | 984 | 456 |1030 | 225 |  8 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   831 |     - |    12M |   0 | 984 | 456 |1050 | 245 |  9 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   854 |     - |    12M |   0 | 984 | 456 |1065 | 260 | 10 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   875 |     - |    12M |   0 | 984 | 456 | 709 | 276 | 11 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.8s|     1 |     0 |  9640 |     - |    13M |   0 | 984 | 456 | 709 | 276 | 11 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.8s|     1 |     0 | 10103 |     - |    13M |   0 | 984 | 456 | 730 | 297 | 12 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.9s|     1 |     0 | 10556 |     - |    13M |   0 | 984 | 456 | 752 | 319 | 13 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.9s|     1 |     0 | 10598 |     - |    13M |   0 | 984 | 456 | 674 | 334 | 14 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.9s|     1 |     0 | 10625 |     - |    13M |   0 | 984 | 456 | 691 | 351 | 15 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.9s|     1 |     0 | 10883 |     - |    13M |   0 | 984 | 456 | 710 | 370 | 16 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.9s|     1 |     0 | 10913 |     - |    13M |   0 | 984 | 456 | 731 | 391 | 17 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.9s|     1 |     0 | 10936 |     - |    13M |   0 | 984 | 456 | 748 | 408 | 18 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.9s|     1 |     0 | 11096 |     - |    13M |   0 | 984 | 456 | 764 | 424 | 19 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.9s|     1 |     0 | 11110 |     - |    13M |   0 | 984 | 456 | 641 | 439 | 20 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.9s|     1 |     0 | 11122 |     - |    13M |   0 | 984 | 456 | 654 | 452 | 21 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.9s|     1 |     0 | 11131 |     - |    13M |   0 | 984 | 456 | 664 | 462 | 22 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  2.5s|     1 |     0 | 30949 |     - |    14M |   0 | 984 | 424 | 605 | 462 | 22 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  2.6s|     1 |     0 | 31287 |     - |    14M |   0 | 984 | 424 | 626 | 483 | 23 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  2.6s|     1 |     0 | 31412 |     - |    14M |   0 | 984 | 424 | 645 | 502 | 24 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  2.6s|     1 |     0 | 31426 |     - |    14M |   0 | 984 | 424 | 660 | 517 | 25 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  2.6s|     1 |     0 | 31435 |     - |    14M |   0 | 984 | 424 | 669 | 526 | 26 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  2.6s|     1 |     0 | 31445 |     - |    14M |   0 | 984 | 424 | 679 | 536 | 27 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  2.6s|     1 |     0 | 31449 |     - |    14M |   0 | 984 | 424 | 581 | 542 | 28 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  2.6s|     1 |     0 | 31453 |     - |    14M |   0 | 984 | 424 | 586 | 547 | 29 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  2.6s|     1 |     0 | 31457 |     - |    14M |   0 | 984 | 424 | 588 | 549 | 30 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  2.6s|     1 |     0 | 31459 |     - |    14M |   0 | 984 | 424 | 590 | 551 | 31 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  2.6s|     1 |     0 | 31460 |     - |    14M |   0 | 984 | 424 | 591 | 552 | 32 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  2.6s|     1 |     0 | 31465 |     - |    14M |   0 | 984 | 424 | 595 | 556 | 33 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  2.6s|     1 |     0 | 31469 |     - |    14M |   0 | 984 | 424 | 529 | 560 | 35 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  2.6s|     1 |     0 | 31471 |     - |    14M |   0 | 984 | 424 | 531 | 562 | 37 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  2.6s|     1 |     0 | 31474 |     - |    14M |   0 | 984 | 424 | 534 |primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L4_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 2048 constraints
- 565 | 39 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  2.6s|     1 |     0 | 31477 |     - |    14M |   0 | 984 | 424 | 537 | 568 | 41 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  2.6s|     1 |     0 | 31480 |     - |    14M |   0 | 984 | 424 | 540 | 571 | 43 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  2.6s|     1 |     0 | 31481 |     - |    14M |   0 | 984 | 424 | 541 | 572 | 45 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  2.6s|     1 |     2 | 31481 |     - |    14M |   0 | 984 | 424 | 541 | 572 | 47 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-
-SCIP Status        : solving was interrupted [total node limit reached]
-Solving Time (sec) : 2.59
-Solving Nodes      : 1
-Primal Bound       : +9.99997398505631e-01 (1 solutions)
-Dual Bound         : +1.00000000054824e+00
-Gap                : 0.00 %
-despues
-
-===== Capas 4 Neuronas 10 =====
-
-Tolerancia: 0.05 
-1/1 feasible solution given by solution candidate storage, new primal bound 9.999974e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1571 del conss, 0 add conss, 1059 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       0 del vars, 1579 del conss, 0 add conss, 1071 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       0 del vars, 1587 del conss, 0 add conss, 1078 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 4, fast)       0 del vars, 1591 del conss, 0 add conss, 1078 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 5, exhaustive) 0 del vars, 1592 del conss, 0 add conss, 1078 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) no symmetry present
-presolving (6 rounds: 6 fast, 2 medium, 2 exhaustive):
- 0 deleted vars, 1592 deleted constraints, 0 added constraints, 1078 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
- 0 implications, 0 cliques
-presolved problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 456 constraints
-    416 constraints of type <linear>
-     40 constraints of type <nonlinear>
-Presolving Time: 0.03
-transformed 1/1 original solutions to the transformed problem space
-
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.1s|     1 |     0 |   543 |     - |    12M |   0 | 984 | 456 | 812 |   0 |  0 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   843 |     - |    12M |   0 | 984 | 456 | 846 |  34 |  1 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   894 |     - |    12M |   0 | 984 | 456 | 878 |  66 |  2 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   940 |     - |    12M |   0 | 984 | 456 | 905 |  93 |  3 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   985 |     - |    12M |   0 | 984 | 456 | 935 | 123 |  4 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |  1018 |     - |    12M |   0 | 984 | 456 | 959 | 147 |  5 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |  1047 |     - |    12M |   0 | 984 | 456 | 982 | 170 |  6 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |  1073 |     - |    12M |   0 | 984 | 456 |1006 | 194 |  7 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |  1095 |     - |    12M |   0 | 984 | 456 |1028 | 216 |  8 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |  1118 |     - |    12M |   0 | 984 | 456 |1050 | 238 |  9 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |  1132 |     - |    12M |   0 | 984 | 456 |1064 | 252 | 10 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |  1144 |     - |    12M |   0 | 984 | 456 |1075 | 263 | 11 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.3s|     1 |     0 |  3824 |     - |    13M |   0 | 984 | 456 |1086 | 274 | 11 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.3s|     1 |     0 |  3829 |     - |    13M |   0 | 984 | 456 | 661 | 279 | 12 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  1.3s|     1 |     0 | 15441 |     - |    13M |   0 | 984 | 456 | 633 | 279 | 13 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  1.3s|     1 |     0 | 16347 |     - |    13M |   0 | 984 | 456 | 648 | 294 | 14 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.2s|     1 |     0 | 37276 |     - |    14M |   0 | 984 | 429 | 648 | 294 | 15 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.3s|     1 |     0 | 37800 |     - |    14M |   0 | 984 | 429 | 679 | 325 | 16 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.3s|     1 |     0 | 38111 |     - |    14M |   0 | 984 | 429 | 702 | 348 | 17 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.3s|     1 |     0 | 38138 |     - |    14M |   0 | 984 | 429 | 720 | 366 | 18 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.3s|     1 |     0 | 38216 |     - |    14M |   0 | 984 | 429 | 601 | 384 | 19 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.3s|     1 |     0 | 38241 |     - |    14M |   0 | 984 | 429 | 617 | 400 | 20 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.3s|     1 |     0 | 38276 |     - |    14M |   0 | 984 | 429 | 631 | 414 | 21 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.3s|     1 |     0 | 38574 |     - |    14M |   0 | 984 | 429 | 645 | 428 | 22 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.3s|     1 |     0 | 38594 |     - |    14M |   0 | 984 | 429 | 660 | 443 | 23 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.3s|     1 |     0 | 38807 |     - |    14M |   0 | 984 | 429 | 672 | 455 | 24 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.3s|     1 |     0 | 38827 |     - |    14M |   0 | 984 | 429 | 636 | 466 | 25 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.3s|     1 |     0 | 38839 |     - |    14M |   0 | 984 | 429 | 647 | 477 | 26 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.3s|     1 |     0 | 38851 |     - |    14M |   0 | 984 | 429 | 655 | 485 | 27 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.3s|     1 |     0 | 38861 |     - |    14M |   0 | 984 | 429 | 662 | 492 | 28 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  3.3s|     1 |     0 | 38870 |     - |    14M |   0 | 984 | 429 | 670 | 500 | 29 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.3s|     1 |     0 | 38874 |     - |    14M |   0 | 984 | 429 | 673 | 503 | 30 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.3s|     1 |     0 | 38882 |     - |    14M |   0 | 984 | 429 | 580 | 511 | 31 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.3s|     1 |     0 | 38884 |     - |    14M |   0 | 984 | 429 | 582 | 513 | 32 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.3s|     1 |     0 | 38892 |     - |    14M |   0 | 984 | 429 | 590 | 521 | 33 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.3s|     1 |     0 | 38893 |     - |    14M |   0 | 984 | 429 | 591 | 522 | 34 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.3s|     1 |     0 | 38900 |     - |    14M |   0 | 984 | 429 | 598 | 529 | 35 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.3s|     1 |     0 | 38907 |     - |    14M |   0 | 984 | 429 | 605 | 536 | 37 |   0 |   0 | 1.000000e+00 |primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L4_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
-original problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 2039 constraints
- 9.999974e-01 |   0.00%| unknown
-  3.4s|     1 |     0 | 38912 |     - |    14M |   0 | 984 | 429 | 548 | 541 | 39 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.4s|     1 |     0 | 38917 |     - |    14M |   0 | 984 | 429 | 553 | 546 | 41 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.4s|     1 |     0 | 38920 |     - |    14M |   0 | 984 | 429 | 556 | 549 | 43 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.4s|     1 |     0 | 38922 |     - |    14M |   0 | 984 | 429 | 558 | 551 | 45 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.4s|     1 |     0 | 38924 |     - |    14M |   0 | 984 | 429 | 560 | 553 | 47 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.4s|     1 |     0 | 38925 |     - |    14M |   0 | 984 | 429 | 561 | 554 | 49 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.4s|     1 |     0 | 38926 |     - |    14M |   0 | 984 | 429 | 527 | 555 | 51 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  3.4s|     1 |     0 | 38927 |     - |    14M |   0 | 984 | 429 | 528 | 556 | 53 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.4s|     1 |     0 | 38928 |     - |    14M |   0 | 984 | 429 | 529 | 557 | 55 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.4s|     1 |     0 | 38929 |     - |    14M |   0 | 984 | 429 | 530 | 558 | 57 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  3.4s|     1 |     2 | 38929 |     - |    14M |   0 | 984 | 429 | 530 | 558 | 59 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-
-SCIP Status        : solving was interrupted [total node limit reached]
-Solving Time (sec) : 3.37
-Solving Nodes      : 1
-Primal Bound       : +9.99997398505631e-01 (1 solutions)
-Dual Bound         : +9.99999999545717e-01
-Gap                : 0.00 %
-despues
-
-===== Capas 4 Neuronas 10 =====
-
-Tolerancia: 0.05 
-1/1 feasible solution given by solution candidate storage, new primal bound 9.999974e-01
-
-presolving:
-(round 1, fast)       0 del vars, 1568 del conss, 0 add conss, 232 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       0 del vars, 1576 del conss, 0 add conss, 244 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       0 del vars, 1584 del conss, 0 add conss, 251 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 4, fast)       0 del vars, 1588 del conss, 0 add conss, 251 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 1, fast)       0 del vars, 1568 del conss, 0 add conss, 234 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 2, fast)       0 del vars, 1576 del conss, 0 add conss, 246 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 3, fast)       0 del vars, 1584 del conss, 0 add conss, 254 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+(round 4, fast)       0 del vars, 1588 del conss, 0 add conss, 254 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
    (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
    (0.0s) no symmetry present
 presolving (5 rounds: 5 fast, 1 medium, 1 exhaustive):
- 0 deleted vars, 1588 deleted constraints, 0 added constraints, 251 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+ 0 deleted vars, 1588 deleted constraints, 0 added constraints, 254 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
  0 implications, 0 cliques
-presolved problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 451 constraints
-    411 constraints of type <linear>
+presolved problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 460 constraints
+    420 constraints of type <linear>
      40 constraints of type <nonlinear>
 Presolving Time: 0.03
 transformed 1/1 original solutions to the transformed problem space
 
  time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.1s|     1 |     0 |   534 |     - |    12M |   0 | 984 | 451 | 812 |   0 |  0 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   605 |     - |    12M |   0 | 984 | 451 | 847 |  35 |  1 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   650 |     - |    12M |   0 | 984 | 451 | 879 |  67 |  2 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   695 |     - |    12M |   0 | 984 | 451 | 910 |  98 |  3 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   740 |     - |    12M |   0 | 984 | 451 | 940 | 128 |  4 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   772 |     - |    12M |   0 | 984 | 451 | 965 | 153 |  5 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   803 |     - |    12M |   0 | 984 | 451 | 989 | 177 |  6 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   833 |     - |    12M |   0 | 984 | 451 |1008 | 196 |  7 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   853 |     - |    12M |   0 | 984 | 451 |1022 | 210 |  8 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   870 |     - |    12M |   0 | 984 | 451 |1038 | 226 |  9 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   878 |     - |    12M |   0 | 984 | 451 |1047 | 235 | 10 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   889 |     - |    12M |   0 | 984 | 451 | 681 | 241 | 11 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
-  0.8s|     1 |     0 |  9799 |     - |    13M |   0 | 984 | 451 | 681 | 241 | 11 |   0 |   0 | 9.999974e-01 | 9.999974e-01 |   0.00%| unknown
+  0.1s|     1 |     0 |   743 |     - |    12M |   0 | 984 | 460 | 811 |   0 |  0 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  0.1s|     1 |     0 |   835 |     - |    12M |   0 | 984 | 460 | 844 |  33 |  1 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  0.1s|     1 |     0 |   878 |     - |    12M |   0 | 984 | 460 | 875 |  64 |  2 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  0.1s|     1 |     0 |   930 |     - |    12M |   0 | 984 | 460 | 904 |  93 |  3 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  0.1s|     1 |     0 |   971 |     - |    12M |   0 | 984 | 460 | 933 | 122 |  4 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  0.1s|     1 |     0 |  1000 |     - |    12M |   0 | 984 | 460 | 959 | 148 |  5 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  0.1s|     1 |     0 |  1031 |     - |    12M |   0 | 984 | 460 | 985 | 174 |  6 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  0.1s|     1 |     0 |  1051 |     - |    12M |   0 | 984 | 460 |1006 | 195 |  7 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  0.1s|     1 |     0 |  1068 |     - |    12M |   0 | 984 | 460 |1026 | 215 |  8 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  0.1s|     1 |     0 |  1080 |     - |    12M |   0 | 984 | 460 |1039 | 228 |  9 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  0.1s|     1 |     0 |  1088 |     - |    12M |   0 | 984 | 460 |1047 | 236 | 10 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  0.1s|     1 |     0 |  1094 |     - |    12M |   0 | 984 | 460 | 679 | 241 | 11 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  1.3s|     1 |     0 | 12049 |     - |    14M |   0 | 984 | 457 | 679 | 241 | 11 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  1.3s|     1 |     0 | 12662 |     - |    14M |   0 | 984 | 457 | 692 | 254 | 12 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  1.3s|     1 |     0 | 12702 |     - |    14M |   0 | 984 | 457 | 711 | 273 | 13 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+ time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
+  1.3s|     1 |     0 | 12723 |     - |    14M |   0 | 984 | 457 | 727 | 289 | 14 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  1.3s|     1 |     0 | 12746 |     - |    14M |   0 | 984 | 457 | 744 | 306 | 15 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  1.3s|     1 |     0 | 12774 |     - |    14M |   0 | 984 | 457 | 761 | 323 | 16 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  1.3s|     1 |     0 | 12824 |     - |    14M |   0 | 984 | 457 | 618 | 340 | 17 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  1.4s|     1 |     0 | 13080 |     - |    14M |   0 | 984 | 457 | 634 | 356 | 18 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  1.4s|     1 |     0 | 13209 |     - |    14M |   0 | 984 | 457 | 649 | 371 | 19 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  1.4s|     1 |     0 | 13344 |     - |    14M |   0 | 984 | 457 | 667 | 389 | 20 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  1.4s|     1 |     0 | 13398 |     - |    14M |   0 | 984 | 457 | 685 | 407 | 21 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  1.4s|     1 |     0 | 13421 |     - |    14M |   0 | 984 | 457 | 700 | 422 | 22 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  3.7s|     1 |     0 | 38871 |     - |    14M |   0 | 984 | 443 | 700 | 422 | 22 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  3.7s|     1 |     0 | 39160 |     - |    14M |   0 | 984 | 443 | 643 | 450 | 23 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  3.7s|     1 |     0 | 39511 |     - |    14M |   0 | 984 | 443 | 661 | 468 | 24 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  3.7s|     1 |     0 | 39539 |     - |    14M |   0 | 984 | 443 | 675 | 482 | 25 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  3.7s|     1 |     0 | 39561 |     - |    14M |   0 | 984 | 443 | 687 | 494 | 26 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  3.7s|     1 |     0 | 39576 |     - |    14M |   0 | 984 | 443 | 698 | 505 | 27 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+ time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
+  3.7s|     1 |     0 | 39588 |     - |    14M |   0 | 984 | 443 | 708 | 515 | 28 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  3.8s|     1 |     0 | 39600 |     - |    14M |   0 | 984 | 443 | 621 | 526 | 29 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  3.8s|     1 |     0 | 39610 |     - |    14M |   0 | 984 | 443 | 631 | 536 | 30 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  3.8s|     1 |     0 | 39616 |     - |    14M |   0 | 984 | 443 | 637 | 542 | 31 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  3.8s|     1 |     0 | 39623 |     - |    14M |   0 | 984 | 443 | 644 | 549 | 32 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  3.8s|     1 |     0 | 39627 |     - |    14M |   0 | 984 | 443 | 648 | 553 | 33 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.0s|     1 |     0 | 43496 |     - |    14M |   0 | 984 | 428 | 557 | 553 | 33 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     0 | 44279 |     - |    14M |   0 | 984 | 428 | 592 | 588 | 34 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     0 | 44356 |     - |    14M |   0 | 984 | 428 | 622 | 618 | 35 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     0 | 44431 |     - |    14M |   0 | 984 | 428 | 650 | 646 | 36 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     0 | 44474 |     - |    14M |   0 | 984 | 428 | 674 | 670 | 37 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     0 | 44514 |     - |    14M |   0 | 984 | 428 | 698 | 694 | 38 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     0 | 44539 |     - |    14M |   0 | 984 | 428 | 641 | 713 | 39 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     0 | 44560 |     - |    14M |   0 | 984 | 428 | 657 | 729 | 40 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     0 | 44574 |     - |    14M |   0 | 984 | 428 | 672 | 744 | 41 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+ time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
+  4.1s|     1 |     0 | 44584 |     - |    14M |   0 | 984 | 428 | 683 | 755 | 42 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     0 | 44591 |     - |    14M |   0 | 984 | 428 | 689 | 761 | 43 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     0 | 44602 |     - |    14M |   0 | 984 | 428 | 700 | 772 | 44 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     0 | 44603 |     - |    14M |   0 | 984 | 428 | 637 | 773 | 45 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     0 | 44613 |     - |    14M |   0 | 984 | 428 | 648 | 784 | 46 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     0 | 44624 |     - |    14M |   0 | 984 | 428 | 659 | 795 | 48 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     0 | 44634 |     - |    14M |   0 | 984 | 428 | 669 | 805 | 50 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     0 | 44643 |     - |    14M |   0 | 984 | 428 | 678 | 814 | 52 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     0 | 44651 |     - |    14M |   0 | 984 | 428 | 686 | 822 | 54 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     0 | 44658 |     - |    14M |   0 | 984 | 428 | 577 | 829 | 56 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     0 | 44662 |     - |    14M |   0 | 984 | 428 | 581 | 833 | 58 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     0 | 44665 |     - |    14M |   0 | 984 | 428 | 584 | 836 | 60 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     0 | 44667 |     - |    14M |   0 | 984 | 428 | 586 | 838 | 62 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
+  4.1s|     1 |     2 | 44667 |     - |    14M |   0 | 984 | 428 | 586 | 838 | 64 |   0 |   0 | 1.000000e+00 | 9.999974e-01 |   0.00%| unknown
 
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.83
+SCIP Status        : solving was interrupted [total node limit reached]
+Solving Time (sec) : 4.13
 Solving Nodes      : 1
 Primal Bound       : +9.99997398505631e-01 (1 solutions)
-Dual Bound         : +9.99997398505631e-01
+Dual Bound         : +9.99999999548238e-01
 Gap                : 0.00 %
