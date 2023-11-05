@@ -12,7 +12,7 @@ from torchvision import datasets, transforms
 activation_list = ['relu','softplus','sigmoid']
 layer_list = [2,3,4] 
 neuron_list = [5,10]
-exact = 'prop'
+exact = 'exact'
 minutes = 10
 filter_tol = 1e-5
 add_verif_bounds = True

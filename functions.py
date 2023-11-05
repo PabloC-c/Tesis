@@ -175,11 +175,11 @@ class neural_network(nn.Module):
 ### Funcion que inicializa el modelo de la red, solo genera las variables de input
 ###
 
-def initialize_neuron_model(bounds,add_verif_bounds,tol_distance,image_list):
+def initialize_neuron_model(bounds,add_verif_bounds,tol_distance,image_list,tol = 1e-03):
     neuron_model = Model()
     if len(bounds) == 0:
         if add_verif_bounds:
-            bounds[-1] = [(-(max(0,image_list[i]-tol_distance)),min(image_list[i]+tol_distance,1)) for i in range(len(image_list))]
+            bounds[-1] = [(-(max(image_list[i]-tol_distance-(tol_distance*0.1),0)),min(image_list[i]+tol_distance+(tol_distance*0.1),1)) for i in range(len(image_list))]
         else:
             bounds[-1] = [(0,1) for i in range(784)]
     ## Tamaño del input
@@ -299,11 +299,14 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
 ### Funcion que optimiza el problema de optimizacion asociado a la evaluacion de una neurona de la red
 ### El parametro neuron_model es el modelo de la neurona, sense es el sentido del problema de optimziacion, tol es la holgura que se añade a las cotas duales
 
-def solve_neuron_model(neuron_model,sense,params,bounds,l,i,exact = 'no_exact',minutes = 10,print_output = False,tol = 1e-03,digits = 4):
+def solve_neuron_model(neuron_model,sense,params,bounds,l,i,exact = 'no_exact',minutes = 10,print_output = False,tol = 1E-3,feas_tol = 1E-5,digits = 4):
     ## Se calcula la cota con el metodo de propagacion
     propb = calculate_aprox_bound(params,bounds,l,i,sense)
     if exact in ['exact','no_exact']:
+        ## Limite de tiempo
         neuron_model.setParam('limits/time', int(60*minutes))
+        ## Tolerancia de factibilidad
+        neuron_model.setParam('numerics/feastol', feas_tol)
         ## Se resuelve el problema
         if print_output:
             neuron_model.redirectOutput()
@@ -401,6 +404,86 @@ def calculate_aprox_bound(params,bounds,l,i,sense,activation = 'relu',tol = 1e-0
 ###
 ###
 
+def update_bounds_vars_by_image(l,params,sol_dict,layer_input,exact,activation = 'relu'):
+    ## Caso capa inicial
+    if l == -1:
+        for i in range(len(layer_input)):
+            sol_dict['h{},{}'.format(-1,i)] = layer_input[i]
+            aux_input = layer_input
+    ## Para el resto de capas
+    else:
+        ## Parametros de la capa l
+        weight,bias = get_w_b_names(l)
+        W = params[weight]
+        b = params[bias]
+        n_neurons = W.size()[0]
+        aux_input = []
+        for i in range(n_neurons):
+            ## Evaluacion en la funcion lineal
+            z = b[i] + sum(float(W[i,j])*layer_input[j] for j in range(len(layer_input)))
+            ## Se añade la variable
+            sol_dict['z{},{}'.format(l,i)] = z
+            ## Caso modelo exacto
+            if exact == 'exact':
+                ## Caso Relu
+                if activation == 'relu':
+                    if z > 0:
+                        a = z
+                    else:
+                        a = 0
+                ## Caso softplus
+                elif activation == 'softplus':
+                    a = np.log(1 + np.exp(z))
+                ## Caso sigmoide
+                elif activation == 'sigmoid':
+                    a = 1/(1+np.exp(-z))
+                ## Se añade la evaluacion en la activacion
+                sol_dict['a{},{}'.format(l,i)] = a
+            ## Caso envolturas convexas
+            else:
+                ## Caso Relu
+                if activation == 'relu':
+                    if z > 0:
+                        h     = z
+                        not_h = 0
+                        u     = 1
+                    else:
+                        h     = 0
+                        not_h = -1.0*z
+                        u     = 0 
+                    ## Se añaden las variables correspondientes
+                    sol_dict['h{},{}'.format(l,i)] = h
+                    sol_dict['not_h{},{}'.format(l,i)] = not_h
+                    sol_dict['u{},{}'.format(l,i)] = u
+                    a = h
+                ## Caso no lineal
+                else:
+                    if activation == 'softplus':
+                        a = np.log(1 + np.exp(z))
+                    elif activation == 'sigmoid':
+                        a = 1/(1+np.exp(-z))
+                    ## Se añade la variable correspondiente
+                    sol_dict['a{},{}'.format(l,i)] = a
+            aux_input.append(a)
+    return sol_dict,aux_input
+
+###
+###
+
+def add_bounds_vars_by_image(model,sol_dict):
+    initial_sol = model.createSol()
+    model_vars  = model.getVars()
+    for i in range(len(model_vars)):
+        var_i = model_vars[i]
+        var_name = var_i.name
+        var_val  = sol_dict[var_name]
+        model.setSolVal(initial_sol, var_i, var_val)
+    accepted = model.addSol(initial_sol)
+    return accepted
+
+###
+###
+
 def calculate_bounds(params,activation = 'relu',exact = 'no_exact',minutes = 10,add_verif_bounds = False,tol_distance = 0,image_list = [],print_output=False):
     ## Calcular cantidad de capas
     n_layers = int(len(params)/2)
@@ -409,6 +492,12 @@ def calculate_bounds(params,activation = 'relu',exact = 'no_exact',minutes = 10,
     bounds     = OrderedDict()
     ## Se inicializa el modelo
     neuron_model,bounds,inpt,all_vars = initialize_neuron_model(bounds,add_verif_bounds,tol_distance,image_list)
+    ## Caso cotas de verificacion
+    if add_verif_bounds:
+        sol_dict = {}
+        sol_dict,layer_input = update_bounds_vars_by_image(-1,params,sol_dict,image_list,exact,activation)
+        accepted = add_bounds_vars_by_image(neuron_model,sol_dict)
+    ## Variables iniciales
     input_var  = inpt
     layers_time = []
     ## Se recorren las capas
@@ -437,10 +526,14 @@ def calculate_bounds(params,activation = 'relu',exact = 'no_exact',minutes = 10,
                 neuron_model = set_objective_function(neuron_model,inpt,params,bounds,l,i,'maximize')
                 sol_max,dt1  = solve_neuron_model(neuron_model,'maximize',params,bounds,l,i,exact,minutes,print_output)
                 neuron_model.freeTransform()
+                if add_verif_bounds:
+                    accepted = add_bounds_vars_by_image(neuron_model,sol_dict)    
                 ## Se determina el minimo de la neurona i
                 neuron_model = set_objective_function(neuron_model,inpt,params,bounds,l,i,'minimize')
                 sol_min,dt2  = solve_neuron_model(neuron_model,'minimize',params,bounds,l,i,exact,minutes,print_output)
                 neuron_model.freeTransform()
+                if add_verif_bounds:
+                    accepted = add_bounds_vars_by_image(neuron_model,sol_dict)
                 ## Se añaden las cotas de la neurona al arreglo de la capa
                 aux.append((sol_min[1],sol_max[1]))
                 tiempo += dt1 + dt2
@@ -450,6 +543,10 @@ def calculate_bounds(params,activation = 'relu',exact = 'no_exact',minutes = 10,
         ## Se actualiza el modelo con las cotas de la capa l
         if exact != 'prop':
             neuron_model,inpt,all_vars = update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation,exact)
+        ## Se actualizan las variables de las cotas de verificacion
+        if add_verif_bounds:
+            sol_dict,layer_input = update_bounds_vars_by_image(l,params,sol_dict,layer_input,exact,activation)
+            accepted = add_bounds_vars_by_image(neuron_model,sol_dict)
     output_var = inpt
     ## Se entregan las cotas
     return bounds,layers_time,neuron_model,input_var,output_var,all_vars

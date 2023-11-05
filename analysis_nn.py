@@ -22,7 +22,10 @@ activation = 'sigmoid'
 
 batch_size = 64
 
-for n_neurons in neuron_list:
+calculate_acc = False
+
+if calculate_acc:
+    for n_neurons in neuron_list:
         for n_layers in layer_list:
             if os.path.exists('nn_parameters/{}_model_weights_L{}_n{}.pth'.format(activation,n_layers, n_neurons)):
                 ## Se crea la red
@@ -37,3 +40,18 @@ for n_neurons in neuron_list:
                 acc = calculate_accuracy(test_loader, net)
                 print('Capas {}, Neuronas {}, Precision {:.4f}%'.format(n_layers,n_neurons,100*acc))
                 #print(params)
+
+## Redes
+activation = 'sigmoid'
+neuron_list = [5,10]
+layer_list  = [2,3,4]
+type_bounds = 'verif_bounds'
+real_output = 1
+tol_distance = 0.01
+df = pd.DataFrame()
+
+for n_neurons in neuron_list:
+    for n_layers in layer_list:
+        bounds = 'nn_bounds/{}_{}_target{}_tolper{}_L{}_n{}.txt'.format(activation,type_bounds,real_output,int(100*tol_distance),n_layers,n_neurons)
+        for l in range(n_layers):
+            
