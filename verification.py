@@ -7,9 +7,9 @@ from functions import *
 activation_list = ['sigmoid']
 layer_list = [2,3,4]
 neuron_list = [5,10]
-form_list = ['no_exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
-apply_bounds_list = [True]
-type_bounds_list = ['verif_bounds_prop']
+form_list = ['exact','no_exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
+apply_bounds_list = [False,True]
+type_bounds_list = ['prop','mix','verif_bounds','verif_bounds_prop']
 minutes = 15
 save_image = False
 apply_softmax = False
@@ -19,7 +19,7 @@ set_initial_sol = False
 print_output = True
 save_results = True
 real_output = 1
-target_output = 2
+target_output = 7
 input_lb = 0 
 input_ub = 1
 tols_list = [0.01,0.05]
@@ -183,8 +183,12 @@ for activation in activation_list:
                                 adv_aux = 'No'
                                 if adv_ex:
                                     adv_aux = 'Si'
+                                ## Tipo de cota | Tiempo total [s] | Gap [%] | Existe algun ejemplo adv | Estatus del problema de optimizacion
+                                if root_node_only:
+                                    new_line += [type_bounds,dt,gap,adv_aux,model_status]
                                 ## Tipo de cota | Tiempo total [s] | Cantidad de nodos | Gap [%] | Existe algun ejemplo adv | Estatus del problema de optimizacion
-                                new_line += [type_bounds,dt,nnodes,gap,adv_aux,model_status]
+                                else:
+                                    new_line += [type_bounds,dt,nnodes,gap,adv_aux,model_status]
                             ## Guardar la solucion para el caso node root
                             if root_node_only:
                                 if default_run:

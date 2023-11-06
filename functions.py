@@ -1108,4 +1108,20 @@ def set_bigM_deafult_sol(sol_file,model,params,apply_softmax):
         var_val  = default_sol[var_name]
         model.setSolVal(initial_sol, var_i, var_val)
     return initial_sol,default_sol
+
+###
+###
+
+def get_multidim_env_points(l,bounds):
+    input_bounds = bounds[l-1]
+    x0 = [-input_bounds[i][0] for i in range(len(input_bounds))]
+    xf = [input_bounds[i][1] for i in range(len(input_bounds))]
+    points_list = []
+    for i in range(len(input_bounds)):
+        aux_points = [x0]
+        for i in range(len(input_bounds)):
+            ... # añadir n-1 puntos faltantes
+        aux_points.append(xf)
+        points_list.append(aux_points)
+    return points_list
     

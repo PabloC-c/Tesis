@@ -45,13 +45,131 @@ if calculate_acc:
 activation = 'sigmoid'
 neuron_list = [5,10]
 layer_list  = [2,3,4]
+distance_list = [0.01,0.05]
 type_bounds = 'verif_bounds'
 real_output = 1
-tol_distance = 0.01
 df = pd.DataFrame()
 
-for n_neurons in neuron_list:
-    for n_layers in layer_list:
-        bounds = 'nn_bounds/{}_{}_target{}_tolper{}_L{}_n{}.txt'.format(activation,type_bounds,real_output,int(100*tol_distance),n_layers,n_neurons)
-        for l in range(n_layers):
+calculate_convexorconcav = False
+
+if calculate_convexorconcav:
+    for tol_distance in distance_list:
+        df = pd.DataFrame()
+        for n_neurons in neuron_list:
+            for n_layers in layer_list:
+                new_line = [n_layers,n_neurons]
+                print('\n \t Caso {} capas, {} neuronas \n'.format(n_layers,n_neurons))
+                bounds_file = calculate_bounds_file_name(type_bounds,activation,n_layers,n_neurons,tol_distance,real_output)
+                bounds      = read_bounds(True, n_layers, n_neurons, activation, bounds_file)
+                l = -1
+                while l < n_layers:
+                    layer_bounds = bounds[l]
+                    s_convexorconcav = 0
+                    for i in range(len(layer_bounds)):
+                        lb,ub = -layer_bounds[i][0],layer_bounds[i][1]
+                        if lb > ub:
+                            print('Capa {}, neurona {}, cotas cruzadas'.format(l,i))
+                        elif (lb < -1E-6 and ub < -1E-6) or (lb > 1E-6 and ub > 1E-6) :
+                            s_convexorconcav += 1
+                    p_convexorconcav = 100*(s_convexorconcav/len(layer_bounds))
+                    new_line.append(p_convexorconcav)
+                    print('Capa {}: {}% de neuronas convex or concave'.format(l,p_convexorconcav))
+                    l+=1
+                while len(new_line) < 2+1+max(layer_list):
+                    new_line.append('-')
+                df = df._append(pd.Series(new_line), ignore_index=True)
+                ## Se intenta escribir en el archivo del df
+                data_file = 'data_{}_verifbounds_signs_tolper{}.xlsx'.format(activation,int(100*tol_distance))
+                written = False
+                while not written:
+                    try:
+                        df.to_excel(data_file, header = False, index = False)
+                        written = True
+                    except:
+                        time.sleep(5)
+
+activation = 'sigmoid'
+neuron_list = [5,10]
+layer_list  = [2,3,4]
+distance_list = [0.05]
+type_bounds = 'verif_bounds'
+exact = 'no_exact'
+real_output = 1
+target_output = 7
+df = pd.DataFrame()
+
+check_tightness = True
+
+def read_lpsol_check_tightness(lp_sol_file,n_layers,bounds,new_line,tight_tol = 0.1,tol = 1E-6):
+    sol_dict = {}
+    try:
+        with open(lp_sol_file, newline='\n') as csvfile:
+            reader = csv.reader(csvfile, delimiter='\t')
+            next(reader)  # skip header
+            for line in reader:
+                line_info = line[0].split()
+                if line_info[0][0] == 'z' or line_info[0][0] == 'h':
+                    sol_dict[line_info[0]] = float(line_info[1])
+    except:
+        return sol_dict,new_line
+    input_bounds = bounds[-1]
+    s_tight = 0
+    for i in range(len(input_bounds)):
+        lb,ub = -input_bounds[i][0],input_bounds[i][1]
+        var_name = 'h-1,{}'.format(i)
+        if var_name in sol_dict:
+            var_value = sol_dict[var_name]
+        else:
+            var_value = 0.0
+        bounds_range = np.linalg.norm(ub-lb)
+        var_distance = min(np.linalg.norm(var_value-lb),np.linalg.norm(var_value-ub))
+        per_distance = var_distance/bounds_range
+        if bounds_range <= tol or per_distance <= tight_tol:
+            s_tight += 1
+    p_tight = s_tight/len(input_bounds)
+    new_line.append(p_tight)
+    for l in range(n_layers):
+        layer_bounds = bounds[l]
+        s_tight = 0
+        for i in range(len(layer_bounds)):
+            lb,ub = -layer_bounds[i][0],layer_bounds[i][1]
+            var_name = 'z{},{}'.format(l,i)
+            if var_name in sol_dict:
+                var_value = sol_dict[var_name]
+            else:
+                var_value = 0.0
+            bounds_range = np.linalg.norm(ub-lb)
+            var_distance = min(np.linalg.norm(var_value-lb),np.linalg.norm(var_value-ub))
+            per_distance = var_distance/bounds_range
+            if bounds_range <= tol or per_distance <= tight_tol:
+                s_tight += 1
+        p_tight = s_tight/len(layer_bounds)
+        new_line.append(p_tight)
+    return sol_dict,new_line
+
+if check_tightness:
+    for tol_distance in distance_list:
+        df = pd.DataFrame()
+        for n_neurons in neuron_list:
+            for n_layers in layer_list:
+                new_line = [n_layers,n_neurons]
+                print('\n \t Caso {} capas, {} neuronas \n'.format(n_layers,n_neurons))
+                bounds_file = calculate_bounds_file_name(type_bounds,activation,n_layers,n_neurons,tol_distance,real_output)
+                lp_sol_file = 'sols/{}_{}_{}_sol_L{}_n{}_1como{}_tolper{}.txt'.format(activation,exact,type_bounds,n_layers,n_neurons,target_output,int(100*tol_distance))
+                bounds      = read_bounds(True, n_layers, n_neurons, activation, bounds_file)
+                sol_dict,new_line = read_lpsol_check_tightness(lp_sol_file,n_layers,bounds,new_line)
+                if len(sol_dict) == 0:
+                    continue
+                while len(new_line) < 2+1+max(layer_list):
+                    new_line.append('-')
+                df = df._append(pd.Series(new_line), ignore_index=True)
+                ## Se intenta escribir en el archivo del df
+                data_file = 'data_{}_{}_{}_tightness_1como{}_tolper{}.xlsx'.format(activation,exact,type_bounds,target_output,int(100*tol_distance))
+                written = False
+                while not written:
+                    try:
+                        df.to_excel(data_file, header = False, index = False)
+                        written = True
+                    except:
+                        time.sleep(5)
             

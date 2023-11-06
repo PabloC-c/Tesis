@@ -19,10 +19,10 @@ set_initial_sol = False
 print_output = False
 save_results = False
 real_output = 1
-target_output = 2
+target_output = 7
 input_lb =0 
 input_ub = 1
-tols_list = [0.05]
+tols_list = [0.01]
 
 if len(sys.argv) > 1:
     activation_list = [sys.argv[1]]
@@ -81,8 +81,9 @@ input_example, output_example = next(iter(test_loader))
 image_list = input_example[output_example == real_output][0].view(-1,784).tolist()[0]
 
 tol_distance = 0.05
-exact = 'exact'
+exact = 'no_exact'
 apply_bounds = True
+
 ## Por cada activacion
 for activation in activation_list:
     ## Se recorren las capas
@@ -95,7 +96,7 @@ for activation in activation_list:
                 ## Nombre del archivo de las cotas
                 bounds_file = calculate_bounds_file_name(type_bounds,activation,n_layers,n_neurons,tol_distance,1)
                 ## Se cargan las cotas del modelo
-                bounds = read_bounds(apply_bounds,n_layers,n_neurons,activation,bounds_file)
+                bounds = read_bounds(True,n_layers,n_neurons,activation,bounds_file)
                 ## Se crea la instancia de la red neuronal
                 net = neural_network(n_neurons,n_layers,activation)
                 ## Se cargan los parámetros de la red
@@ -108,7 +109,7 @@ for activation in activation_list:
                 adv_ex = False
                 ## Se ajustan los parametros en el caso root_node_only
                 if root_node_only:
-                    sol_file = 'default_sols/{}/{}/{}_default_verif_sol_L{}_n{}_1como{}.sol'.format(exact,tol_distance,activation,n_layers,n_neurons,target_output)
+                    sol_file = 'default_sols/exact/{}/{}_default_verif_sol_L{}_n{}_1como{}.sol'.format(tol_distance,activation,n_layers,n_neurons,target_output)
                     default_run = False
                     if not os.path.exists(sol_file):
                         default_run = True
@@ -120,6 +121,7 @@ for activation in activation_list:
                         continue    
                     verif_model,all_vars = create_verification_model(filtered_params,bounds,activation,tol_distance,apply_softmax,image_list,target_output,real_output,exact,False)
                 else:
+                    print(bounds_file)
                     verif_model,all_vars = create_verification_model(filtered_params,bounds,activation,tol_distance,apply_softmax,image_list,target_output,real_output,exact,apply_bounds)
                 ## Se crea y añade el event handler
                 eventhdlr       = LPstatEventhdlr()
@@ -158,10 +160,9 @@ for activation in activation_list:
                 verif_model.optimize()
                 dt = time.time() - aux_t
                 if type_bounds == '-':
-                    new_sol_file = 'sols/{}_{}_sol_L{}_n{}_1como{}_tolpero{}.txt'.format(activation,'unbound',n_layers,n_neurons,target_output,int(100*tol_distance))
+                    new_sol_file = 'sols/{}_{}_{}_sol_L{}_n{}_1como{}_tolper{}.txt'.format(activation,exact,'unbound',n_layers,n_neurons,target_output,int(100*tol_distance))
                 else:
-                    new_sol_file = 'sols/{}_{}_sol_L{}_n{}_1como{}_tolpero{}.txt'.format(activation,type_bounds,n_layers,n_neurons,target_output,int(100*tol_distance))
-                print(eventhdlr.LPsol)
+                    new_sol_file = 'sols/{}_{}_{}_sol_L{}_n{}_1como{}_tolper{}.txt'.format(activation,exact,type_bounds,n_layers,n_neurons,target_output,int(100*tol_distance))
                 
                 LPsol_dict = eventhdlr.LPsol
                 if len(LPsol_dict) > 0:
@@ -170,4 +171,5 @@ for activation in activation_list:
                         for key,value in LPsol_dict.items():
                             file_line = f"{key:<{max_len}} {value}\n"
                             f.write(file_line)
+                    print('\t Solucion guardada')
                 
