@@ -1027,16 +1027,18 @@ def get_activation_env_list(activation,bounds,k):
          ## Se añaden las envolturas de las cv y cc point
          cv_env.append((cv,f(cv),get_tan_func(activation,cv,ub)[1]))
          cc_env.append((lb,f(lb),get_tan_func(activation,lb,cc)[1]))
-         ## Se añaden las demas envolturas convexas
-         cv_points = calculate_k_points(activation,k,lb,cv)
-         for i in range(k):
-             aux = cv_points[i]
-             cv_env.append((aux,f(aux),get_tan_func(activation,aux)[1]))
-         ## Se añaden las demas envolturas concavas
-         cc_points = calculate_k_points(activation,k,cc,ub)
-         for i in range(k):
-             aux = cc_points[i]
-             cc_env.append((aux,f(aux),get_tan_func(activation,aux)[1]))
+         ## Se añaden las demas envolturas convexas en caso de ser necesarias
+         if cv - lb >= 1E-6:
+             cv_points = calculate_k_points(activation,k,lb,cv)
+             for i in range(k):
+                 aux = cv_points[i]
+                 cv_env.append((aux,f(aux),get_tan_func(activation,aux)[1]))
+         ## Se añaden las demas envolturas concavas en caso de ser necesarias
+         if ub - cc >= 1E-6:
+             cc_points = calculate_k_points(activation,k,cc,ub)
+             for i in range(k):
+                 aux = cc_points[i]
+                 cc_env.append((aux,f(aux),get_tan_func(activation,aux)[1]))
     ## Se retorna las listas con las funciones de la envoltura
     return cv_env,cc_env
 
