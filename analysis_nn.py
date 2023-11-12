@@ -98,7 +98,7 @@ real_output = 1
 target_output = 7
 df = pd.DataFrame()
 
-check_tightness = True
+check_tightness = False
 
 def read_lpsol_check_tightness(lp_sol_file,n_layers,bounds,new_line,tight_tol = 0.1,tol = 1E-6):
     sol_dict = {}
@@ -172,4 +172,20 @@ if check_tightness:
                         written = True
                     except:
                         time.sleep(5)
-            
+        
+base = [np.array([1/np.sqrt(2),0,0,-1/np.sqrt(2)]),
+        np.array([0,1,0,0]),
+        np.array([1/np.sqrt(3),0,1/np.sqrt(3),1/np.sqrt(3)])]
+
+u = np.array([4,1,1,1])
+
+proy = np.array([0,0,0,0])
+
+for v in base:
+    pp = 0
+    for i in range(len(v)):
+        pp += u[i]*v[i]
+    print(pp)
+    proy = proy + pp*v
+    
+print(proy)

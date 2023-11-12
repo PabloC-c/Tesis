@@ -8,10 +8,12 @@ import os
 import csv
 import time
 import torch
+import random
 import numpy as np
 import pandas as pd
 import torch.nn as nn
 import pyscipopt.scip as scip
+from itertools import product
 import matplotlib.pyplot as plt
 import torch.nn.functional as F
 from collections import OrderedDict
@@ -1114,16 +1116,96 @@ def set_bigM_deafult_sol(sol_file,model,params,apply_softmax):
 ###
 ###
 
+def read_sol_file(sol_file):
+    sol_dict = {}
+    with open(sol_file, newline='\n') as csvfile:
+        reader = csv.reader(csvfile, delimiter='\t')
+        next(reader)  # skip header
+        for line in reader:
+            line_info = line[0].split()
+            sol_dict[line_info[0]] = float(line_info[1])
+    return sol_dict
+
+###
+###
+
 def get_multidim_env_points(l,bounds):
-    input_bounds = bounds[l-1]
-    x0 = [-input_bounds[i][0] for i in range(len(input_bounds))]
-    xf = [input_bounds[i][1] for i in range(len(input_bounds))]
-    points_list = []
-    for i in range(len(input_bounds)):
-        aux_points = [x0]
-        for i in range(len(input_bounds)):
-            ... # añadir n-1 puntos faltantes
-        aux_points.append(xf)
-        points_list.append(aux_points)
+    aux = bounds[l-1][:]
+    input_bounds = [(-aux[i][0],aux[i][1]) for i in range(len(aux))]
+    points_list  = list(product(*input_bounds))
     return points_list
-    
+
+###
+###
+
+def get_hiperplane_model_lpsol(l,i,n_input,activation,lp_sol_file):
+    ## Solucion lp a cortar
+    sol_dict = read_sol_file(lp_sol_file)
+    ## Lista para guardar las variables de input para el modelo del hiperplano
+    lp_sol = []
+    ## Se determina le input de la capa l en la solucion lp
+    for j in range(n_input+1):
+        ## Indices de la capa y la neurona correspondientes
+        layer_idx  = l-1
+        neuron_idx = j
+        if j == n_input:
+            layer_idx  = l
+            neuron_idx = i
+        ## Nombre de la variable
+        var_name = 'a{},{}'.format(layer_idx,neuron_idx)
+        ## Caso en que la variable esta en la solucion lp
+        if var_name in sol_dict:
+            ## Valor de la variable
+            var_value = sol_dict[var_name]
+        ## Caso contrario
+        else:
+            ## Nombre de la variable z asociada
+            z_name = 'z{},{}'.format(layer_idx,neuron_idx)
+            ## Funcion de activacion correspondiente
+            activ_f = get_activ_func(activation)
+            ## Caso en que la variable z esta en la solucion lp
+            if z_name in sol_dict:
+                ## Valor de la variable z
+                z_val = sol_dict[z_name]
+            ## Caso contrario
+            else:
+                ## Valor de la variable z
+                z_val = 0 
+            ## Calculo de la variable a partir de z
+            var_value = activ_f(z_val)
+        ## Se añade la variable a la lista de las variables del input
+        lp_sol.append(var_value)
+    ## Se retorna la lista de las variables del input
+    return lp_sol
+
+###
+###
+
+def hyperplane_model(l,i,params,bounds,lp_sol,points_list,activation):
+    ## Cantidad de variables del hiperplano
+    n = len(bounds[l-1])+1
+    ## Se genera el modelo
+    hp_model = Model()
+    ## Se añaden las variables del hiperplano
+    c = [hp_model.addVar(lb = -1, ub = 1, name = 'c{}'.format(i)) for i in range(n)]
+    ## Se añade la variable constante del hiperplano
+    d = hp_model.addVar(name = 'd')
+    ## Se añaden las restricciones
+    for i in range(len(points_list)):
+        ## Se selecciona un punto
+        point = points_list[i]
+        ## Parametros de la capa
+        weight,bias = get_w_b_names(l)
+        W = params[weight]
+        b = params[bias]
+        ## Se evalua el punto en la funcion lineal
+        z_val = sum(float(W[i,k])*point[k] for k in range(n-1)) + b
+        ## Se evalua en la funcion de activacion
+        activ_f = get_activ_func(activation)
+        a_val = activ_f(z_val)
+        ## Se añade la restriccion correspondiente 
+        hp_model.addCons(quicksum(c[k]*point[k] for k in range(n-1))+ c[n-1]*a_val + d <= 0, name = 'point_cons_{}'.format(i))
+    ## Se setea la funcion objetivo
+    hp_model.setObjective(quicksum(c[k]*lp_sol[k] for k in range(n)) + d)
+    ## Se retorna el modelo
+    return hp_model
