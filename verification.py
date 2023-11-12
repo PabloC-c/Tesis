@@ -7,8 +7,8 @@ from functions import *
 activation_list = ['sigmoid']
 layer_list = [2,3,4]
 neuron_list = [5,10]
-form_list = ['exact','no_exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
-apply_bounds_list = [False,True]
+form_list = ['no_exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
+apply_bounds_list = [True]
 type_bounds_list = ['prop','mix','verif_bounds','verif_bounds_prop']
 minutes = 15
 save_image = False
