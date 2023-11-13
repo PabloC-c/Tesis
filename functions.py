@@ -1138,7 +1138,7 @@ def get_multidim_env_points(l,bounds):
 ###
 ###
 
-def get_hiperplane_model_lpsol(l,i,n_input,activation,lp_sol_file):
+def generate_hyperplane_model_lpsol(l,i,n_input,activation,lp_sol_file):
     ## Solucion lp a cortar
     sol_dict = read_sol_file(lp_sol_file)
     ## Lista para guardar las variables de input para el modelo del hiperplano
@@ -1181,7 +1181,7 @@ def get_hiperplane_model_lpsol(l,i,n_input,activation,lp_sol_file):
 ###
 ###
 
-def hyperplane_model(l,i,params,bounds,lp_sol,points_list,activation):
+def create_hyperplane_model(l,i,params,bounds,lp_sol,points_list,activation):
     ## Cantidad de variables del hiperplano
     n = len(bounds[l-1])+1
     ## Se genera el modelo
@@ -1191,21 +1191,21 @@ def hyperplane_model(l,i,params,bounds,lp_sol,points_list,activation):
     ## Se añade la variable constante del hiperplano
     d = hp_model.addVar(name = 'd')
     ## Se añaden las restricciones
-    for i in range(len(points_list)):
+    for idx in range(len(points_list)):
         ## Se selecciona un punto
-        point = points_list[i]
+        point = points_list[idx]
         ## Parametros de la capa
         weight,bias = get_w_b_names(l)
         W = params[weight]
         b = params[bias]
         ## Se evalua el punto en la funcion lineal
-        z_val = sum(float(W[i,k])*point[k] for k in range(n-1)) + b
+        z_val = sum(float(W[i,k])*point[k] for k in range(n-1)) + float(b[i])
         ## Se evalua en la funcion de activacion
         activ_f = get_activ_func(activation)
         a_val = activ_f(z_val)
         ## Se añade la restriccion correspondiente 
-        hp_model.addCons(quicksum(c[k]*point[k] for k in range(n-1))+ c[n-1]*a_val + d <= 0, name = 'point_cons_{}'.format(i))
+        hp_model.addCons(quicksum(c[k]*point[k] for k in range(n-1))+ c[-1]*a_val + d <= 0, name = 'point_cons_{}'.format(idx))
     ## Se setea la funcion objetivo
-    hp_model.setObjective(quicksum(c[k]*lp_sol[k] for k in range(n)) + d)
+    hp_model.setObjective(quicksum(c[k]*lp_sol[k] for k in range(n)) + d, 'maximize')
     ## Se retorna el modelo
-    return hp_model
+    return hp_model,c,d
