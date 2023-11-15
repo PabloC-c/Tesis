@@ -50,7 +50,7 @@ type_bounds = 'verif_bounds'
 real_output = 1
 df = pd.DataFrame()
 
-calculate_convexorconcav = False
+calculate_convexorconcav = True
 
 if calculate_convexorconcav:
     for tol_distance in distance_list:
@@ -69,7 +69,7 @@ if calculate_convexorconcav:
                         lb,ub = -layer_bounds[i][0],layer_bounds[i][1]
                         if lb > ub:
                             print('Capa {}, neurona {}, cotas cruzadas'.format(l,i))
-                        elif (lb < -1E-6 and ub < -1E-6) or (lb > 1E-6 and ub > 1E-6) :
+                        elif (lb < -1E-6 and ub <= 1E-6) or (lb >= -1E-6 and ub > 1E-6):
                             s_convexorconcav += 1
                     p_convexorconcav = 100*(s_convexorconcav/len(layer_bounds))
                     new_line.append(p_convexorconcav)
@@ -79,7 +79,7 @@ if calculate_convexorconcav:
                     new_line.append('-')
                 df = df._append(pd.Series(new_line), ignore_index=True)
                 ## Se intenta escribir en el archivo del df
-                data_file = 'data_{}_verifbounds_signs_tolper{}.xlsx'.format(activation,int(100*tol_distance))
+                data_file = 'data_{}_{}_signs_tolper{}.xlsx'.format(activation,type_bounds,int(100*tol_distance))
                 written = False
                 while not written:
                     try:
@@ -98,7 +98,7 @@ real_output = 1
 target_output = 7
 df = pd.DataFrame()
 
-check_tightness = True
+check_tightness = False
 
 def read_lpsol_check_tightness(lp_sol_file,n_layers,bounds,new_line,tight_tol = 0.1,tol = 1E-6):
     sol_dict = {}
@@ -144,7 +144,7 @@ def read_lpsol_check_tightness(lp_sol_file,n_layers,bounds,new_line,tight_tol = 
             if bounds_range <= tol or per_distance <= tight_tol:
                 s_tight += 1
         p_tight = s_tight/len(layer_bounds)
-        new_line.append(p_tight)
+        new_line.append(p_tight*100)
     return sol_dict,new_line
 
 if check_tightness:
