@@ -52,6 +52,8 @@ df = pd.DataFrame()
 
 calculate_convexorconcav = True
 
+inflec_point = calculate_inflec_point(activation)
+
 if calculate_convexorconcav:
     for tol_distance in distance_list:
         df = pd.DataFrame()
@@ -69,7 +71,10 @@ if calculate_convexorconcav:
                         lb,ub = -layer_bounds[i][0],layer_bounds[i][1]
                         if lb > ub:
                             print('Capa {}, neurona {}, cotas cruzadas'.format(l,i))
-                        elif (lb < -1E-6 and ub <= 1E-6) or (lb >= -1E-6 and ub > 1E-6):
+                        if l >=0:
+                            activ_f = get_activ_func(activation)
+                            lb,ub = activ_f(lb),activ_f(ub)
+                        elif (lb < inflec_point-1E-6 and ub <= inflec_point+1E-6) or (lb >= inflec_point-1E-6 and ub > inflec_point+1E-6):
                             s_convexorconcav += 1
                     p_convexorconcav = 100*(s_convexorconcav/len(layer_bounds))
                     new_line.append(p_convexorconcav)

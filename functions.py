@@ -210,8 +210,9 @@ def set_objective_function(neuron_model,inpt,params,bounds,l,i,sense):
 ### Funcion que dada una capa l y las cotas de sus neuronas, genera las restricciones correspondientes
 ###
 
-def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 'relu',exact = 'no_exact', apply_bounds = True):
+def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 'relu',form = 'no_exact',lp_sol_file = '',apply_bounds = True):
     k = 4
+    ## Numero de variables de input para la capa l
     n_input = len(inpt)
     ## Parametros de la capa l   
     weight,bias = get_w_b_names(l)
@@ -222,7 +223,7 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
     aux_input = []
     for i in range(n_neurons):
         ## Formulacion exacta
-        if exact == 'exact':
+        if form == 'exact':
             ## Variable de la evaluacion del input en la funcion lineal
             if apply_bounds:
                 z = neuron_model.addVar(lb = -bounds[l][i][0], ub = bounds[l][i][1],vtype = 'C', name = 'z{},{}'.format(l,i))
@@ -243,8 +244,8 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
                 neuron_model.addCons(scip.log(1+scip.exp(z)) == a, name = 'actv{},{}'.format(l,i))
             if activation == 'sigmoid':
                 neuron_model.addCons((1/(1+scip.exp(-z))) == a, name = 'actv{},{}'.format(l,i))
-        ## Formulacion alternativa/relajacion
-        else:
+        ## Formulacion con envoltura
+        elif form == 'env':
             if activation == 'relu':
                 ## Variable de la evaluacion del input en la funcion lineal
                 z = neuron_model.addVar(lb = None, ub = None,vtype = 'C', name = 'z{},{}'.format(l,i))
@@ -295,6 +296,73 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
                 for q in range(len(cc_env)):
                     x0,f_x0,m = cc_env[q]
                     neuron_model.addCons(f_x0+m*(z-x0) >= a, name = 'cc_env{}_{},{}'.format(q,l,i))
+        elif form == 'multidim_env':
+            if activation == 'relu':
+                ## Variable de la evaluacion del input en la funcion lineal
+                z = neuron_model.addVar(lb = None, ub = None,vtype = 'C', name = 'z{},{}'.format(l,i))
+                all_vars['z{},{}'.format(l,i)] = z
+                ## Variable de la parte positiva de la evaluacion
+                h = neuron_model.addVar(lb = 0, ub = max(0,bounds[l][i][1]), vtype = 'C', name = 'h{},{}'.format(l,i))
+                all_vars['h{},{}'.format(l,i)] = h
+                ## Se guarda la variable h, para el input de la siguiente capa
+                aux_input.append(h)
+                ## Variable de la parte negativa de la evaluacion
+                not_h = neuron_model.addVar(lb = 0, ub = max(0,bounds[l][i][0]), vtype = 'C', name = 'not_h{},{}'.format(l,i))
+                all_vars['not_h{},{}'.format(l,i)] = not_h
+                ## Variable binaria que indica la activacion de la neurona
+                u = neuron_model.addVar(vtype = 'B', name = 'u{},{}'.format(l,i))
+                all_vars['u{},{}'.format(l,i)] = u
+                ## Restriccion de evaluacion con la funcion lineal
+                neuron_model.addCons(quicksum(float(W[i,k])*inpt[k] for k in range(n_input)) + float(b[i]) == z, name = 'eval{},{}'.format(l,i))
+                ## Restriccion de igualdad de variables
+                neuron_model.addCons(z == h - not_h, name = 'vequal{},{}'.format(l,i))
+                ## Restricciones big-M
+                neuron_model.addCons(h <= bounds[l][i][1]*u, name = 'active{},{}'.format(l,i))
+                neuron_model.addCons(not_h <= bounds[l][i][0]*(1-u), name = 'not_active{},{}'.format(l,i))
+            else:
+                ## Variable de la evaluacion del input en la funcion lineal
+                z = neuron_model.addVar(lb = -bounds[l][i][0], ub = bounds[l][i][1],vtype = 'C', name = 'z{},{}'.format(l,i))
+                all_vars['z{},{}'.format(l,i)] = z
+                ## Variable de evaluacion en la funcion de activacion
+                a = neuron_model.addVar(lb = None, ub = None,vtype = 'C', name = 'a{},{}'.format(l,i))
+                all_vars['a{},{}'.format(l,i)] = a
+                ## Se guarda la variable a, para el input de la siguiente capa
+                aux_input.append(a)
+                ## Restriccion de evaluacion con la funcion lineal
+                neuron_model.addCons(quicksum(float(W[i,k])*inpt[k] for k in range(n_input)) + float(b[i]) == z, name = 'eval{},{}'.format(l,i))
+                ## Restriccion de evaluacion en la funcion de activacion
+                if activation == 'softplus':
+                    neuron_model.addCons(scip.log(1+scip.exp(z)) == a, name = 'actv{},{}'.format(l,i))
+                if activation == 'sigmoid':
+                    neuron_model.addCons((1/(1+scip.exp(-z))) == a, name = 'actv{},{}'.format(l,i))
+                ## Para las capas despues de la 0 (la 0 recibe la capa de input)
+                succes = False
+                if l > 0:
+                    ## Se determina si es posible añadir la envoltura multidimensional
+                    succes,cc_or_cv,c,d = calculate_hyperplane(l,i,bounds,activation,params,n_input,lp_sol_file)
+                ## Caso en que es posible
+                if succes:
+                    ## Caso en que la funcion es concava
+                    if cc_or_cv == 'cc':
+                        ## Se añade la restriccion correspondiente
+                        neuron_model.addCons(quicksum(c[k]*inpt[k] for k in range(n_input))+ c[-1]*a + d <= 0, name = 'cv_multidim_env')
+                    ## Caso en que la funcion es convexa
+                    else:
+                        neuron_model.addCons(quicksum(c[k]*inpt[k] for k in range(n_input))+ c[-1]*a + d <= 0, name = 'cc_multidim_env')
+                ## Caso en que no es posible
+                else:
+                    ## Se obtienen las cotas de la neurona 
+                    bounds_l_i = bounds[l][i]
+                    ## Se obtienen las tuplas correspondientes a la envoltura
+                    cv_env,cc_env = get_activation_env_list(activation,bounds_l_i, k)
+                    ## Se añaden los planos cortantes convexos
+                    for q in range(len(cv_env)):
+                        x0,f_x0,m = cv_env[q]
+                        neuron_model.addCons(f_x0+m*(z-x0) <= a, name = 'cv_env{}_{},{}'.format(q,l,i))
+                    ## Se añaden los planos cortantes concavos
+                    for q in range(len(cc_env)):
+                        x0,f_x0,m = cc_env[q]
+                        neuron_model.addCons(f_x0+m*(z-x0) >= a, name = 'cc_env{}_{},{}'.format(q,l,i))
     return neuron_model,aux_input,all_vars
 
 
@@ -1129,9 +1197,12 @@ def read_sol_file(sol_file):
 ###
 ###
 
-def get_multidim_env_points(l,bounds):
+def get_multidim_env_points(l,bounds,activation):
+    ## Cotas de la capa anterior
     aux = bounds[l-1][:]
-    input_bounds = [(-aux[i][0],aux[i][1]) for i in range(len(aux))]
+    ## Se codifican y se aplica la funcion de activacion
+    activ_f = get_activ_func(activation)
+    input_bounds = [(activ_f(-aux[i][0]),activ_f(aux[i][1])) for i in range(len(aux))]
     points_list  = list(product(*input_bounds))
     return points_list
 
@@ -1189,7 +1260,7 @@ def create_hyperplane_model(l,i,params,bounds,lp_sol,points_list,activation):
     ## Se añaden las variables del hiperplano
     c = [hp_model.addVar(lb = -1, ub = 1, name = 'c{}'.format(i)) for i in range(n)]
     ## Se añade la variable constante del hiperplano
-    d = hp_model.addVar(name = 'd')
+    d = hp_model.addVar(lb = -1, ub = 1,name = 'd')
     ## Se añaden las restricciones
     for idx in range(len(points_list)):
         ## Se selecciona un punto
@@ -1209,3 +1280,51 @@ def create_hyperplane_model(l,i,params,bounds,lp_sol,points_list,activation):
     hp_model.setObjective(quicksum(c[k]*lp_sol[k] for k in range(n)) + d, 'maximize')
     ## Se retorna el modelo
     return hp_model,c,d
+
+###
+###
+
+def calculate_hyperplane(l,i,bounds,activation,params,n_input,lp_sol_file):
+    ## Punto de inflexion de la activacion
+    inflec_point = calculate_inflec_point(activation)
+    ## Si el dominio de la neurona se encuentra en la parte concava o convexa se intenta añadir la envoltura multidimensional
+    cc_or_cv = ''
+    for j in range(n_input):
+        activ_f = get_activ_func(activation)
+        lb,ub = -bounds[l-1][j][0],bounds[l-1][j][1]
+        lb,ub = activ_f(lb),activ_f(ub)
+        ## Caso concavo
+        if (lb >= inflec_point-1E-6 and ub > inflec_point+1E-6):
+            if cc_or_cv == '':
+                cc_or_cv = 'cc'
+            elif cc_or_cv == 'cv':
+                cc_or_cv = ''
+                break
+        ## Caso convexo
+        elif(lb < inflec_point-1E-6 and ub <= inflec_point+1E-6):
+            if cc_or_cv == '':
+                cc_or_cv = 'cv'
+            elif cc_or_cv == 'cc':
+                cc_or_cv = ''
+                break
+    succes = False
+    if cc_or_cv in ['cc','cv']:
+        ## Se calculan los vertices de la region del input de la capa l
+        points_list = get_multidim_env_points(l,bounds,activation)
+        ## Se mapea la solucion lp a cortar al modelo del hiperplano
+        lp_sol = generate_hyperplane_model_lpsol(l,i,n_input,activation,lp_sol_file)
+        ## Se crea el modelo del hiperplano
+        hp_model,c_var,d_var = create_hyperplane_model(l,i,params,bounds,lp_sol,points_list,activation)
+        ## Se resuelve el problema
+        hp_model.optimize()
+        ## Se determina el valor objetivo del problema
+        obj_val = hp_model.getObjVal()
+        ## Se determina si la solucion lp es cortada
+        if obj_val > 1E-6:
+            succes = True
+            c = [hp_model.getVal(var) for var in c_var]
+            d = hp_model.getVal(d_var)
+        else:
+            c = []
+            d = None
+    return succes,cc_or_cv,c,d
