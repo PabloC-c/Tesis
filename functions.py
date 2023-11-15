@@ -1288,11 +1288,17 @@ def calculate_hyperplane(l,i,bounds,activation,params,n_input,lp_sol_file):
     ## Punto de inflexion de la activacion
     inflec_point = calculate_inflec_point(activation)
     ## Funcion de activacion
-    activ_f = get_acti
-    
-    ## Si el dominio de la neurona se encuentra en la parte concava o convexa se intenta añadir la envoltura multidimensional
+    activ_f = get_activ_func(activation)
+    ## Cotas de la neurona
+    lb,ub = activ_f(-bounds[l][i][0]),activ_f(bounds[l][i][1])
+    ## Se determina si el dominio de la neurona se encuentra en la parte concava o convexa
     cc_or_cv = ''
-    
+    ## Caso concavo
+    if lb >= inflec_point-1E-6 and ub > inflec_point+1E-6:
+        cc_or_cv = 'cc'
+    ## Caso convexo
+    elif lb < inflec_point-1E-6 and ub <= inflec_point+1E-6:
+        cc_or_cv = 'cv'
     succes = False
     if cc_or_cv in ['cc','cv']:
         ## Se calculan los vertices de la region del input de la capa l
