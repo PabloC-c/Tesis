@@ -71,9 +71,6 @@ if calculate_convexorconcav:
                         lb,ub = -layer_bounds[i][0],layer_bounds[i][1]
                         if lb > ub:
                             print('Capa {}, neurona {}, cotas cruzadas'.format(l,i))
-                        if l >=0:
-                            activ_f = get_activ_func(activation)
-                            lb,ub = activ_f(lb),activ_f(ub)
                         elif (lb < inflec_point-1E-6 and ub <= inflec_point+1E-6) or (lb >= inflec_point-1E-6 and ub > inflec_point+1E-6):
                             s_convexorconcav += 1
                     p_convexorconcav = 100*(s_convexorconcav/len(layer_bounds))
@@ -93,7 +90,7 @@ if calculate_convexorconcav:
                     except:
                         time.sleep(5)
 
-activation = 'sigmoid'
+activation = 'softplus'
 neuron_list = [5,10]
 layer_list  = [2,3,4]
 distance_list = [0.01,0.05]
@@ -132,7 +129,7 @@ def read_lpsol_check_tightness(lp_sol_file,n_layers,bounds,new_line,tight_tol = 
         if bounds_range <= tol or per_distance <= tight_tol:
             s_tight += 1
     p_tight = s_tight/len(input_bounds)
-    new_line.append(p_tight)
+    new_line.append(p_tight*100)
     for l in range(n_layers):
         layer_bounds = bounds[l]
         s_tight = 0

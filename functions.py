@@ -245,7 +245,7 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
             if activation == 'sigmoid':
                 neuron_model.addCons((1/(1+scip.exp(-z))) == a, name = 'actv{},{}'.format(l,i))
         ## Formulacion con envoltura
-        elif form == 'env':
+        elif form == 'no_exact':
             if activation == 'relu':
                 ## Variable de la evaluacion del input en la funcion lineal
                 z = neuron_model.addVar(lb = None, ub = None,vtype = 'C', name = 'z{},{}'.format(l,i))
@@ -345,10 +345,10 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
                     ## Caso en que la funcion es concava
                     if cc_or_cv == 'cc':
                         ## Se añade la restriccion correspondiente
-                        neuron_model.addCons(quicksum(c[k]*inpt[k] for k in range(n_input))+ c[-1]*a + d <= 0, name = 'cv_multidim_env')
+                        neuron_model.addCons(quicksum(c[k]*inpt[k] for k in range(n_input))+ c[-1]*a + d <= 0, name = 'cv_multidim_env_{},{}'.format(l,i))
                     ## Caso en que la funcion es convexa
                     else:
-                        neuron_model.addCons(quicksum(c[k]*inpt[k] for k in range(n_input))+ c[-1]*a + d <= 0, name = 'cc_multidim_env')
+                        neuron_model.addCons(quicksum(c[k]*inpt[k] for k in range(n_input))+ c[-1]*a + d <= 0, name = 'cc_multidim_env_{},{}'.format(l,i))
                 ## Caso en que no es posible
                 else:
                     ## Se obtienen las cotas de la neurona 
@@ -651,7 +651,7 @@ def set_verification_model(net_model,net_input_var,net_output_var,input_value,re
 ###
 ###
 
-def create_verification_model(params,bounds,activation,tol_distance,apply_softmax,image_list,output_target,real_output,exact = 'exact',apply_bounds = True):
+def create_verification_model(params,bounds,activation,tol_distance,apply_softmax,image_list,output_target,real_output,exact = 'exact',lp_sol_file = '',apply_bounds = True):
     ## Se calcula la cantidad de capas ocultas
     n_layers = int(len(params)/2)
     ## Se inicializa el modelo de verificacion
@@ -664,7 +664,7 @@ def create_verification_model(params,bounds,activation,tol_distance,apply_softma
     ## Se recorren las capas
     for l in range(n_layers):
         ## Se crean las restricicones y variables
-        verif_model,aux_input,all_vars = update_neuron_model(verif_model,inpt,all_vars,params,bounds,l,activation,exact,apply_bounds)
+        verif_model,aux_input,all_vars = update_neuron_model(verif_model,inpt,all_vars,params,bounds,l,activation,exact,lp_sol_file,apply_bounds)
         inpt = aux_input
     ## Caso en el que se aplica softmax
     if apply_softmax:
@@ -1186,6 +1186,7 @@ def set_bigM_deafult_sol(sol_file,model,params,apply_softmax):
 
 def read_sol_file(sol_file):
     sol_dict = {}
+    print('\n Archivo',sol_file,'\n')
     with open(sol_file, newline='\n') as csvfile:
         reader = csv.reader(csvfile, delimiter='\t')
         next(reader)  # skip header
@@ -1211,10 +1212,10 @@ def get_multidim_env_points(l,bounds,activation):
 
 def generate_hyperplane_model_lpsol(l,i,n_input,activation,lp_sol_file):
     ## Solucion lp a cortar
+    print('\n Archivo',lp_sol_file,'\n')
     sol_dict = read_sol_file(lp_sol_file)
     ## Lista para guardar las variables de input para el modelo del hiperplano
     lp_sol = []
-    ## Se determina le input de la capa l en la solucion lp
     for j in range(n_input+1):
         ## Indices de la capa y la neurona correspondientes
         layer_idx  = l-1
@@ -1290,7 +1291,7 @@ def calculate_hyperplane(l,i,bounds,activation,params,n_input,lp_sol_file):
     ## Funcion de activacion
     activ_f = get_activ_func(activation)
     ## Cotas de la neurona
-    lb,ub = activ_f(-bounds[l][i][0]),activ_f(bounds[l][i][1])
+    lb,ub = -bounds[l][i][0],bounds[l][i][1]
     ## Se determina si el dominio de la neurona se encuentra en la parte concava o convexa
     cc_or_cv = ''
     ## Caso concavo
@@ -1308,7 +1309,10 @@ def calculate_hyperplane(l,i,bounds,activation,params,n_input,lp_sol_file):
         ## Se crea el modelo del hiperplano
         hp_model,c_var,d_var = create_hyperplane_model(l,i,params,bounds,lp_sol,points_list,activation)
         ## Se resuelve el problema
-        hp_model.optimize()
+        try:
+            hp_model.optimize()
+        except:
+            return succes,cc_or_cv,[],None
         ## Se determina el valor objetivo del problema
         obj_val = hp_model.getObjVal()
         ## Se determina si la solucion lp es cortada
@@ -1319,4 +1323,7 @@ def calculate_hyperplane(l,i,bounds,activation,params,n_input,lp_sol_file):
         else:
             c = []
             d = None
+    else:
+        c = []
+        d = None
     return succes,cc_or_cv,c,d

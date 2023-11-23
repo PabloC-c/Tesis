@@ -7,9 +7,9 @@ from functions import *
 activation_list = ['sigmoid']
 layer_list = [2,3,4]
 neuron_list = [5,10]
-form_list = ['no_exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
+form_list = ['multidim_env']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
 apply_bounds_list = [True]
-type_bounds_list = ['prop','mix','verif_bounds','verif_bounds_prop']
+type_bounds_list = ['verif_bounds_prop','verif_bounds']
 minutes = 15
 save_image = False
 apply_softmax = False
@@ -78,7 +78,6 @@ for activation in activation_list:
                             bounds = read_bounds(apply_bounds,n_layers,n_neurons,activation,bounds_file)
                             if apply_bounds and len(bounds) == 0:
                                 continue
-                            print('despues')
                             ## Se crea la instancia de la red neuronal
                             net = neural_network(n_neurons,n_layers,activation)
                             ## Se cargan los parámetros de la red
@@ -97,14 +96,23 @@ for activation in activation_list:
                                     default_run = True
                                     if apply_bounds:
                                         apply_bounds = False
+                            ## Nombre archivo de la lp sol para la envoltura multidimensional
+                            if exact == 'multidim_env':
+                                lp_sol_file = 'sols/{}_{}_{}_sol_L{}_n{}_1como{}_tolper{}.txt'.format(activation,'no_exact',type_bounds,n_layers,n_neurons,target_output,int(100*tol_distance))
+                                if not os.path.exists(lp_sol_file):
+                                    lp_sol_file = ''
                             ## Se crea el modelo de verificacion
-                            verif_model,all_vars = create_verification_model(filtered_params,bounds,activation,tol_distance,apply_softmax,image_list,target_output,real_output,exact,apply_bounds)
+                            if (exact != 'multidim_env') or lp_sol_file != '':
+                                verif_model,all_vars = create_verification_model(filtered_params,bounds,activation,tol_distance,apply_softmax,image_list,target_output,real_output,exact,lp_sol_file,apply_bounds)
+                                skip = False
+                            else:
+                                skip = True
                             ## Se añade la solucion inicial
-                            if set_initial_sol:
+                            if set_initial_sol and not skip:
                                 initial_sol,image_vars = create_initial_sol(verif_model,filtered_params,image_list,exact,activation,apply_softmax)
                                 accepted = verif_model.addSol(initial_sol)
                             ## Node root only
-                            if root_node_only:
+                            if root_node_only and not skip:
                                 if not default_run:
                                     verif_model.setParam('limits/totalnodes',1)
                                     verif_model.setParam('branching/random/priority',1000000)
@@ -115,24 +123,26 @@ for activation in activation_list:
                                     else:
                                         verif_model.readSol(sol_file)
                                     verif_model.setHeuristics(SCIP_PARAMSETTING.OFF)
-                            if print_output:
+                            if print_output and not skip:
                                 if root_node_only:
                                     if not default_run:
                                         verif_model.redirectOutput()
                                 else:
                                     verif_model.redirectOutput()
-                            else:
+                            elif not print_output and not skip:
                                 verif_model.hideOutput()
-                            ## Se generan las variables correspondientes a la imagen entregada al modelo
-                            
-                            ## Se limita el tiempo de resolucion
-                            verif_model.setParam('limits/time', int(60*minutes))
-                            ## Se aumenta la tolerancia de factibilidad
-                            verif_model.setParam('numerics/feastol', 1E-5)
+                            ## Parametros del modelo
+                            if not skip:
+                                print('Parametros')
+                                ## Se limita el tiempo de resolucion
+                                verif_model.setParam('limits/time', int(60*minutes))
+                                ## Se aumenta la tolerancia de factibilidad
+                                verif_model.setParam('numerics/feastol', 1E-5)
                             ## Se optimiza el modelo en busca del ejemplo adversarial
                             t0 = time.time()
                             try:
                                 aux_t = time.time()
+                                print('Optimizando')
                                 verif_model.optimize()
                                 dt = time.time() - aux_t
                                 model_status = verif_model.getStatus()

@@ -4,12 +4,12 @@ import pandas as pd
 from torchvision import datasets, transforms
 from functions import *
 
-activation_list = ['sigmoid']
+activation_list = ['softplus']
 layer_list = [2,3,4]
 neuron_list = [5,10]
-form_list = ['exact']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
-apply_bounds_list = [True]
-type_bounds_list = ['verif_bounds','verif_bounds_prop']
+exact = 'no_exact'      # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
+apply_bounds = True
+type_bounds_list = ['verif_bounds_prop','verif_bounds']
 minutes = 15
 save_image = False
 apply_softmax = False
@@ -22,7 +22,11 @@ real_output = 1
 target_output = 7
 input_lb =0 
 input_ub = 1
-tols_list = [0.01]
+tol_distance = 0.05
+
+
+
+
 
 if len(sys.argv) > 1:
     activation_list = [sys.argv[1]]
@@ -80,10 +84,6 @@ input_example, output_example = next(iter(test_loader))
 ## Se transforma el input en una lista
 image_list = input_example[output_example == real_output][0].view(-1,784).tolist()[0]
 
-tol_distance = 0.05
-exact = 'no_exact'
-apply_bounds = True
-
 ## Por cada activacion
 for activation in activation_list:
     ## Se recorren las capas
@@ -91,6 +91,7 @@ for activation in activation_list:
         ## Se recorren las neuronas 
         for n_neurons in neuron_list:
             for type_bounds in type_bounds_list:
+                print('Cotas ',type_bounds)
                 ## Nombre del archivo xlsx donde se guardan los resultados de los experimentos
                 file_name = calculate_verif_file_name(exact,activation,real_output,target_output,root_node_only)
                 ## Nombre del archivo de las cotas
@@ -163,7 +164,7 @@ for activation in activation_list:
                     new_sol_file = 'sols/{}_{}_{}_sol_L{}_n{}_1como{}_tolper{}.txt'.format(activation,exact,'unbound',n_layers,n_neurons,target_output,int(100*tol_distance))
                 else:
                     new_sol_file = 'sols/{}_{}_{}_sol_L{}_n{}_1como{}_tolper{}.txt'.format(activation,exact,type_bounds,n_layers,n_neurons,target_output,int(100*tol_distance))
-                
+                print('Status ',verif_model.getStatus())
                 LPsol_dict = eventhdlr.LPsol
                 if len(LPsol_dict) > 0:
                     max_len = max(len(key) for key in LPsol_dict)
