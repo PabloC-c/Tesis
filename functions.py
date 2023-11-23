@@ -854,7 +854,7 @@ def calculate_list_perturbation(real_list,generated_list):
 ###
 
 def calculate_inflec_point(activation):
-     activation == 'sigmoid':
+    if activation == 'sigmoid':
         inflec_point = 0
     return inflec_point
 
@@ -1286,20 +1286,22 @@ def create_hyperplane_model(l,i,params,bounds,lp_sol,points_list,activation):
 ###
 
 def calculate_hyperplane(l,i,bounds,activation,params,n_input,lp_sol_file):
-    ## Punto de inflexion de la activacion
-    inflec_point = calculate_inflec_point(activation)
     ## Funcion de activacion
     activ_f = get_activ_func(activation)
     ## Cotas de la neurona
     lb,ub = -bounds[l][i][0],bounds[l][i][1]
     ## Se determina si el dominio de la neurona se encuentra en la parte concava o convexa
     cc_or_cv = ''
-    ## Caso concavo
-    if lb >= inflec_point-1E-6 and ub > inflec_point+1E-6:
-        cc_or_cv = 'cc'
-    ## Caso convexo
-    elif lb < inflec_point-1E-6 and ub <= inflec_point+1E-6:
+    if activation in ['relu','softplus']:
         cc_or_cv = 'cv'
+    else:
+        inflec_point = calculate_inflec_point(activation)
+        ## Caso concavo
+        if lb >= inflec_point-1E-6 and ub > inflec_point+1E-6:
+            cc_or_cv = 'cc'
+        ## Caso convexo
+        elif lb < inflec_point-1E-6 and ub <= inflec_point+1E-6:
+            cc_or_cv = 'cv'
     succes = False
     if cc_or_cv in ['cc','cv']:
         ## Se calculan los vertices de la region del input de la capa l
