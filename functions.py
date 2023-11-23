@@ -854,7 +854,7 @@ def calculate_list_perturbation(real_list,generated_list):
 ###
 
 def calculate_inflec_point(activation):
-    if activation == 'sigmoid':
+     activation == 'sigmoid':
         inflec_point = 0
     return inflec_point
 
