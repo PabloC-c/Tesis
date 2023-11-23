@@ -50,7 +50,7 @@ type_bounds = 'verif_bounds'
 real_output = 1
 df = pd.DataFrame()
 
-calculate_convexorconcav = True
+calculate_convexorconcav = False
 
 inflec_point = calculate_inflec_point(activation)
 
@@ -90,17 +90,17 @@ if calculate_convexorconcav:
                     except:
                         time.sleep(5)
 
-activation = 'softplus'
+activation = 'sigmoid'
 neuron_list = [5,10]
 layer_list  = [2,3,4]
 distance_list = [0.01,0.05]
-type_bounds = 'verif_bounds'
+type_bounds = 'verif_bounds_prop'
 exact = 'no_exact'
 real_output = 1
 target_output = 7
 df = pd.DataFrame()
 
-check_tightness = False
+check_tightness = True
 
 def read_lpsol_check_tightness(lp_sol_file,n_layers,bounds,new_line,tight_tol = 0.1,tol = 1E-6):
     sol_dict = {}
