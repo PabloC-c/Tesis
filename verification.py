@@ -5,11 +5,11 @@ from torchvision import datasets, transforms
 from functions import *
 
 activation_list = ['softplus']
-layer_list = [3]
-neuron_list = [5]
+layer_list = [2,3,4]
+neuron_list = [5,10]
 form_list = ['multidim_env']        # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
 apply_bounds_list = [True]
-type_bounds_list = ['verif_bounds']
+type_bounds_list = ['verif_bounds_prop','verif_bounds']
 minutes = 15
 save_image = False
 apply_softmax = False
@@ -17,12 +17,12 @@ apply_softmax = False
 root_node_only = True
 set_initial_sol = False
 print_output = True
-save_results = False                 # True:almacenar datos del experimento, False: no
+save_results = True                 # True:almacenar datos del experimento, False: no
 real_output = 1
 target_output = 7
 input_lb = 0 
 input_ub = 1
-tols_list = [0.01]
+tols_list = [0.01,0.05]
 
 if len(sys.argv) > 1:
     activation_list = [sys.argv[1]]
@@ -140,17 +140,18 @@ for activation in activation_list:
                                 verif_model.setParam('numerics/feastol', 1E-5)
                             ## Se optimiza el modelo en busca del ejemplo adversarial
                             t0 = time.time()
-                            try:
-                                aux_t = time.time()
-                                print('Optimizando')
-                                verif_model.optimize()
-                                dt = time.time() - aux_t
-                                model_status = verif_model.getStatus()
-                            except:
-                                dt = time.time() - t0
-                                model_status = 'problem'
+                            if not skip:
+                                try:
+                                    aux_t = time.time()
+                                    print('Optimizando')
+                                    verif_model.optimize()
+                                    dt = time.time() - aux_t
+                                    model_status = verif_model.getStatus()
+                                except:
+                                    dt = time.time() - t0
+                                    model_status = 'problem'
                             ## Caso solucion optima
-                            if model_status == 'optimal':
+                            if not skip and model_status == 'optimal':
                                 gap = 0.0
                                 solution = [verif_model.getVal(all_vars['h{},{}'.format(-1,i)]) for i in range(len(image_list))]
                                 obj_val  = verif_model.getObjVal()
@@ -186,6 +187,12 @@ for activation in activation_list:
                                         obj_val = '>0'
                                         adv_ex = True
                                 except:
+                                    gap = '-'
+                                    obj_val = '-'
+                                if skip:
+                                    dt = '-'
+                                    nnodes = '-'
+                                    model_status = 'no_lptocut'
                                     gap = '-'
                                     obj_val = '-'
                             if save_results:

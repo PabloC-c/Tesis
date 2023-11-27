@@ -345,10 +345,10 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
                     ## Caso en que la funcion es concava
                     if cc_or_cv == 'cc':
                         ## Se añade la restriccion correspondiente
-                        neuron_model.addCons(quicksum(c[k]*inpt[k] for k in range(n_input))+ c[-1]*a + d <= 0, name = 'cv_multidim_env_{},{}'.format(l,i))
+                        neuron_model.addCons(quicksum(c[k]*inpt[k] for k in range(n_input)) + d - a <= 0, name = 'cv_multidim_env_{},{}'.format(l,i))
                     ## Caso en que la funcion es convexa
                     else:
-                        neuron_model.addCons(quicksum(c[k]*inpt[k] for k in range(n_input))+ c[-1]*a + d <= 0, name = 'cc_multidim_env_{},{}'.format(l,i))
+                        neuron_model.addCons(a + quicksum(-1*c[k]*inpt[k] for k in range(n_input)) - d <= 0, name = 'cc_multidim_env_{},{}'.format(l,i))
                 ## Caso en que no es posible
                 else:
                     ## Se obtienen las cotas de la neurona 
@@ -1253,15 +1253,15 @@ def generate_hyperplane_model_lpsol(l,i,n_input,activation,lp_sol_file):
 ###
 ###
 
-def create_hyperplane_model(l,i,params,bounds,lp_sol,points_list,activation):
+def create_hyperplane_model(l,i,params,bounds,lp_sol,points_list,activation,cc_or_cv):
     ## Cantidad de variables del hiperplano
-    n = len(bounds[l-1])+1
+    n = len(bounds[l-1])
     ## Se genera el modelo
     hp_model = Model()
     ## Se añaden las variables del hiperplano
     c = [hp_model.addVar(lb = -1, ub = 1, name = 'c{}'.format(i)) for i in range(n)]
     ## Se añade la variable constante del hiperplano
-    d = hp_model.addVar(lb = -1, ub = 1,name = 'd')
+    d = hp_model.addVar(lb = None, ub = None,name = 'd')
     ## Se añaden las restricciones
     for idx in range(len(points_list)):
         ## Se selecciona un punto
@@ -1271,14 +1271,22 @@ def create_hyperplane_model(l,i,params,bounds,lp_sol,points_list,activation):
         W = params[weight]
         b = params[bias]
         ## Se evalua el punto en la funcion lineal
-        z_val = sum(float(W[i,k])*point[k] for k in range(n-1)) + float(b[i])
+        z_val = sum(float(W[i,k])*point[k] for k in range(n)) + float(b[i])
         ## Se evalua en la funcion de activacion
         activ_f = get_activ_func(activation)
         a_val = activ_f(z_val)
         ## Se añade la restriccion correspondiente 
-        hp_model.addCons(quicksum(c[k]*point[k] for k in range(n-1))+ c[-1]*a_val + d <= 0, name = 'point_cons_{}'.format(idx))
+        ## Caso dominio convexo
+        if cc_or_cv == 'cv':
+          hp_model.addCons(a_val + quicksum(-1*c[k]*point[k] for k in range(n)) - d <= 0, name = 'point_cons_{}'.format(idx))
+        ## Caso dominio convexo
+        elif cc_or_cv == 'cc':
+          hp_model.addCons(quicksum(c[k]*point[k] for k in range(n)) + d - a_val <= 0, name = 'point_cons_{}'.format(idx))
     ## Se setea la funcion objetivo
-    hp_model.setObjective(quicksum(c[k]*lp_sol[k] for k in range(n)) + d, 'maximize')
+    if cc_or_cv == 'cv':
+        hp_model.setObjective(lp_sol[-1] + quicksum(-1*c[k]*lp_sol[k] for k in range(n)) - d, 'maximize')
+    elif cc_or_cv == 'cc':
+        hp_model.setObjective(quicksum(c[k]*lp_sol[k] for k in range(n)) + d - lp_sol[-1], 'maximize')
     ## Se retorna el modelo
     return hp_model,c,d
 
@@ -1309,16 +1317,17 @@ def calculate_hyperplane(l,i,bounds,activation,params,n_input,lp_sol_file):
         ## Se mapea la solucion lp a cortar al modelo del hiperplano
         lp_sol = generate_hyperplane_model_lpsol(l,i,n_input,activation,lp_sol_file)
         ## Se crea el modelo del hiperplano
-        hp_model,c_var,d_var = create_hyperplane_model(l,i,params,bounds,lp_sol,points_list,activation)
+        hp_model,c_var,d_var = create_hyperplane_model(l,i,params,bounds,lp_sol,points_list,activation,cc_or_cv)
         ## Se resuelve el problema
         try:
+            hp_model.hideOutput()
             hp_model.optimize()
         except:
             return succes,cc_or_cv,[],None
         ## Se determina el valor objetivo del problema
         obj_val = hp_model.getObjVal()
         ## Se determina si la solucion lp es cortada
-        if obj_val > 1E-6:
+        if obj_val > 1E-3:
             succes = True
             c = [hp_model.getVal(var) for var in c_var]
             d = hp_model.getVal(d_var)
