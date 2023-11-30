@@ -210,7 +210,8 @@ def set_objective_function(neuron_model,inpt,params,bounds,l,i,sense):
 ### Funcion que dada una capa l y las cotas de sus neuronas, genera las restricciones correspondientes
 ###
 
-def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 'relu',form = 'no_exact',lp_sol_file = '',apply_bounds = True):
+def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,mdenv_count,activation = 'relu',form = 'no_exact',lp_sol_file = '',apply_bounds = True):
+    ## Numeros de cortes -1 a añadir en las envolturas 1 dimensional
     k = 4
     ## Numero de variables de input para la capa l
     n_input = len(inpt)
@@ -342,6 +343,8 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
                     succes,cc_or_cv,c,d = calculate_hyperplane(l,i,bounds,activation,params,n_input,lp_sol_file)
                 ## Caso en que es posible
                 if succes:
+                    ## Se aumenta el contador de cortes añadidos
+                    mdenv_count += 1
                     ## Caso en que la funcion es concava
                     if cc_or_cv == 'cc':
                         ## Se añade la restriccion correspondiente
@@ -363,7 +366,7 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation = 
                     for q in range(len(cc_env)):
                         x0,f_x0,m = cc_env[q]
                         neuron_model.addCons(f_x0+m*(z-x0) >= a, name = 'cc_env{}_{},{}'.format(q,l,i))
-    return neuron_model,aux_input,all_vars
+    return neuron_model,aux_input,all_vars,mdenv_count
 
 
 ### Funcion que optimiza el problema de optimizacion asociado a la evaluacion de una neurona de la red
@@ -555,6 +558,8 @@ def add_bounds_vars_by_image(model,sol_dict):
 ###
 
 def calculate_bounds(params,activation = 'relu',exact = 'no_exact',minutes = 10,add_verif_bounds = False,tol_distance = 0,image_list = [],print_output=False):
+    ## Contador de cortes multidimensionales añadidos
+    mdenv_count = 0
     ## Calcular cantidad de capas
     n_layers = int(len(params)/2)
     ## Crear arreglo para guardar cotas de las capas
@@ -612,7 +617,7 @@ def calculate_bounds(params,activation = 'relu',exact = 'no_exact',minutes = 10,
         layers_time.append(tiempo/n_neurons)
         ## Se actualiza el modelo con las cotas de la capa l
         if exact != 'prop':
-            neuron_model,inpt,all_vars = update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,activation,exact)
+            neuron_model,inpt,all_vars,mdenv_count = update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,mdenv_count,activation,exact)
         ## Se actualizan las variables de las cotas de verificacion
         if add_verif_bounds:
             sol_dict,layer_input = update_bounds_vars_by_image(l,params,sol_dict,layer_input,exact,activation)
@@ -652,6 +657,8 @@ def set_verification_model(net_model,net_input_var,net_output_var,input_value,re
 ###
 
 def create_verification_model(params,bounds,activation,tol_distance,apply_softmax,image_list,output_target,real_output,exact = 'exact',lp_sol_file = '',apply_bounds = True):
+    ## Contador de cortes multidimensionales añadidos
+    mdenv_count = 0
     ## Se calcula la cantidad de capas ocultas
     n_layers = int(len(params)/2)
     ## Se inicializa el modelo de verificacion
@@ -664,7 +671,7 @@ def create_verification_model(params,bounds,activation,tol_distance,apply_softma
     ## Se recorren las capas
     for l in range(n_layers):
         ## Se crean las restricicones y variables
-        verif_model,aux_input,all_vars = update_neuron_model(verif_model,inpt,all_vars,params,bounds,l,activation,exact,lp_sol_file,apply_bounds)
+        verif_model,aux_input,all_vars,mdenv_count = update_neuron_model(verif_model,inpt,all_vars,params,bounds,l,mdenv_count,activation,exact,lp_sol_file,apply_bounds)
         inpt = aux_input
     ## Caso en el que se aplica softmax
     if apply_softmax:
@@ -687,7 +694,7 @@ def create_verification_model(params,bounds,activation,tol_distance,apply_softma
     ## Se genera la funcion objetivo
     verif_model.setObjective(output[output_target] - output[real_output], 'maximize')
     ## Se retorna el modelo de verificacion
-    return verif_model,all_vars
+    return verif_model,all_vars,mdenv_count
 
 ###
 ###
