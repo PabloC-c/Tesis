@@ -1193,7 +1193,6 @@ def set_bigM_deafult_sol(sol_file,model,params,apply_softmax):
 
 def read_sol_file(sol_file):
     sol_dict = {}
-    print('\n Archivo',sol_file,'\n')
     with open(sol_file, newline='\n') as csvfile:
         reader = csv.reader(csvfile, delimiter='\t')
         next(reader)  # skip header
@@ -1219,7 +1218,6 @@ def get_multidim_env_points(l,bounds,activation):
 
 def generate_hyperplane_model_lpsol(l,i,n_input,activation,lp_sol_file):
     ## Solucion lp a cortar
-    print('\n Archivo',lp_sol_file,'\n')
     sol_dict = read_sol_file(lp_sol_file)
     ## Lista para guardar las variables de input para el modelo del hiperplano
     lp_sol = []

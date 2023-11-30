@@ -5,11 +5,11 @@ from torchvision import datasets, transforms
 from functions import *
 
 activation_list = ['softplus']
-layer_list = [2,3,4]
-neuron_list = [5,10]
-exact = 'no_exact'      # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
+layer_list = [4]
+neuron_list = [10]
+exact = 'multidim_env'      # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
 apply_bounds = True
-type_bounds_list = ['verif_bounds_prop','verif_bounds']
+type_bounds_list = ['verif_bounds']
 minutes = 15
 save_image = False
 apply_softmax = False
@@ -19,7 +19,7 @@ set_initial_sol = False
 print_output = False
 save_results = False
 real_output = 1
-target_output = 7
+target_output = 2
 input_lb =0 
 input_ub = 1
 tol_distance = 0.05
@@ -117,17 +117,24 @@ while not done:
                             default_run = True
                             if apply_bounds:
                                 apply_bounds = False
+                    ## Nombre archivo de la lp sol para la envoltura multidimensional
+                    if exact == 'multidim_env':
+                        lp_sol_file = 'sols/{}_{}_{}_sol_L{}_n{}_1como{}_tolper{}.txt'.format(activation,exact,type_bounds,n_layers,n_neurons,target_output,int(100*tol_distance))
+                        if not os.path.exists(lp_sol_file):        
+                            lp_sol_file = 'sols/{}_{}_{}_sol_L{}_n{}_1como{}_tolper{}.txt'.format(activation,'no_exact',type_bounds,n_layers,n_neurons,target_output,int(100*tol_distance))
+                            if not os.path.exists(lp_sol_file):
+                                lp_sol_file = ''
                     ## Se crea el modelo de verificacion
-                    if type_bounds == '-':
-                        if exact == 'no_exact':
-                            continue    
-                        verif_model,all_vars,mdenv_count = create_verification_model(filtered_params,bounds,activation,tol_distance,apply_softmax,image_list,target_output,real_output,exact,False)
+                    if (exact != 'multidim_env') or lp_sol_file != '':
+                        verif_model,all_vars,mdenv_count = create_verification_model(filtered_params,bounds,activation,tol_distance,apply_softmax,image_list,target_output,real_output,exact,lp_sol_file,apply_bounds)
                     else:
-                        print(bounds_file)
-                        verif_model,all_vars,mdenv_count = create_verification_model(filtered_params,bounds,activation,tol_distance,apply_softmax,image_list,target_output,real_output,exact,apply_bounds)
+                        continue
+                    print('ola')
                     ## Se verifica si se añadieron nuevos planos cortantes
                     if mdenv_count == 0:
                         done = True
+                    ## Cantidad de cortes añadidos en la ronda
+                    print('\n Ronda {}, {} cortes añadidos \n'.format(round_count,mdenv_count))
                     ## Se crea y añade el event handler
                     eventhdlr       = LPstatEventhdlr()
                     eventhdlr.LPsol = {}
@@ -176,7 +183,5 @@ while not done:
                             for key,value in LPsol_dict.items():
                                 file_line = f"{key:<{max_len}} {value}\n"
                                 f.write(file_line)
-                        print('\t Solucion guardada')
-    ## Cantidad de cortes añadidos en la ronda
-    print('\n Ronda {}, {} cortes añadidos \n'.format(round_count,mdenv_count))
+                        print('\t Solucion guardada, archivo {}'.format(new_sol_file))
     round_count += 1
