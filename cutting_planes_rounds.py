@@ -131,7 +131,7 @@ for activation in activation_list:
                     if lp_sol_file == '':
                         continue
                     if model_created:
-                        verif_model,mdenv_count = cut_verif_model_lp_sol(n_layers,n_neurons,activation,params,bounds,verif_model,all_vars,lp_sol_file)
+                        verif_model,mdenv_count = cut_verif_model_lp_sol(n_layers,n_neurons,activation,filtered_params,bounds,verif_model,all_vars,lp_sol_file)
                     print('ola')
                     ## Se verifica si se añadieron nuevos planos cortantes
                     if mdenv_count == 0:
