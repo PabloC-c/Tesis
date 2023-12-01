@@ -1352,7 +1352,7 @@ def cut_verif_model_lp_sol(n_layers,n_neurons,activation,params,bounds,verif_mod
         ## Se recorren las neuronas
         for i in range(n_neurons):
             ## Variable de output de la neurona
-            a = [all_vars['a{},{}'.format(l,i)]]
+            a = all_vars['a{},{}'.format(l,i)]
             succes = False
             ## Se determina si es posible añadir la envoltura multidimensional
             succes,cc_or_cv,c,d = calculate_hyperplane(l,i,bounds,activation,params,n_neurons,lp_sol_file)
