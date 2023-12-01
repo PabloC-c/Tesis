@@ -179,6 +179,7 @@ class neural_network(nn.Module):
 
 def initialize_neuron_model(bounds,add_verif_bounds,tol_distance,image_list,tol = 1e-03):
     neuron_model = Model()
+    neuron_model.data = {}
     if len(bounds) == 0:
         if add_verif_bounds:
             bounds[-1] = [(-(max(image_list[i]-tol_distance-(tol_distance*0.1),0)),min(image_list[i]+tol_distance+(tol_distance*0.1),1)) for i in range(len(image_list))]
@@ -298,6 +299,8 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,mdenv_count,a
                     x0,f_x0,m = cc_env[q]
                     neuron_model.addCons(f_x0+m*(z-x0) >= a, name = 'cc_env{}_{},{}'.format(q,l,i))
         elif form == 'multidim_env':
+            if not 'multidim_env_count' in neuron_model.data:
+                neuron_model.data['multidim_env_count'] = {}
             if activation == 'relu':
                 ## Variable de la evaluacion del input en la funcion lineal
                 z = neuron_model.addVar(lb = None, ub = None,vtype = 'C', name = 'z{},{}'.format(l,i))
@@ -348,10 +351,16 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,mdenv_count,a
                     ## Caso en que la funcion es concava
                     if cc_or_cv == 'cc':
                         ## Se añade la restriccion correspondiente
-                        neuron_model.addCons(quicksum(c[k]*inpt[k] for k in range(n_input)) + d - a <= 0, name = 'cv_multidim_env_{},{}'.format(l,i))
+
+                        neuron_model.addCons(quicksum(c[k]*inpt[k] for k in range(n_input)) + d - a <= 0, name = 'cv_multidim_env0_{},{}'.format(l,i))
                     ## Caso en que la funcion es convexa
                     else:
-                        neuron_model.addCons(a + quicksum(-1*c[k]*inpt[k] for k in range(n_input)) - d <= 0, name = 'cc_multidim_env_{},{}'.format(l,i))
+                        neuron_model.addCons(a + quicksum(-1*c[k]*inpt[k] for k in range(n_input)) - d <= 0, name = 'cv_multidim_env0_{},{}'.format(l,i))
+                    ## La neurona tiene un corte multidimensional
+                    neuron_model.data['multidim_env_count'][(l,i)] = 1
+                else:
+                    ## La neurona tiene 0 cortes multidimensionales
+                    neuron_model.data['multidim_env_count'][(l,i)] = 0
     return neuron_model,aux_input,all_vars,mdenv_count
 
 
@@ -1352,10 +1361,13 @@ def cut_verif_model_lp_sol(n_layers,n_neurons,activation,params,bounds,verif_mod
                 ## Se aumenta el contador de cortes añadidos
                 mdenv_count += 1
                 ## Caso en que la funcion es concava
+                n_cuts = verif_model.data['multidim_env_count'][(l,i)]
                 if cc_or_cv == 'cc':
                     ## Se añade la restriccion correspondiente
-                    verif_model.addCons(quicksum(c[k]*layer_inpt[k] for k in range(n_neurons)) + d - a <= 0, name = 'cv_multidim_env_{},{}'.format(l,i))
+                    verif_model.addCons(quicksum(c[k]*layer_inpt[k] for k in range(n_neurons)) + d - a <= 0, name = 'cv_multidim_env{}_{},{}'.format(n_cuts,l,i))
                 ## Caso en que la funcion es convexa
                 else:
-                    verif_model.addCons(a + quicksum(-1*c[k]*layer_inpt[k] for k in range(n_neurons)) - d <= 0, name = 'cc_multidim_env_{},{}'.format(l,i))
+                    verif_model.addCons(a + quicksum(-1*c[k]*layer_inpt[k] for k in range(n_neurons)) - d <= 0, name = 'cc_multidim_env{}_{},{}'.format(n_cuts,l,i))
+                ## Se aumenta la cantidad de cortes multidimensionales que tiene 
+                verif_model.data['multidim_env_count'][(l,i)] += 1
     return verif_model,mdenv_count
