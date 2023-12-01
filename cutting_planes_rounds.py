@@ -81,17 +81,17 @@ input_example, output_example = next(iter(test_loader))
 ## Se transforma el input en una lista
 image_list = input_example[output_example == real_output][0].view(-1,784).tolist()[0]
 
-done = False
-
-round_count = 1
-while not done:
-    ## Por cada activacion
-    for activation in activation_list:
-        ## Se recorren las capas
-        for n_layers in layer_list:
-            ## Se recorren las neuronas 
-            for n_neurons in neuron_list:
-                for type_bounds in type_bounds_list:
+## Por cada activacion
+for activation in activation_list:
+    ## Se recorren las capas
+    for n_layers in layer_list:
+        ## Se recorren las neuronas 
+        for n_neurons in neuron_list:
+            for type_bounds in type_bounds_list:
+                model_created = False
+                done = False
+                round_count = 1
+                while not done:
                     print('Cotas ',type_bounds)
                     ## Nombre del archivo xlsx donde se guardan los resultados de los experimentos
                     file_name = calculate_verif_file_name(exact,activation,real_output,target_output,root_node_only)
@@ -125,10 +125,13 @@ while not done:
                             if not os.path.exists(lp_sol_file):
                                 lp_sol_file = ''
                     ## Se crea el modelo de verificacion
-                    if (exact != 'multidim_env') or lp_sol_file != '':
+                    if lp_sol_file != '' and not model_created:
+                        model_created = True
                         verif_model,all_vars,mdenv_count = create_verification_model(filtered_params,bounds,activation,tol_distance,apply_softmax,image_list,target_output,real_output,exact,lp_sol_file,apply_bounds)
-                    else:
+                    if lp_sol_file == '':
                         continue
+                    if model_created:
+                        verif_model,mdenv_count = cut_verif_model_lp_sol(n_layers,n_neurons,activation,params,bounds,verif_model,all_vars,lp_sol_file)
                     print('ola')
                     ## Se verifica si se añadieron nuevos planos cortantes
                     if mdenv_count == 0:
@@ -184,4 +187,10 @@ while not done:
                                 file_line = f"{key:<{max_len}} {value}\n"
                                 f.write(file_line)
                         print('\t Solucion guardada, archivo {}'.format(new_sol_file))
-    round_count += 1
+                    round_count += 1
+
+
+
+
+
+    

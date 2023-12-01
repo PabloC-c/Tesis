@@ -352,20 +352,6 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,mdenv_count,a
                     ## Caso en que la funcion es convexa
                     else:
                         neuron_model.addCons(a + quicksum(-1*c[k]*inpt[k] for k in range(n_input)) - d <= 0, name = 'cc_multidim_env_{},{}'.format(l,i))
-                ## Caso en que no es posible
-                else:
-                    ## Se obtienen las cotas de la neurona 
-                    bounds_l_i = bounds[l][i]
-                    ## Se obtienen las tuplas correspondientes a la envoltura
-                    cv_env,cc_env = get_activation_env_list(activation,bounds_l_i, k)
-                    ## Se añaden los planos cortantes convexos
-                    for q in range(len(cv_env)):
-                        x0,f_x0,m = cv_env[q]
-                        neuron_model.addCons(f_x0+m*(z-x0) <= a, name = 'cv_env{}_{},{}'.format(q,l,i))
-                    ## Se añaden los planos cortantes concavos
-                    for q in range(len(cc_env)):
-                        x0,f_x0,m = cc_env[q]
-                        neuron_model.addCons(f_x0+m*(z-x0) >= a, name = 'cc_env{}_{},{}'.format(q,l,i))
     return neuron_model,aux_input,all_vars,mdenv_count
 
 
@@ -1343,3 +1329,33 @@ def calculate_hyperplane(l,i,bounds,activation,params,n_input,lp_sol_file):
         c = []
         d = None
     return succes,cc_or_cv,c,d
+
+###
+###
+
+def cut_verif_model_lp_sol(n_layers,n_neurons,activation,params,bounds,verif_model,all_vars,lp_sol_file):
+    ## Contador de cortes multidimensionales añadidos
+    mdenv_count = 0
+    ## Se recorren las capas
+    for l in range(1,n_layers):
+        ## Output de la capa anterior
+        layer_inpt = [all_vars['a{},{}'.format(l-1,j)] for j in range(n_neurons)]
+        ## Se recorren las neuronas
+        for i in range(n_neurons):
+            ## Variable de output de la neurona
+            a = [all_vars['a{},{}'.format(l,i)]]
+            succes = False
+            ## Se determina si es posible añadir la envoltura multidimensional
+            succes,cc_or_cv,c,d = calculate_hyperplane(l,i,bounds,activation,params,n_neurons,lp_sol_file)
+            ## Caso en que es posible
+            if succes:
+                ## Se aumenta el contador de cortes añadidos
+                mdenv_count += 1
+                ## Caso en que la funcion es concava
+                if cc_or_cv == 'cc':
+                    ## Se añade la restriccion correspondiente
+                    verif_model.addCons(quicksum(c[k]*layer_inpt[k] for k in range(n_neurons)) + d - a <= 0, name = 'cv_multidim_env_{},{}'.format(l,i))
+                ## Caso en que la funcion es convexa
+                else:
+                    verif_model.addCons(a + quicksum(-1*c[k]*layer_inpt[k] for k in range(n_neurons)) - d <= 0, name = 'cc_multidim_env_{},{}'.format(l,i))
+    return verif_model,mdenv_count
