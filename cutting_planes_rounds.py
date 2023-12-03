@@ -5,8 +5,8 @@ from torchvision import datasets, transforms
 from functions import *
 
 activation_list = ['softplus']
-layer_list = [3]
-neuron_list = [10]
+layer_list = [2,3,4]
+neuron_list = [5,10]
 exact = 'multidim_env'      # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
 apply_bounds = True
 type_bounds_list = ['verif_bounds']
@@ -87,6 +87,7 @@ for activation in activation_list:
     for n_layers in layer_list:
         ## Se recorren las neuronas 
         for n_neurons in neuron_list:
+            for tol_distance in tols_list:
             for type_bounds in type_bounds_list:
                 model_created = False
                 done = False
