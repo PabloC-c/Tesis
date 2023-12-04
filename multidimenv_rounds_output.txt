@@ -1,0 +1,16 @@
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/softplus_default_verif_sol_L2_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 1598 constraints
+Cotas  verif_bounds
+
+===== Capas 2 Neuronas 5 =====
+
+Tolerancia: 0.01 
+
+ Ronda 1, 0 cortes añadidos 
+
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L2_n5_1como7_tolper1.txt
+Traceback (most recent call last):
+  File "/home/pablo/Tesis/cutting_planes_rounds.py", line 203, in <module>
+    new_line += [type_bounds,dt,round_count,planes_count,gap,adv_aux,model_status]
+NameError: name 'gap' is not defined. Did you mean: 'map'?

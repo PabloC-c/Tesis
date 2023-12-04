@@ -13,7 +13,7 @@ type_bounds_list = ['verif_bounds']
 minutes = 15
 save_image = False
 apply_softmax = False
-tol_list = [0.01,0.05]
+tols_list = [0.01,0.05]
 
 root_node_only = True
 set_initial_sol = False
