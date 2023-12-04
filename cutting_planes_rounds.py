@@ -122,6 +122,7 @@ for activation in activation_list:
                                 if apply_bounds:
                                     apply_bounds = False
                         ## Nombre archivo de la lp sol para la envoltura multidimensional
+                        skip = False
                         if exact == 'multidim_env':
                             lp_sol_file = 'sols/{}_{}_{}_sol_L{}_n{}_1como{}_tolper{}.txt'.format(activation,exact,type_bounds,n_layers,n_neurons,target_output,int(100*tol_distance))
                             if not os.path.exists(lp_sol_file):        
@@ -129,7 +130,8 @@ for activation in activation_list:
                                 if not os.path.exists(lp_sol_file):
                                     lp_sol_file = ''
                         if lp_sol_file == '':
-                            continue
+                            skip = True
+                            break
                         ## Se crea el modelo de verificacion
                         if not model_created:
                             model_created = True
@@ -193,6 +195,52 @@ for activation in activation_list:
                             print('\t Solucion guardada, archivo {}'.format(new_sol_file))
                         round_count += 1
                         planes_count += mdenv_count
+                    ## Caso solucion optima
+                    if not skip and model_status == 'optimal':
+                        gap = 0.0
+                        solution = [verif_model.getVal(all_vars['h{},{}'.format(-1,i)]) for i in range(len(image_list))]
+                        obj_val  = verif_model.getObjVal()
+                        nnodes   = verif_model.getNNodes() 
+                        if obj_val > 0:
+                            ## Se encontro un ejemplo adversarial
+                            adv_ex = True
+                            ## Caso en que se debe guardar la imagen
+                            if save_image:
+                                color_map = 'gray'
+                                png_name  = '{}_adv_ex.png'.format(activation) 
+                                generate_png(solution,image_list,color_map,png_name,input_lb,input_ub)
+                                output,soft_output = calculate_probs(net,solution)
+                                print('\n Softmax output: ',soft_output,'\n')
+                    ## Caso no alcanzo el tiempo
+                    else:
+                        try:
+                            nnodes = verif_model.getNNodes()
+                        except:
+                            nnodes = '-'
+                        try:
+                            primalb = verif_model.getPrimalbound()
+                            dualb  = verif_model.getDualbound()
+                            if (primalb == 1e+20) or (dualb == -1e+20):
+                                gap = '-'
+                            else:
+                                gap = 100*np.abs(primalb-dualb)/np.abs(dualb)
+                            ## Caso en que no existe ejemplo adversarial
+                            if primalb < 0:
+                                obj_val = '<0'
+                            ## Caso en que si existe un ejemplo adversarial
+                            elif dualb > 0:
+                                obj_val = '>0'
+                                adv_ex = True
+                        except:
+                            gap = '-'
+                            obj_val = '-'
+                        if skip:
+                            dt = '-'
+                            nnodes = '-'
+                            model_status = 'no_lptocut'
+                            gap = '-'
+                            obj_val = '-'
+                    
                     if save_results:
                         ## Se genera la nueva linea del df
                         adv_aux = 'No'
