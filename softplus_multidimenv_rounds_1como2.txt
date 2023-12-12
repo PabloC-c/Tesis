@@ -1,0 +1,130 @@
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L2_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
+original problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 1598 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L2_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
+original problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 1598 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L2_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1608 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L2_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1608 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L2_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1610 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L2_n10_1como2.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1608 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L3_n5_1como2.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1609 constraints
+
+===== Capas 2 Neuronas 5 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L2_n5_1como2_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 107.3095058765962
+
+===== Capas 2 Neuronas 5 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_sol_L2_n5_1como2_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 204.31602228930652
+
+===== Capas 2 Neuronas 5 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds_prop
+gap: 204.31602228930652
+
+===== Capas 2 Neuronas 5 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds
+gap: 204.31602228930652
+
+===== Capas 2 Neuronas 10 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L2_n10_1como2_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 0.18368852775912686
+
+===== Capas 2 Neuronas 10 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_sol_L2_n10_1como2_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 0.1053566861863788
+
+===== Capas 2 Neuronas 10 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L2_n10_1como2_tolper5.txt
+Ronda 1, 2 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L2_n10_1como2_tolper5.txt
+Ronda 2, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L2_n10_1como2_tolper5.txt
+Ronda 3, 0 cortes añadidos 
+
+Optimizando
+gap: 891.403328757684
+
+===== Capas 2 Neuronas 10 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_sol_L2_n10_1como2_tolper5.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 16.523137290334265
+
+===== Capas 3 Neuronas 5 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds_prop
+gap: 16.523137290334265
+
+===== Capas 3 Neuronas 5 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_sol_L3_n5_1como2_tolper1.txt
+Ronda 1, 1 cortes añadidos 
+
+Cotas  verif_bounds
+Traceback (most recent call last):
+  File "/home/pablo/Tesis/cutting_planes_rounds.py", line 145, in <module>
+    verif_model,mdenv_count = cut_verif_model_lp_sol(n_layers,n_neurons,activation,filtered_params,bounds,verif_model,all_vars,lp_sol_file)
+  File "/home/pablo/Tesis/functions.py", line 1358, in cut_verif_model_lp_sol
+    succes,cc_or_cv,c,d = calculate_hyperplane(l,i,bounds,activation,params,n_neurons,lp_sol_file)
+  File "/home/pablo/Tesis/functions.py", line 1318, in calculate_hyperplane
+    lp_sol = generate_hyperplane_model_lpsol(l,i,n_input,activation,lp_sol_file)
+  File "/home/pablo/Tesis/functions.py", line 1216, in generate_hyperplane_model_lpsol
+    sol_dict = read_sol_file(lp_sol_file)
+  File "/home/pablo/Tesis/functions.py", line 1193, in read_sol_file
+    next(reader)  # skip header
+StopIteration

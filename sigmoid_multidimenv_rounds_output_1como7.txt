@@ -1,0 +1,964 @@
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L2_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 1598 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L2_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 1598 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L2_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 1598 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L2_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 1598 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L2_n10_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1608 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L2_n10_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1608 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L2_n10_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1610 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L2_n10_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1608 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L3_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1608 constraints
+[solve.c:3916] ERROR: (node 1) unresolved numerical troubles in LP 28 cannot be dealt with
+[solve.c:4197] ERROR: Error <-6> in function call
+[solve.c:4993] ERROR: Error <-6> in function call
+[scip_solve.c:2780] ERROR: Error <-6> in function call
+[solve.c:3916] ERROR: (node 1) unresolved numerical troubles in LP 28 cannot be dealt with
+[solve.c:4197] ERROR: Error <-6> in function call
+[solve.c:4993] ERROR: Error <-6> in function call
+[scip_solve.c:2780] ERROR: Error <-6> in function call
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L4_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 834 variables (0 bin, 0 int, 0 impl, 834 cont) and 1618 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L4_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 834 variables (0 bin, 0 int, 0 impl, 834 cont) and 1618 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L4_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 834 variables (0 bin, 0 int, 0 impl, 834 cont) and 1618 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L4_n10_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 1649 constraints
+
+===== Capas 2 Neuronas 5 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L2_n5_1como7_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 86.8738514024219
+
+===== Capas 2 Neuronas 5 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_sol_L2_n5_1como7_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 75.35057296857987
+
+===== Capas 2 Neuronas 5 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L2_n5_1como7_tolper5.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 0.011245942074714169
+
+===== Capas 2 Neuronas 5 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_sol_L2_n5_1como7_tolper5.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 0.011246607791337796
+
+===== Capas 2 Neuronas 10 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L2_n10_1como7_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 0.47378189533402965
+
+===== Capas 2 Neuronas 10 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_sol_L2_n10_1como7_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 0.2384372942762273
+
+===== Capas 2 Neuronas 10 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L2_n10_1como7_tolper5.txt
+Ronda 1, 2 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L2_n10_1como7_tolper5.txt
+Ronda 2, 0 cortes añadidos 
+
+Optimizando
+gap: 975.6707576097191
+
+===== Capas 2 Neuronas 10 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_sol_L2_n10_1como7_tolper5.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 7.999699753544146
+
+===== Capas 3 Neuronas 5 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds_prop
+gap: 7.999699753544146
+
+===== Capas 3 Neuronas 5 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_sol_L3_n5_1como7_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 395.441164242977
+
+===== Capas 3 Neuronas 5 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds_prop
+gap: 395.441164242977
+
+===== Capas 3 Neuronas 5 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds
+gap: 395.441164242977
+
+===== Capas 3 Neuronas 10 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds_prop
+gap: 395.441164242977
+
+===== Capas 3 Neuronas 10 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds
+gap: 395.441164242977
+
+===== Capas 3 Neuronas 10 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds_prop
+gap: 395.441164242977
+
+===== Capas 3 Neuronas 10 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds
+gap: 395.441164242977
+
+===== Capas 4 Neuronas 5 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds_prop
+Status  optimal
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n5_1como7_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 0.0
+
+===== Capas 4 Neuronas 5 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds
+gap: 0.0
+
+===== Capas 4 Neuronas 5 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n5_1como7_tolper5.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 0.02428817185594051
+
+===== Capas 4 Neuronas 5 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_sol_L4_n5_1como7_tolper5.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 0.02428681184755962
+
+===== Capas 4 Neuronas 10 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 1, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 2, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 3, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 4, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 5, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 6, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 7, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 8, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 9, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 10, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 11, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 12, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 13, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 14, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 15, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 16, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 17, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 18, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 19, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 20, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 21, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 22, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 23, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 24, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 25, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 26, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 27, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 28, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 29, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 30, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 31, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 32, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 33, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 34, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 35, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 36, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 37, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 38, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 39, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 40, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 41, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 42, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 43, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 44, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 45, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 46, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 47, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 48, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 49, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 50, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 51, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 52, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 53, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 54, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 55, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 56, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 57, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 58, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 59, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 60, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 61, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 62, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 63, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 64, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 65, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 66, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 67, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 68, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 69, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 70, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 71, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 72, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 73, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 74, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 75, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 76, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 77, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 78, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 79, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 80, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 81, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 82, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 83, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 84, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 85, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 86, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 87, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 88, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 89, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 90, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 91, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 92, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 93, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 94, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 95, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 96, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 97, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 98, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 99, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 100, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 101, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 102, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 103, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 104, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 105, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 106, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 107, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 108, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 109, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 110, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 111, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 112, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/sigmoid_default_verif_sol_L4_n10_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 1648 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L4_n10_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 1648 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/sigmoid_default_verif_sol_L4_n10_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 1648 constraints
+totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 113, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 114, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 115, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 116, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 117, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 118, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 119, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 120, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 121, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 122, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 123, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 124, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 125, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 126, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 127, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 128, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 129, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 130, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 131, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 132, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 133, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 134, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 135, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 136, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 137, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 138, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 139, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 140, 1 cortes añadidos 
+
+Optimizando
+gap: 0.00012001837835084238
+
+===== Capas 4 Neuronas 10 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_sol_L4_n10_1como7_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 0.0005386887194307864
+
+===== Capas 4 Neuronas 10 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper5.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 56.768052078209756
+
+===== Capas 4 Neuronas 10 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/sigmoid_multidim_env_verif_bounds_sol_L4_n10_1como7_tolper5.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 56.76805207328904

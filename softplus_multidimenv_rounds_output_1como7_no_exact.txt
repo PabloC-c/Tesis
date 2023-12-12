@@ -1,0 +1,657 @@
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/softplus_default_verif_sol_L2_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 1598 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/softplus_default_verif_sol_L2_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 1598 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/softplus_default_verif_sol_L2_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 1599 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/softplus_default_verif_sol_L2_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 814 variables (0 bin, 0 int, 0 impl, 814 cont) and 1598 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/softplus_default_verif_sol_L2_n10_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1608 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/softplus_default_verif_sol_L2_n10_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1608 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/softplus_default_verif_sol_L2_n10_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1608 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/softplus_default_verif_sol_L2_n10_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1608 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/softplus_default_verif_sol_L3_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1608 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/softplus_default_verif_sol_L3_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1608 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/softplus_default_verif_sol_L3_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1610 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/softplus_default_verif_sol_L3_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 824 variables (0 bin, 0 int, 0 impl, 824 cont) and 1609 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/softplus_default_verif_sol_L3_n10_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 844 variables (0 bin, 0 int, 0 impl, 844 cont) and 1628 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/softplus_default_verif_sol_L3_n10_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 844 variables (0 bin, 0 int, 0 impl, 844 cont) and 1628 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/softplus_default_verif_sol_L3_n10_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 844 variables (0 bin, 0 int, 0 impl, 844 cont) and 1629 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/softplus_default_verif_sol_L3_n10_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 844 variables (0 bin, 0 int, 0 impl, 844 cont) and 1628 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/softplus_default_verif_sol_L4_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 834 variables (0 bin, 0 int, 0 impl, 834 cont) and 1619 constraints
+
+===== Capas 2 Neuronas 5 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L2_n5_1como7_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 10.136704898417314
+
+===== Capas 2 Neuronas 5 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L2_n5_1como7_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 6.102632527861381
+
+===== Capas 2 Neuronas 5 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L2_n5_1como7_tolper5.txt
+Ronda 1, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L2_n5_1como7_tolper5.txt
+Ronda 2, 0 cortes añadidos 
+
+Optimizando
+gap: 113.22177660288737
+
+===== Capas 2 Neuronas 5 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L2_n5_1como7_tolper5.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 146.43416265838957
+
+===== Capas 2 Neuronas 10 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L2_n10_1como7_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 8.013156305064658
+
+===== Capas 2 Neuronas 10 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L2_n10_1como7_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 5.749313680045189
+
+===== Capas 2 Neuronas 10 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L2_n10_1como7_tolper5.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 137.59538554062087
+
+===== Capas 2 Neuronas 10 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L2_n10_1como7_tolper5.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 9465.739856715914
+
+===== Capas 3 Neuronas 5 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L3_n5_1como7_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 71.61679451962497
+
+===== Capas 3 Neuronas 5 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L3_n5_1como7_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 14.095037719448472
+
+===== Capas 3 Neuronas 5 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L3_n5_1como7_tolper5.txt
+Ronda 1, 2 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L3_n5_1como7_tolper5.txt
+Ronda 2, 2 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L3_n5_1como7_tolper5.txt
+Ronda 3, 2 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L3_n5_1como7_tolper5.txt
+Ronda 4, 5 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L3_n5_1como7_tolper5.txt
+Ronda 5, 0 cortes añadidos 
+
+Optimizando
+gap: 106.39434799792235
+
+===== Capas 3 Neuronas 5 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L3_n5_1como7_tolper5.txt
+Ronda 1, 1 cortes añadidos 
+
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L3_n5_1como7_tolper5.txt
+Ronda 2, 2 cortes añadidos 
+
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L3_n5_1como7_tolper5.txt
+Ronda 3, 2 cortes añadidos 
+
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L3_n5_1como7_tolper5.txt
+Ronda 4, 1 cortes añadidos 
+
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L3_n5_1como7_tolper5.txt
+Ronda 5, 0 cortes añadidos 
+
+Optimizando
+gap: 117.41660233736566
+
+===== Capas 3 Neuronas 10 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L3_n10_1como7_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 99.29539352500136
+
+===== Capas 3 Neuronas 10 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L3_n10_1como7_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 7.5374528001490395
+
+===== Capas 3 Neuronas 10 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L3_n10_1como7_tolper5.txt
+Ronda 1, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L3_n10_1como7_tolper5.txt
+Ronda 2, 6 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L3_n10_1como7_tolper5.txt
+Ronda 3, 5 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L3_n10_1como7_tolper5.txt
+Ronda 4, 8 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L3_n10_1como7_tolper5.txt
+Ronda 5, 12 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L3_n10_1como7_tolper5.txt
+Ronda 6, 12 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L3_n10_1como7_tolper5.txt
+Ronda 7, 10 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L3_n10_1como7_tolper5.txt
+Ronda 8, 12 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L3_n10_1como7_tolper5.txt
+Ronda 9, 8 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L3_n10_1como7_tolper5.txt
+Ronda 10, 2 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L3_n10_1como7_tolper5.txt
+Ronda 11, 0 cortes añadidos 
+
+Optimizando
+gap: 122.96485911534896
+
+===== Capas 3 Neuronas 10 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L3_n10_1como7_tolper5.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 203.19721997562203
+
+===== Capas 4 Neuronas 5 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n5_1como7_tolper1.txt
+Ronda 1, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n5_1como7_tolper1.txt
+Ronda 2, 6 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/softplus_default_verif_sol_L4_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 834 variables (0 bin, 0 int, 0 impl, 834 cont) and 1618 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/softplus_default_verif_sol_L4_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 834 variables (0 bin, 0 int, 0 impl, 834 cont) and 1624 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/softplus_default_verif_sol_L4_n5_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 834 variables (0 bin, 0 int, 0 impl, 834 cont) and 1620 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/softplus_default_verif_sol_L4_n10_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 1654 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.01/softplus_default_verif_sol_L4_n10_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 1648 constraints
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/softplus_default_verif_sol_L4_n10_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 1658 constraints
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n5_1como7_tolper1.txt
+Ronda 3, 3 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n5_1como7_tolper1.txt
+Ronda 4, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n5_1como7_tolper1.txt
+Ronda 5, 0 cortes añadidos 
+
+Optimizando
+gap: 2025.100536465028
+
+===== Capas 4 Neuronas 5 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L4_n5_1como7_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 18.857447175596118
+
+===== Capas 4 Neuronas 5 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n5_1como7_tolper5.txt
+Ronda 1, 6 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n5_1como7_tolper5.txt
+Ronda 2, 5 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n5_1como7_tolper5.txt
+Ronda 3, 2 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n5_1como7_tolper5.txt
+Ronda 4, 5 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n5_1como7_tolper5.txt
+Ronda 5, 2 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n5_1como7_tolper5.txt
+Ronda 6, 4 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n5_1como7_tolper5.txt
+Ronda 7, 2 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n5_1como7_tolper5.txt
+Ronda 8, 2 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n5_1como7_tolper5.txt
+Ronda 9, 3 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n5_1como7_tolper5.txt
+Ronda 10, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n5_1como7_tolper5.txt
+Ronda 11, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n5_1como7_tolper5.txt
+Ronda 12, 0 cortes añadidos 
+
+Optimizando
+gap: 101.30194908767447
+
+===== Capas 4 Neuronas 5 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L4_n5_1como7_tolper5.txt
+Ronda 1, 2 cortes añadidos 
+
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L4_n5_1como7_tolper5.txt
+Ronda 2, 4 cortes añadidos 
+
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L4_n5_1como7_tolper5.txt
+Ronda 3, 2 cortes añadidos 
+
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L4_n5_1como7_tolper5.txt
+Ronda 4, 0 cortes añadidos 
+
+Optimizando
+gap: 103.07111418814429
+
+===== Capas 4 Neuronas 10 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 1, 6 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 2, 7 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 3, 4 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 4, 2 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 5, 1 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper1.txt
+Ronda 6, 0 cortes añadidos 
+
+Optimizando
+gap: 693.7056289478392
+
+===== Capas 4 Neuronas 10 =====
+
+Tolerancia: 0.01 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L4_n10_1como7_tolper1.txt
+Ronda 1, 0 cortes añadidos 
+
+Optimizando
+gap: 23.066291130654733
+
+===== Capas 4 Neuronas 10 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper5.txt
+Ronda 1, 10 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper5.txt
+Ronda 2, 13 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper5.txt
+Ronda 3, 16 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper5.txt
+Ronda 4, 14 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper5.txt
+Ronda 5, 15 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper5.txt
+Ronda 6, 13 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper5.txt
+Ronda 7, 15 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper5.txt
+Ronda 8, 13 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper5.txt
+Ronda 9, 12 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper5.txt
+Ronda 10, 8 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper5.txt
+Ronda 11, 9 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper5.txt
+Ronda 12, 5 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper5.txt
+Ronda 13, 3 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper5.txt
+Ronda 14, 3 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper5.txt
+Ronda 15, 2 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+primal solution from solution file </home/pablo/Tesis/default_sols/exact/0.05/softplus_default_verif_sol_L4_n10_1como7.sol> was accepted as candidate, will be checked when solving starts
+original problem has 864 variables (0 bin, 0 int, 0 impl, 864 cont) and 1649 constraints
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper5.txt
+Ronda 16, 7 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper5.txt
+Ronda 17, 5 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper5.txt
+Ronda 18, 2 cortes añadidos 
+
+Cotas  verif_bounds_prop
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_prop_sol_L4_n10_1como7_tolper5.txt
+Ronda 19, 0 cortes añadidos 
+
+Optimizando
+gap: 108.60188013952403
+
+===== Capas 4 Neuronas 10 =====
+
+Tolerancia: 0.05 
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L4_n10_1como7_tolper5.txt
+Ronda 1, 1 cortes añadidos 
+
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L4_n10_1como7_tolper5.txt
+Ronda 2, 15 cortes añadidos 
+
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L4_n10_1como7_tolper5.txt
+Ronda 3, 10 cortes añadidos 
+
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L4_n10_1como7_tolper5.txt
+Ronda 4, 11 cortes añadidos 
+
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L4_n10_1como7_tolper5.txt
+Ronda 5, 9 cortes añadidos 
+
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L4_n10_1como7_tolper5.txt
+Ronda 6, 5 cortes añadidos 
+
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L4_n10_1como7_tolper5.txt
+Ronda 7, 6 cortes añadidos 
+
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L4_n10_1como7_tolper5.txt
+Ronda 8, 2 cortes añadidos 
+
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L4_n10_1como7_tolper5.txt
+Ronda 9, 3 cortes añadidos 
+
+Cotas  verif_bounds
+Status  totalnodelimit
+	 Solucion guardada, archivo sols/softplus_multidim_env_verif_bounds_sol_L4_n10_1como7_tolper5.txt
+Ronda 10, 0 cortes añadidos 
+
+Optimizando
+gap: 115.37314600888743

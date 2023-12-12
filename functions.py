@@ -88,11 +88,13 @@ def get_w_b_names(l):
 ###
 ###
 
-def calculate_verif_file_name(exact,activation,real_output,target_output,root_node_only):
+def calculate_verif_file_name(exact,activation,real_output,target_output,root_node_only,multidim_env = False,initial_sol = None,type_bounds = None):
     if root_node_only:
          file_name = 'root_node/{}/datos_verificacion_{}_{}como{}.xlsx'.format(exact,activation,real_output,target_output)
+         if multidim_env:
+             file_name = 'root_node/{}/datos_verificacion_{}_{}como{}_{}_{}_.xlsx'.format(exact,activation,real_output,target_output,initial_sol,type_bounds)
     else:
-        file_name = 'verif_results/{}/datos_verificacion_{}_{}como{}.xlsx'.format(exact,activation,real_output,target_output)
+        file_name = 'verif_results/{}/datos_verificacion_{}_{}como{}.xlsx'.format(exact,activation,real_output,target_output)        
     return file_name
 
 ###

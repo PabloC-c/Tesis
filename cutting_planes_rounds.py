@@ -4,12 +4,13 @@ import pandas as pd
 from torchvision import datasets, transforms
 from functions import *
 
-activation_list = ['softplus']
+activation_list = ['sigmoid']
 layer_list = [2,3,4]
 neuron_list = [5,10]
 exact = 'multidim_env'      # exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
 apply_bounds = True
-type_bounds_list = ['verif_bounds']
+type_bounds_list = ['verif_bounds_prop','verif_bounds']
+initial_sol = 'no_exact'
 minutes = 15
 save_image = False
 apply_softmax = False
@@ -91,10 +92,13 @@ for activation in activation_list:
                 ## Lista de info a guardar 
                 new_line = [n_layers,n_neurons,tol_distance]
                 for type_bounds in type_bounds_list:
+                    print('\n===== Capas {} Neuronas {} =====\n'.format(n_layers,n_neurons))
+                    print('Tolerancia: {} '.format(tol_distance))
                     model_created = False
                     done = False
-                    round_count = 1
+                    round_count = 0
                     planes_count = 0
+                    aux_t0 = time.time()
                     while not done:
                         print('Cotas ',type_bounds)
                         ## Nombre del archivo xlsx donde se guardan los resultados de los experimentos
@@ -110,8 +114,6 @@ for activation in activation_list:
                         ## Se filtran los parametros
                         filtered_params = filter_params(net.state_dict())
                         ## Busqueda de ejemplo adversarial
-                        print('\n===== Capas {} Neuronas {} =====\n'.format(n_layers,n_neurons))
-                        print('Tolerancia: {} '.format(tol_distance))
                         adv_ex = False
                         ## Se ajustan los parametros en el caso root_node_only
                         if root_node_only:
@@ -126,7 +128,7 @@ for activation in activation_list:
                         if exact == 'multidim_env':
                             lp_sol_file = 'sols/{}_{}_{}_sol_L{}_n{}_1como{}_tolper{}.txt'.format(activation,exact,type_bounds,n_layers,n_neurons,target_output,int(100*tol_distance))
                             if not os.path.exists(lp_sol_file):        
-                                lp_sol_file = 'sols/{}_{}_{}_sol_L{}_n{}_1como{}_tolper{}.txt'.format(activation,'no_exact',type_bounds,n_layers,n_neurons,target_output,int(100*tol_distance))
+                                lp_sol_file = 'sols/{}_{}_{}_sol_L{}_n{}_1como{}_tolper{}.txt'.format(activation,initial_sol,type_bounds,n_layers,n_neurons,target_output,int(100*tol_distance))
                                 if not os.path.exists(lp_sol_file):
                                     lp_sol_file = ''
                         if lp_sol_file == '':
@@ -146,8 +148,6 @@ for activation in activation_list:
                         ## Se verifica si se añadieron nuevos planos cortantes
                         if mdenv_count == 0:
                             done = True
-                        ## Cantidad de cortes añadidos en la ronda
-                        print('\n Ronda {}, {} cortes añadidos \n'.format(round_count,mdenv_count))
                         ## Se añade la solucion inicial
                         if set_initial_sol:
                             initial_sol,image_vars = create_initial_sol(verif_model,filtered_params,image_list,exact,activation,apply_softmax)
@@ -195,24 +195,40 @@ for activation in activation_list:
                             print('\t Solucion guardada, archivo {}'.format(new_sol_file))
                         round_count += 1
                         planes_count += mdenv_count
+                        ## Cantidad de cortes añadidos en la ronda
+                        print('Ronda {}, {} cortes añadidos \n'.format(round_count,mdenv_count))
+                        if time.time()-aux_t0 >= 60*minutes:
+                            done = True
+                    if not skip:
+                        try:
+                            aux_t = time.time()
+                            print('Optimizando')
+                            verif_model.optimize()
+                            dt = time.time() - aux_t
+                            model_status = verif_model.getStatus()
+                        except:
+                            dt = time.time() - t0
+                            model_status = 'problem'    
                     ## Caso solucion optima
-                    if not skip and model_status == 'optimal':
-                        gap = 0.0
-                        solution = [verif_model.getVal(all_vars['h{},{}'.format(-1,i)]) for i in range(len(image_list))]
-                        obj_val  = verif_model.getObjVal()
-                        nnodes   = verif_model.getNNodes() 
-                        if obj_val > 0:
-                            ## Se encontro un ejemplo adversarial
-                            adv_ex = True
-                            ## Caso en que se debe guardar la imagen
-                            if save_image:
-                                color_map = 'gray'
-                                png_name  = '{}_adv_ex.png'.format(activation) 
-                                generate_png(solution,image_list,color_map,png_name,input_lb,input_ub)
-                                output,soft_output = calculate_probs(net,solution)
-                                print('\n Softmax output: ',soft_output,'\n')
+                    if not skip:
+                        if model_status == 'optimal':
+                            gap = 0.0
+                            solution = [verif_model.getVal(all_vars['h{},{}'.format(-1,i)]) for i in range(len(image_list))]
+                            obj_val  = verif_model.getObjVal()
+                            nnodes   = verif_model.getNNodes() 
+                            if obj_val > 0:
+                                ## Se encontro un ejemplo adversarial
+                                adv_ex = True
+                                ## Caso en que se debe guardar la imagen
+                                if save_image:
+                                    color_map = 'gray'
+                                    png_name  = '{}_adv_ex.png'.format(activation) 
+                                    generate_png(solution,image_list,color_map,png_name,input_lb,input_ub)
+                                    output,soft_output = calculate_probs(net,solution)
+                                    print('\n Softmax output: ',soft_output,'\n')
+                        
                     ## Caso no alcanzo el tiempo
-                    else:
+                    if model_status != 'optimal':
                         try:
                             nnodes = verif_model.getNNodes()
                         except:
@@ -260,7 +276,7 @@ for activation in activation_list:
                         gap = 100*np.abs(primalb-dualb)/np.abs(dualb)
                     print('gap:',gap)
                 ## Nombre del archivo xlsx donde se guardan los resultados de los experimentos
-                file_name = calculate_verif_file_name('multidim_env_rounds',activation,real_output,target_output,root_node_only)
+                file_name = calculate_verif_file_name('multidim_env_rounds',activation,real_output,target_output,root_node_only,True,initial_sol,type_bounds)
                 ## Se guardan los resultados
                 if save_results:
                     ## Se lee el df existente o se genera uno nuevo
