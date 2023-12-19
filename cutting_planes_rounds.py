@@ -11,7 +11,7 @@ exact = 'multidim_env'      # exact{exact: exacto, no_exact: formulaciones alter
 apply_bounds = True
 type_bounds_list = ['verif_bounds_prop','verif_bounds']
 initial_sol = 'no_exact'
-minutes = 15
+minutes = 1
 save_image = False
 apply_softmax = False
 tols_list = [0.01,0.05]
@@ -21,7 +21,7 @@ set_initial_sol = False
 print_output = False
 save_results = True
 real_output = 1
-target_output = 7
+target_output = 2
 input_lb =0 
 input_ub = 1
 
@@ -236,6 +236,7 @@ for activation in activation_list:
                         try:
                             primalb = verif_model.getPrimalbound()
                             dualb  = verif_model.getDualbound()
+                            print('Cota primal',primalb,'Cota Dual',dualb)
                             if (primalb == 1e+20) or (dualb == -1e+20):
                                 gap = '-'
                             else:
