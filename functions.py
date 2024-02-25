@@ -12,6 +12,7 @@ import random
 import numpy as np
 import pandas as pd
 import torch.nn as nn
+import networkx as nx
 import pyscipopt.scip as scip
 from itertools import product
 import matplotlib.pyplot as plt
@@ -160,14 +161,17 @@ class neural_network(nn.Module):
         super(neural_network, self).__init__()
         self.activation = activation
         self.n_layers = n_layers
+        self.n_input = n_input
         self.fc_hidden = nn.ModuleList(
             [nn.Linear(in_features  = n_neurons if i!= 0 else n_input,
                        out_features = n_neurons if i!= (n_layers-1) else n_output) for i in range(n_layers)])
 
     def forward(self, x):
-        x = x.view(-1, 784) # Aplanar la entrada
-        for i in range(self.n_layers):
-            x = self.fc_hidden[i](x)
+        ## Se aplana el input
+        if self.n_input == 784:
+            x = x.view(-1, self.n_input)
+        for l in range(self.n_layers):
+            x = self.fc_hidden[l](x)
             if self.activation == 'relu':
                 x = F.relu(x)
             elif self.activation == 'softplus':
@@ -179,14 +183,14 @@ class neural_network(nn.Module):
 ### Funcion que inicializa el modelo de la red, solo genera las variables de input
 ###
 
-def initialize_neuron_model(bounds,add_verif_bounds,tol_distance,image_list,tol = 1e-03):
+def initialize_neuron_model(bounds,add_verif_bounds,tol_distance,image_list,n_input = 2): ######### CAMBIAR A 784 ################
     neuron_model = Model()
     neuron_model.data = {}
     if len(bounds) == 0:
         if add_verif_bounds:
             bounds[-1] = [(-(max(image_list[i]-tol_distance-(tol_distance*0.1),0)),min(image_list[i]+tol_distance+(tol_distance*0.1),1)) for i in range(len(image_list))]
         else:
-            bounds[-1] = [(0,1) for i in range(784)]
+            bounds[-1] = [(0,1) for i in range(n_input)] 
     ## Tamaño del input
     n_input = len(bounds[-1])
     ## Se generan las variables de input
@@ -213,7 +217,7 @@ def set_objective_function(neuron_model,inpt,params,bounds,l,i,sense):
 ### Funcion que dada una capa l y las cotas de sus neuronas, genera las restricciones correspondientes
 ###
 
-def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,mdenv_count,activation = 'relu',form = 'no_exact',lp_sol_file = '',apply_bounds = True):
+def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,mdenv_count,activation = 'relu',form = 'no_exact',lp_sol_file = '',apply_bounds = True,lp_relax = False):
     ## Numeros de cortes -1 a añadir en las envolturas 1 dimensional
     k = 4
     ## Numero de variables de input para la capa l
@@ -263,7 +267,10 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,mdenv_count,a
                 not_h = neuron_model.addVar(lb = 0, ub = max(0,bounds[l][i][0]), vtype = 'C', name = 'not_h{},{}'.format(l,i))
                 all_vars['not_h{},{}'.format(l,i)] = not_h
                 ## Variable binaria que indica la activacion de la neurona
-                u = neuron_model.addVar(vtype = 'B', name = 'u{},{}'.format(l,i))
+                if not lp_relax:
+                    u = neuron_model.addVar(vtype = 'B', name = 'u{},{}'.format(l,i))
+                else:
+                    u = neuron_model.addVar(lb = 0,ub = 1,vtype = 'C', name = 'u{},{}'.format(l,i))
                 all_vars['u{},{}'.format(l,i)] = u
                 ## Restriccion de evaluacion con la funcion lineal
                 neuron_model.addCons(quicksum(float(W[i,k])*inpt[k] for k in range(n_input)) + float(b[i]) == z, name = 'eval{},{}'.format(l,i))
@@ -393,7 +400,7 @@ def solve_neuron_model(neuron_model,sense,params,bounds,l,i,exact = 'no_exact',m
             aux_dt = time.time() - t0
             model_status = 'problem'
         dt = aux_dt    
-        print('\n Status',neuron_model.getStatus(),'\n')
+        #print('\n Status',neuron_model.getStatus(),'\n')
     else:
         model_status = 'problem'
     ## Caso de solucion optima
@@ -404,8 +411,8 @@ def solve_neuron_model(neuron_model,sense,params,bounds,l,i,exact = 'no_exact',m
         #    obj_val = propb
         sol = [True,obj_val]
         aprox_bound = calculate_aprox_bound(params,bounds,l,i,sense)
-        print('\t Caso sol optima \n')
-        print('\t problema: {}, valor obj : {}, valor prop: {}'.format(sense,obj_val,aprox_bound))
+        #print('\t Caso sol optima \n')
+        #print('\t problema: {}, valor obj : {}, valor prop: {}'.format(sense,obj_val,aprox_bound))
     elif model_status in ['infeasible','unbounded','inforunbd','problem']:
         if exact == 'prop':
             aux_t = time.time()
@@ -415,7 +422,7 @@ def solve_neuron_model(neuron_model,sense,params,bounds,l,i,exact = 'no_exact',m
             try:
                 dual_val = neuron_model.getDualbound()
                 #dual_val = propb
-                print('bounds capa previa: ',bounds[l-1])
+                #print('bounds capa previa: ',bounds[l-1])
             except:
                 dual_val = propb
         sol = [False,dual_val]
@@ -584,7 +591,7 @@ def calculate_bounds(params,activation = 'relu',exact = 'no_exact',minutes = 10,
         tiempo = 0
         ## Se recorren las neuronas de la capa l
         for i in range(n_neurons):
-            print('\n ===== Capa {}, neurona {} ====='.format(l,i))
+            #print('\n ===== Capa {}, neurona {} ====='.format(l,i))
             ## Caso solo propagacion
             if exact == 'prop':
                 t_aux   = time.time()
@@ -653,7 +660,7 @@ def set_verification_model(net_model,net_input_var,net_output_var,input_value,re
 ###
 ###
 
-def create_verification_model(params,bounds,activation,tol_distance,apply_softmax,image_list,output_target,real_output,exact = 'exact',lp_sol_file = '',apply_bounds = True):
+def create_verification_model(params,bounds,activation,tol_distance,apply_softmax,image_list,output_target,real_output,exact = 'exact',lp_sol_file = '',apply_bounds = True,lp_relax = False):
     ## Contador de cortes multidimensionales añadidos
     mdenv_count = 0
     ## Se calcula la cantidad de capas ocultas
@@ -668,7 +675,7 @@ def create_verification_model(params,bounds,activation,tol_distance,apply_softma
     ## Se recorren las capas
     for l in range(n_layers):
         ## Se crean las restricicones y variables
-        verif_model,aux_input,all_vars,mdenv_count = update_neuron_model(verif_model,inpt,all_vars,params,bounds,l,mdenv_count,activation,exact,lp_sol_file,apply_bounds)
+        verif_model,aux_input,all_vars,mdenv_count = update_neuron_model(verif_model,inpt,all_vars,params,bounds,l,mdenv_count,activation,exact,lp_sol_file,apply_bounds,lp_relax)
         inpt = aux_input
     ## Caso en el que se aplica softmax
     if apply_softmax:
@@ -689,7 +696,7 @@ def create_verification_model(params,bounds,activation,tol_distance,apply_softma
         ## Se guarda el output
         output = inpt
     ## Se genera la funcion objetivo
-    verif_model.setObjective(output[output_target] - output[real_output], 'maximize')
+    verif_model.setObjective(output[real_output] - output[output_target], 'minimize')
     ## Se retorna el modelo de verificacion
     return verif_model,all_vars,mdenv_count
 
@@ -1373,3 +1380,835 @@ def cut_verif_model_lp_sol(n_layers,n_neurons,activation,params,bounds,verif_mod
                 ## Se aumenta la cantidad de cortes multidimensionales que tiene 
                 verif_model.data['multidim_env_count'][(l,i)] += 1
     return verif_model,mdenv_count
+
+#### Generacion de columnas ########################################################################################################################################################
+
+### Funcion que para una red y una particion, genera todos los modelos de pricing asociados
+###
+
+def create_pricing_models(n_clusters,partition,edges_p,lambda_params,bounds,params,hat_x,real_label,target_label,eps,activation = 'relu'):
+    """
+    Parametros
+    ----------
+    n_clusters : int
+        Cantidad de cluster a considerar.
+    partition : list
+        Cada entrada contiene una lista con las duplas (layer,neuron) de la particion correspondiente.
+    edges_p : list
+        Cada entrada es una tupla (layer,neuron,previous_neuron) que conecta dos particiones diferentes. 
+    lambda_params : dict
+        Llaves: entradas de edges_p. Valores: valor lambda correspondiente.
+    bounds : dict
+        Llaves: capas de -1 a L-1. Valores: lista con duplas de cotas (-l,u) para cada neurona.
+    params : dict
+        Contiene los parametros W y b de la red.
+    hat_x : list
+        Lista correspondiente al input de referencia.
+    real_label : int
+        Indice de la neurona de la capa de output, corresponde a la verdadera clase de hat_x.
+    target_label : int
+        Indice de una neurona de la capa de output, diferente a real_label.
+    eps : float
+        Distancia maxima entre la variable de input y el input de referencia.
+    activation : string
+        Funcion de activacion correspondiente a la red.
+    Returns
+    -------
+    pricing_models : list
+        Contiene los modelos de pricing asociados a las particiones.
+    all_vars : dict
+        LLaves: nombre de todas las variables de los K modelos. Valores: variable correspondiente
+    """
+    ## Lista para guardar los modelos de pricing
+    pricing_models = []
+    ## Diccionario para guardar las variables
+    all_vars = {}
+    ## Se recorren los clusters
+    for k in range(n_clusters):
+        ## Se crea el modelo
+        k_model = Model()
+        ## Diccionario para guardar las variables x de cada neurona
+        x_dict = {}
+        ## Diccionario para guardar las variables y duplicadas
+        y_dict = {}
+        ## Se recorren las neuronas de la particion
+        for dupla in partition[k]:
+            ## Capa, neurona
+            l,i = dupla
+            ## Se añaden las variables de la neurona
+            k_model,x,y_list,x_dict,y_dict,all_vars = set_dupla_vars(k_model,l,i,edges_p,x_dict,y_dict,all_vars,bounds,hat_x,eps,activation)
+            ## Funcion de activacion
+            if l > -1:
+                k_model,all_vars = set_activfunction_cons(k_model,l,i,x,y_list,all_vars,bounds,params,activation)
+        ## Funcion objetivo
+        k_model = set_partition_objective(k_model,x_dict,y_dict,edges_p,lambda_params,partition[k],real_label,target_label,params)
+        ## Se agrega el modelo a la lista
+        pricing_models.append(k_model)
+    return pricing_models,all_vars
+
+### Funcion que añade las varibles de una neurona en especifico al modelo de su particion correspondiente
+###
+
+def set_dupla_vars(k_model,l,i,edges_p,x_dict,y_dict,all_vars,bounds,hat_x,eps,activation):
+    """
+    Parametros
+    ----------
+    k_model : scip model
+        Modelo asociado a la particion k.
+    l : int
+        Indice de la capa de la dupla.
+    i : int
+        Indice de la neurona de la dupla. 
+    edges_p : list
+        Cada entrada es una tupla (layer,neuron,previous_neuron) que conecta dos particiones diferentes. 
+    x_dict : dict
+        Llaves: dupla correspondiente. Valores: variable correspondiente.
+    y_dict : dict
+        Llaves: tupla correspondiente. Valores: variable correspondiente.
+    all_vars : dict
+        LLaves: nombre de un variable. Valores: variable correspondiente.
+    bounds : dict
+        Llaves: capas de -1 a L-1. Valores: lista con duplas de cotas (-l,u) para cada neurona.
+    hat_x : list
+        Lista correspondiente al input de referencia.
+    eps : float
+        Distancia maxima entre la variable de input y el input de referencia.
+    activation : string
+        Funcion de activacion correspondiente a la red.
+    Returns
+    -------
+    k_model : scip model
+        Modelo asociado a la particion k.
+    x: scip var
+        Variable x asociada a la dupla.
+    y_list : list
+        Lista con las variables duplicadas de la capa anterior.
+    x_dict : dict
+        Llaves: dupla correspondiente. Valores: variable correspondiente.
+    y_dict : dict
+        Llaves: tupla correspondiente. Valores: variable correspondiente.
+    all_vars : dict
+        LLaves: nombre de un variable. Valores: variable correspondiente.
+    """
+    ## Cotas correspondiente
+    lb,ub = -bounds[l][i][0],bounds[l][i][1]
+    ## Lista para guardar las variables duplicadas de la capa anterior
+    y_list = []
+    ## Caso neurona de input
+    if l == -1:
+        ## Se agrega la variable de input
+        x = k_model.addVar(lb = max(lb,hat_x[i]-eps),
+                           ub = min(ub,hat_x[i]+eps),
+                           vtype = 'C',
+                           name = 'x^{}_{}'.format(l,i))
+    ## Caso contrario
+    else:
+        ## Se agrega la variable de output de la neurona
+        x = k_model.addVar(lb = None,
+                           ub = None,
+                           vtype = 'C',
+                           name = 'x^{}_{}'.format(l,i))
+        ## Se recorren las neuronas de la capa anterior
+        for j in range(len(bounds[l-1])):
+            ## Caso en que la relacion de las nuronas j,i es relajada
+            if (l,i,j) in edges_p:
+                ## Cotas de la neurona j
+                lb_aux,ub_aux = -bounds[l-1][j][0],bounds[l-1][j][1]
+                ## Caso en que la capa anterior es el input
+                if l == 0:
+                    ## Se agrega las variable duplicadas del input j de la neurona i
+                    y = k_model.addVar(lb = max(lb_aux,hat_x[j]-eps),
+                                       ub = min(ub_aux,hat_x[j]+eps),
+                                       vtype = 'C',
+                                       name = 'y^{},{}_{}'.format(l-1,i,j))
+                ## Para las demas capas
+                else:
+                    ## Caso relu
+                    if activation == 'relu':
+                        ## Se ajustan las cotas correspondientes
+                        lb_aux,ub_aux = max(0,lb_aux),max(0,ub_aux)
+                    ## Se agrega las variable duplicadas del input j de la neurona i
+                    y = k_model.addVar(lb = lb_aux,
+                                       ub = ub_aux,
+                                       vtype = 'C',
+                                       name = 'y^{},{}_{}'.format(l-1,i,j))
+            ## Caso en que la relacion no es relajada
+            else:
+                ## Se agrega las variable duplicadas del input j de la neurona i
+                y = k_model.addVar(lb = None,
+                                   ub = None,
+                                   vtype = 'C',
+                                   name = 'y^{},{}_{}'.format(l-1,i,j))
+                ## Variable que y duplica
+                x_aux = x_dict[(l-1,j)]
+                ## Restriccion de igualdad
+                k_model.addCons(y - x_aux == 0, name = 'duplicate_{},{},{}'.format(l,i,j))
+            ## Se agrega la variable y a su lista
+            y_list.append(y)
+            ## Se agrega la variable y a su diccionario
+            y_dict[(l-1,i,j)] = y
+            ## Se agrega la variable y en el diccionario de variables
+            all_vars['y^{},{}_{}'.format(l-1,i,j)] = y
+    ## Se agrega la variable x en su diccionario
+    x_dict[(l,i)] = x
+    ## Se agrega la variable x en el diccionario de variables     
+    all_vars['x^{}_{}'.format(l,i)] = x
+    return k_model,x,y_list,x_dict,y_dict,all_vars
+
+### Funcion que agrega las restricciones asociadas a la funcion de activacion de una neurona
+###
+
+def set_activfunction_cons(k_model,l,i,x,y_list,all_vars,bounds,params,activation):
+    """
+    Parametros
+    ----------
+    k_model : scip model
+        Modelo asociado a la particion k.
+    l : int
+        Indice de la capa de la dupla.
+    i : int
+        Indice de la neurona de la dupla. 
+    x: scip var
+        Variable x asociada a la dupla.
+    y_list : list
+        Lista con las variables duplicadas de la capa anterior.
+    all_vars : dict
+        LLaves: nombre de un variable. Valores: variable correspondiente.
+    bounds : dict
+        Llaves: capas de -1 a L-1. Valores: lista con duplas de cotas (-l,u) para cada neurona.
+    params : dict
+        Contiene los parametros W y b de la red.
+    activation : string
+        Funcion de activacion correspondiente.
+
+    Returns
+    -------
+    k_model : scip model
+        Modelo asociado a la particion k.
+    all_vars : dict
+        LLaves: nombre de un variable. Valores: variable correspondiente.
+
+    """
+    ## Cotas correspondientes
+    lb,ub = -bounds[l][i][0],bounds[l][i][1]
+    ## Parametros de la capa l
+    w_name,b_name = get_w_b_names(l)
+    W,b = params[w_name],params[b_name]
+    ## Caso ReLU
+    if activation == 'relu':
+        ## Se agregan las variables binarias
+        z = k_model.addVar(vtype = 'B',
+                           name = 'z^{}_{}'.format(l,i))
+        ## Termino lineal de la neurona
+        lineal_term = b[i]+quicksum(W[i,j]*y_list[j] for j in range(len(y_list)))
+        ## Restricciones big-m
+        k_model.addCons(0 <= x, name = f'bigm_upper1_{l},{i}')
+        k_model.addCons(x <= ub*z, name = f'bigm_upper2_{l},{i}')
+        k_model.addCons(0 <= x-lineal_term, name = f'bigm_lower1_{l},{i}')
+        k_model.addCons(x-lineal_term <= lb*(z-1), name = f'bigm_lower2_{l},{i}')
+        ## Se guarda la variable binaria en el diccionario
+        all_vars['z^{}_{}'.format(l,i)] = z
+    return k_model,all_vars
+
+### Funcion que agrega la funcion objetivo de la particion k
+###
+
+def set_partition_objective(k_model,x_dict,y_dict,edges_p,lambda_params,k_partition,real_label,target_label,params):
+    """
+    Parametros
+    ----------
+    k_model : scip model
+        Modelo asociado a la particion k.
+    x_dict : dict
+        Llaves: dupla correspondiente. Valores: variable correspondiente.
+    y_dict : dict
+        Llaves: tupla correspondiente. Valores: variable correspondiente.
+    edges_p : list
+        Cada entrada es una tupla (layer,neuron,previous_neuron) que conecta dos particiones diferentes. 
+    lambda_params : dict
+        Llaves: entradas de edges_p. Valores: valor lambda correspondiente.
+    k_partition : list
+        Contiene duplas de la forma (layer,neuron) de la particion k.
+    real_label : int
+        Indice de la neurona de la capa de output, corresponde a la verdadera clase de hat_x.
+    target_label : int
+        Indice de una neurona de la capa de output, diferente a real_label.
+    params : dict
+        Contiene los parametros W y b de la red.
+
+    Returns
+    -------
+    k_model : scip model
+        Modelo asociado a la particion k.
+
+    """
+    ## Cantidad total de capas
+    n_layers = int(len(params)/2)
+    ## Termino para la funcion objetivo
+    ## Se suman las variables y
+    objective = quicksum(lambda_params[(l,i,j)]*y_dict[(l-1,i,j)] for (l,i,j) in edges_p if (l,i) in k_partition)
+    ## Se suman las variables x
+    objective += quicksum(-lambda_params[(l,i,j)]*x_dict[(l-1,j)] for (l,i,j) in edges_p if (l-1,j) in k_partition)
+    ## Se suma el termino de la clase real
+    if (n_layers-1,real_label) in k_partition:
+        objective += x_dict[(n_layers-1,real_label)]
+    ## Se suma el termino de la clase target
+    if (n_layers-1,target_label) in k_partition:
+        objective += -x_dict[(n_layers-1,target_label)]
+    ## Se setea la funcion objetivo
+    k_model.setObjective(objective,'minimize')
+    return k_model
+
+###
+###
+
+def get_pricing_column(pricing_models,edges_p):
+    ## Diccionario para la columna
+    column = {}
+    ## Se recorren los pricing
+    for model in pricing_models:
+        ## Se recorren las variables
+        for var in model.getVars():
+            ## Se añaden todas las variables x
+            if var.name[0] == 'x':
+                ## Se añade la variable a la columna
+                column[var.name] = model.getVal(var)
+            ## Para las variables y
+            if var.name[0] == 'y':
+                ## Se determinan los valores (l,i,j) asociados
+                parts = var.name.split(',')
+                l = int(parts[0].split('^')[1])+1
+                i = int(parts[1].split('_')[0])
+                j = int(parts[1].split('_')[1])
+                ## Si la conexion es relajada
+                if (l,i,j) in edges_p:
+                    ## Se añade la variable y
+                    column[var.name] = model.getVal(var)
+    return column
+###
+###
+
+def create_master_model(columns,edges_p,real_label,target_label,params):
+    ## Numero de capas
+    n_layers = int(len(params)/2)
+    ## Se crea el modelo maestro
+    master_model = Model()
+    ## Variables de la combinacion convexa
+    theta = [master_model.addVar(lb = 0, ub = 1, vtype = 'C', name = f'theta_{q}') for q in range(len(columns))]
+    ## Restriccion convexa
+    master_model.addCons(quicksum(theta[q] for q in range(len(columns))) == 1, name = 'convex_comb')
+    ## Diccionario para guardar las restricciones relajadas en el pricing
+    cons_dict = {}
+    ## Restriccion sobre las relaciones relajadas
+    for (l,i,j) in edges_p:
+        ## Nombre de la variable x e y
+        x_name = f'x^{l-1}_{j}'
+        y_name = f'y^{l-1},{i}_{j}'
+        ## Sumatoria de la restriccion
+        cons = quicksum(theta[q]*(columns[q][y_name]-columns[q][x_name]) for q in range(len(columns)))
+        ## Se agrega la restriccion
+        aux_cons = master_model.addCons(cons == 0, name = f'relaxed_cons_{l},{i},{j}')
+        ## Se guarda la restriccion
+        cons_dict[(l,i,j)] = aux_cons
+    ## Nombre de las variables de la funcion objetivo
+    xr_name = f'x^{n_layers-1}_{real_label}'
+    xt_name = f'x^{n_layers-1}_{target_label}'
+    ## Funcion objetivo
+    objective = quicksum(theta[q]*(columns[q][xr_name]-columns[q][xt_name]) for q in range(len(columns)))
+    ## Se setea la funcion objetivo
+    master_model.setObjective(objective,'minimize')
+    return master_model,theta,cons_dict
+
+###
+### 
+
+def propagate_input_to_column(ref_input,params,edges_p,activation = 'relu'):
+    ## Diccionario para guardar la columna
+    column = {}
+    ## Se añaden las variables de entrada
+    for i in range(len(ref_input)):
+        column[f'x^{-1}_{i}'] = ref_input[i]
+    ## Numero de capas
+    n_layers = int(len(params)/2)
+    ## Se recorren las capas
+    for l in range(n_layers):
+        ## Parametros de la capa
+        wname,bname = get_w_b_names(l)
+        W,b = params[wname],params[bname]
+        ## Neuronas de la capa 
+        n_neurons = W.size()[0]
+        ## Neuronas de la capa previa
+        n_input = W.size()[1]
+        for i in range(n_neurons):
+            ## Valor de salida de la neurona
+            neuron_output = float(b[i])
+            ## Se recorren las neuronas de entrada
+            for j in range(n_input):
+                ## Se suma el termino correspondiente a la salida
+                neuron_output += float(W[i,j])*column[f'x^{l-1}_{j}']
+                ## Si la relacion es relajada
+                if (l,i,j) in edges_p:
+                    column[f'y^{l-1},{i}_{j}'] = column[f'x^{l-1}_{j}']
+            ## Se añade la variable de salida de la neurona
+            if activation == 'relu':
+                column[f'x^{l}_{i}'] = max(0,neuron_output)
+    return column
+
+###
+###
+
+def get_master_lambdas(master_model,edges_p,cons_dict,lambda_params = None):
+    ## Diccionario para los parametros lambda 
+    if lambda_params is None:
+        lambda_params = {}
+        for edge in edges_p:
+            lambda_params[edge] = 0
+    ## Se recorren las aristas relajadas
+    for edge in edges_p:
+        ## Restriccion correspondiente
+        cons = cons_dict[edge]
+        ## Valor dual
+        dual_value = master_model.getDualSolVal(cons)
+        ## Se actualiza lambda
+        lambda_params[edge] = -dual_value
+    return lambda_params
+
+###
+###
+
+def make_theta_solution(master_model,theta,columns):
+    sol = {}
+    for q in range(len(theta)):
+        theta_var = theta[q]
+        theta_val = master_model.getVal(theta_var)
+        for vname in columns[q]:
+            if vname[0] == 'x':
+                if not vname in sol:
+                    sol[vname] = theta_val*columns[q][vname]
+                else:
+                    sol[vname] += theta_val*columns[q][vname]
+    return sol
+
+###
+###
+
+def get_partition(partition,l,i): 
+    for k in range(len(partition)): 
+        if (l,i) in partition[k]:
+            return k
+
+###
+###
+
+def compute_pricing_sol_obj(pricing_models,pricing_vars,partition):
+    ## Diccionario para guardar la solucion
+    pricing_sol = {}
+    ## Se recorren las variables
+    for vname in pricing_vars:
+        ## Variables x
+        if vname[0] == 'x':
+            ## Se identifica la neurona de la variable
+            parts = vname.split('^')
+            l = int(parts[1].split('_')[0])
+            i = int(parts[1].split('_')[1])
+            ## Particion a la que pertenece
+            k = get_partition(partition,l,i)
+            ## Variable de salida de la neurona
+            var = pricing_vars[vname]
+            ## Valor de la variable
+            val = pricing_models[k].getVal(var)
+            ## Se agrega la variable
+            pricing_sol[vname] = val
+    ## Valor objetivo
+    pricing_obj = 0
+    ## Se recorren las particiones
+    for model in pricing_models:
+        pricing_obj += model.getObjVal()
+    return pricing_obj,pricing_sol
+
+###
+###
+
+def propagation_heuristic(sol,params,real_label,target_label,activation = 'relu'):
+    ## Diccionario para guarda la solucion
+    heu_sol = {}
+    ## Numero de capas
+    n_layers = int(len(params)/2)
+    ## Tamaño del input
+    wname,bname = get_w_b_names(0)
+    W = params[wname]
+    n_input = W.size()[1]
+    ## Lista donde guardar las variables asociadas al input
+    input_list = []
+    ## Se recorren las variables de input
+    for i in range(n_input):
+        ## Se añaden a la lista
+        input_list.append(sol[f'x^{-1}_{i}'])
+        heu_sol[f'x^{-1}_{i}'] = sol[f'x^{-1}_{i}']
+    ## Se recorren las capas
+    for l in range(n_layers):
+        ## Parametros de la capa
+        wname,bname = get_w_b_names(l)
+        W,b = params[wname],params[bname]
+        ## Neuronas de la capa previa
+        n_input = W.size()[1]
+        ## Neuronas de la capa
+        n_neurons = W.size()[0]
+        ## Lista para guardar el output de la capa
+        aux_list = []
+        ## Se recorren las neuronas de la capa
+        for i in range(n_neurons):
+            ## Evaluacion en la funcion lineal
+            val = float(b[i]) + sum(float(W[i,j])*input_list[j] for j in range(n_input))
+            if activation == 'relu':
+                val = max(0,val)
+            ## Se guarda el output de la neurona
+            aux_list.append(val)
+            heu_sol[f'x^{l}_{i}'] = val
+        ## Se actualiza el input de la siguiente capa   
+        input_list = aux_list
+    ## Valor objetivo
+    heu_obj = aux_list[real_label]-aux_list[target_label]
+    return heu_obj,heu_sol
+
+###
+###
+
+def pricing_prop_heuristic(pricing_models,pricing_vars,partition,params,real_label,target_label,activation = 'relu'):
+    ## Diccionario para la solucion
+    heu_sol = {}
+    ## Numero de capas
+    n_layers = int(len(params)/2)
+    ## Tamaño del input
+    wname,bname = get_w_b_names(0)
+    W = params[wname]
+    n_input = W.size()[1]
+    ## Lista donde guardar las variables asociadas al input
+    input_list = []
+    ## Se recorren las variables de input
+    for i in range(n_input):
+        ## Se identifica a que particion pertenece
+        k = get_partition(partition, -1, i)
+        ## Nombre de la variable
+        var_name = f'x^{-1}_{i}'
+        ## Variable asociada
+        var = pricing_vars[var_name]
+        ## Valor del pricing
+        val = pricing_models[k].getVal(var)
+        ## Se añade el valor
+        input_list.append(val)
+        heu_sol[var_name] = val
+    ## Se recorren las capas
+    for l in range(n_layers):
+        ## Parametros de la capa
+        wname,bname = get_w_b_names(l)
+        W,b = params[wname],params[bname]
+        ## Neuronas de la capa previa
+        n_input = W.size()[1]
+        ## Neuronas de la capa
+        n_neurons = W.size()[0]
+        ## Lista para guardar el output de la capa l
+        aux_list = []
+        ## Se recorren las neuronas de la capa
+        for i in range(n_neurons):
+            ## Evaluacion en la funcion lineal
+            val = float(b[i]) + sum(float(W[i,j])*input_list[j] for j in range(n_input))
+            if activation == 'relu':
+                val = max(0,val)
+            ## Se guarda el output de la neurona
+            aux_list.append(val)
+            heu_sol[f'x^{l}_{i}'] = val
+        ## Se actualiza el input de la siguiente capa   
+        input_list = aux_list
+    ## Valor objetivo
+    heu_obj = aux_list[real_label]-aux_list[target_label]
+    return heu_obj,heu_sol
+
+###
+###
+
+def pricing_zfixed_heuristic(pricing_models,pricing_vars,partition,params,real_label,target_label,activation = 'relu'):
+    ## Diccionario para la solucion
+    heu_sol = {}
+    ## Numero de capas
+    n_layers = int(len(params)/2)
+    ## Tamaño del input
+    wname,bname = get_w_b_names(0)
+    W = params[wname]
+    n_input = W.size()[1]
+    ## Lista donde guardar las variables asociadas al input
+    input_list = []
+    ## Se recorren las variables de input
+    for i in range(n_input):
+        ## Se identifica a que particion pertenece
+        k = get_partition(partition, -1, i)
+        ## Nombre de la variable
+        var_name = f'x^{-1}_{i}'
+        ## Variable asociada
+        var = pricing_vars[var_name]
+        ## Valor del pricing
+        val = pricing_models[k].getVal(var)
+        ## Se añade el valor
+        input_list.append(val)
+        heu_sol[var_name] = val
+    ## Se recorren las capas
+    for l in range(n_layers):
+        ## Parametros de la capa
+        wname,bname = get_w_b_names(l)
+        W,b = params[wname],params[bname]
+        ## Neuronas de la capa previa
+        n_input = W.size()[1]
+        ## Neuronas de la capa
+        n_neurons = W.size()[0]
+        ## Lista para guardar el output de la capa l
+        aux_list = []
+        ## Se recorren las neuronas de la capa
+        for i in range(n_neurons):
+            ## Particion de la neurona
+            k = get_partition(partition, l, i)
+            ## Variable z
+            zvar = pricing_vars[f'z^{l}_{i}']
+            ## Valor de z
+            z = pricing_models[k].getVal(zvar)
+            ## Neurona inactiva
+            if z == 0:
+                val = 0
+            ## Neurona supuestamente activa
+            else:
+                val = float(b[i]) + sum(float(W[i,j])*input_list[j] for j in range(n_input))
+            ## Se guarda el output de la neurona
+            aux_list.append(val)
+            heu_sol[f'x^{l}_{i}'] = val
+        ## Se actualiza el input de la siguiente capa   
+        input_list = aux_list
+    ## Valor objetivo
+    heu_obj = aux_list[real_label] - aux_list[target_label]
+    return heu_obj,heu_sol
+
+###
+###
+
+def create_disjoint_partition(n_input,n_output,n_neurons,n_layers,n_clusters,params,policy = 'equal_lvl',use_bias = False):
+    ## Lista para guardar las particiones
+    partition = [[] for k in range(n_clusters)]
+    ## Politica para la particion
+    if policy == 'equal_lvl':
+        ## Se recorren las capas
+        for l in range(-1,n_layers):
+            ## Cantidad de neuronas
+            n = n_neurons
+            ## Para la capa de entrada
+            if l == -1:
+                n = n_input
+            ## Para la capa de output
+            elif l == n_layers-1:
+                n = n_output
+            ## Duplas de la capa
+            layer_duplas = [(l,i) for i in range(n)]           
+            ## Cantidad de neuronas a asignar por particion
+            size = n//n_clusters
+            ## Resto de la division
+            remaining = n%n_clusters
+            ## Se recorren las particiones
+            for k in range(n_clusters):
+                ## Indice de incio
+                start_idx = k*size+min(k,remaining)
+                ## Indice de termino
+                end_idx = start_idx + size + (1 if k<remaining else 0)
+                ## Se agregan las duplas a la particion 
+                partition[k] += layer_duplas[start_idx:end_idx]
+    elif policy == 'layer':
+        ## Se calcula el tamaño de cada particion
+        size = (n_layers+1)//n_clusters
+        ## Resto de la division
+        remaining = (n_layers+1)%n_clusters
+        ## Contador de particiones y capas agregadas
+        k = 0
+        aux_size = size + (0 if k <n_clusters-remaining else 1)
+        ## Se recorren las capas
+        for l in range(-1,n_layers):
+            ## Neuronas de la capa
+            n = n_neurons
+            ## Para la capa de entrada
+            if l == -1:
+                n = n_input
+            ## Para la capa de saluda
+            elif l == n_layers-1:
+                n = n_output
+            ## Duplas de la capa
+            layer_duplas = [(l,i) for i in range(n)]
+            ## Se añaden las duplas a la particion correspondiente
+            partition[k] += layer_duplas
+            ## Se actualizan los valores
+            aux_size -= 1
+            if aux_size == 0:
+                k += 1
+                aux_size = size + (0 if k <n_clusters-remaining else 1)
+    elif policy == 'path':
+        ## Menor cantidad de neuronas de una capa
+        n_min = min(n_input,n_neurons,n_output)
+        ## Cantidad de caminos por particion
+        size = n_min//n_clusters
+        ## Grafo
+        graph = nx.DiGraph()
+        ## Se recorren las capas
+        for l in range(-1,n_layers):
+            ## Para la capa de entrada
+            if l == -1:
+                ## Se añaden las aristas del vertice de inicio
+                for i in range(n_input):
+                    graph.add_edge('s',(l,i),weight = 1)
+            ## Para la capa de salida
+            if l == n_layers-1:
+                ## Se añaden las aristas del vertice de termino
+                for i in range(n_output):
+                    graph.add_edge((l,i),'t',weight = 1)
+            ## Para las capas ocultas
+            if -1 < l:
+                ## Parametros de la capa
+                wname,bname = get_w_b_names(l)
+                W,b = params[wname],params[bname]
+                ## Neuronas de la capa
+                n = W.size()[1]
+                ## Neuronas de la capa previa
+                n_prev = W.size(0)
+                ## Se recorren las neuronas
+                for i in range(n):
+                    ## Se recorren las neuronas de la capa previa
+                    for j in range(n_prev):
+                        ## Caso donde no se considera el bias
+                        if not use_bias:
+                            distance = float(np.abs(W[i,j]))
+                        ## Caso donde se considera el bias
+                        else:
+                            distance = float(np.abs(W[i,j])) + float(np.abs(b[i]))
+                        ## Se añade la arista
+                        graph.add_edge((l-1,j),(l,i),weight = distance)
+        ## Particion
+        k = 0
+        ## Se recorre el grafo
+        while graph.number_of_nodes() > 2:
+            ## Se encuentra el camino mas largo
+            longest_path = nx.dag_longest_path(graph,weight='weight')
+            ## Se añaden los vertices a la particion
+            for (l,i) in longest_path[1:-1]:
+                partition[k].append((l,i))
+                graph.remove_node((l,i))
+            if len(partition[k]) >= size*1.1 and k<n_clusters-1:
+                k += 1 
+    elif policy == 'greedy':
+        ## Se calcula el tamaño de cada particion
+        size = (n_input+n_output+(n_layers-1)*n_neurons)//n_clusters
+        ## Resto
+        remaining = (n_input+n_output+(n_layers-1)*n_neurons)%n_clusters
+        ## Lista para guardar las neuronas consideradas
+        used = []
+        ## Diccionario para guardar los pesos por capa
+        edges_dict = {}
+        ## Se recorren las capas
+        for l in range(n_layers):
+            ## Parametros de la capa
+            wname,bname = get_w_b_names(l)
+            W,b = params[wname],params[bname]
+            ## Neuronas de la capa
+            n = W.size()[1]
+            ## Neuronas de la capa anterior
+            n_prev = W.size()[0]
+            ## Se recorren las neuronas 
+            for i in range(n):
+                ## Se recorren las neuronas de la capa anterior
+                for j in range(n_prev):
+                    ## Se guarda el peso de la arista
+                    edges_dict[(l,i,j)] = np.abs(float(W[i,j]))
+        ## Se ordena la lista descendentemente
+        edges_dict = dict(sorted(edges_dict.items(), key=lambda item: item[1]))
+        ## Contador de particiones y neuronas agregadas
+        k = n_clusters-1
+        aux_size = size + (1 if k<remaining else 0)
+        ## Se recorren las aristas y sus valores
+        for (l,i,j) in edges_dict:
+            ## Se verifica cual neurona ha sido usada
+            if not (l,i) in used:
+                partition[k] += [(l,i)]
+                used.append((l,i))
+                aux_size -= 1
+            if aux_size > 0 and not (l-1,j) in used:    
+                partition[k] += [(l-1,j)]
+                used.append((l-1,j))
+                aux_size -= 1
+            if aux_size == 0:
+                k -= 1
+                aux_size = size + (1 if k<remaining else 0)
+        ## Se arreglan las particiones disconexas
+        ...            
+    return partition
+
+###
+###
+
+def create_edges_p(partition,n_input,n_neurons,n_layers):
+    ## Lista para guardar las aristas
+    edges_p = []
+    ## Se recorren las particiones
+    for k in range(len(partition)):
+        ## Se recorren las duplas de la particion
+        for (l,i) in partition[k]:
+            ## Para las capas posteiores a la entrada
+            if l > -1:
+                ## Neuronas de la capa anterior
+                n = n_neurons
+                ## Caso primer capa oculta
+                if l == 0:
+                    n = n_input
+                ## Se recorren las neuronas de la capa anterior
+                for j in range(n):
+                    ## Si la neurona no se encuentra en la misma particion
+                    if not (l-1,j) in partition[k]:
+                        ## Se agrega la arista
+                        edges_p.append((l,i,j))
+    return edges_p
+
+###
+###
+
+def check_feasiblity(sol,params,activation = 'relu',tol = 1E-5):
+    ## Variable que indica si la solucion es factible
+    is_feasible = True
+    ## Lista para guardar la entrada de la solucion
+    input_list = []
+    ## Numero de capas
+    n_layers = int(len(params)/2)
+    ## Numero de neuronas de input
+    wname,bname = get_w_b_names(0)
+    W,b = params[wname],params[bname]
+    n_input = W.size()[1]
+    ## Se recorren las variables de entrada
+    for i in range(n_input):
+        input_list.append(sol[f'x^{-1}_{i}'])
+    ## Se recorren las capas
+    for l in range(n_layers):
+        ## Parametros de la capa
+        wname,bname = get_w_b_names(l)
+        W,b = params[wname],params[bname]
+        ## Neuronas de la capa
+        n_neurons = W.size()[0]
+        ## Neuronas de la capa previa
+        n_input = W.size()[1]
+        ## Lista para guardar la salida de la capa
+        aux_list = []
+        ## Se recorren las capas
+        for i in range(n_neurons):
+            ## Se evalua la funcion lineal
+            val = float(b[i]) + sum(float(W[i,j])*input_list[j] for j in range(n_input))
+            ## Funcion de activacion
+            if activation == 'relu':
+                val = max(0,val)
+            ## Se verifica si el valor de la solucion es correcto
+            if np.abs(val-sol[f'x^{l}_{i}']) > tol:
+                is_feasible = False
+                return is_feasible
+            ## Caso valor factible
+            aux_list.append(val)
+        ## Se actualiza la entrada de la siguiente capa
+        input_list = aux_list
+    return is_feasible

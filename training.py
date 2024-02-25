@@ -2,8 +2,12 @@ import os
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from torch.utils.data import random_split
 from torchvision import datasets, transforms
 from functions import *
+
+#torch.manual_seed(5)
+#torch.cuda.manual_seed_all(5)
 
 def trainer(model, device, train_loader, optimizer, num_epochs, print_loss = False,regul_L = 'L1',L_lambda = 0.005):
     criterion = nn.CrossEntropyLoss()
@@ -57,40 +61,72 @@ def calculate_accuracy(test_loader,model):
             correct += (predicted == labels).sum().item()
         acc = correct / total
     return acc
-    
+
 ## Configuración del entrenamiento
-batch_size = 16
+batch_size = 64
+max_batch_size = 512
 learning_rate = 0.05
-num_epochs = 50
-weight_decay = 0.005
+num_epochs = 100      ##ESTABA EN 50
+weight_decay = 0.0001 ##ESTABA EN 0.005
 print_loss = False
 regul_L = 'L2'
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 ## Redes a entrenar
-neuron_list = [5,10]
-layer_list  = [2,3,4]
-activation_list = ['sigmoid']
+neuron_list = [2]
+layer_list  = [2]
+activation_list = ['relu']
 
 ## Se descargan los datos de MNIST
-train_dataset = datasets.MNIST(root='./data', train=True, transform=transforms.ToTensor(), download=True)
-test_dataset = datasets.MNIST(root='./data', train=False, transform=transforms.ToTensor())
-
+mnist = False
+if mnist:
+    train_dataset = datasets.MNIST(root='./data', train=True, transform=transforms.ToTensor(), download=True)
+    test_dataset = datasets.MNIST(root='./data', train=False, transform=transforms.ToTensor())
+else:
+    ## Tamaño de entrada y salida
+    n_input = 2
+    n_output = 2
+    ## Cantidad de instancias
+    dataset_size = 15000
+    ## Porcentaje de datos para entrenamiento
+    train_proportion = 0.6
+    ## Se generan las instancias
+    data = torch.rand(dataset_size, 2)
+    ## Se generan las etiquetas de los datos
+    labels = (data[:, 0] + data[:, 1] <1).long()
+    print(labels.float().mean())
+    ## Se crea el dataset
+    dataset = torch.utils.data.TensorDataset(data, labels)
+    ## Tamaño de los conjuntos de entrenamiento y prueba
+    train_size = int(train_proportion * dataset_size)
+    test_size = dataset_size - train_size
+    ## Se dividen los conjuntos
+    train_dataset, test_dataset = random_split(dataset, [train_size, test_size])
+    
 net_dict = {}
 batch_size_og = batch_size
 for activation in activation_list:
     for n_neurons in neuron_list:
         for n_layers in layer_list:
-            if regul_L == 'L1':
-                filename = "nn_parameters_L1/{}_model_weights_L{}_n{}.pth".format(activation,n_layers, n_neurons)
+            if mnist:
+                if regul_L == 'L1':
+                    filename = "nn_parameters_L1/{}_model_weights_L{}_n{}.pth".format(activation,n_layers, n_neurons)
+                else:
+                    filename = "nn_parameters/{}_model_weights_L{}_n{}.pth".format(activation,n_layers, n_neurons)
             else:
-                filename = "nn_parameters/{}_model_weights_L{}_n{}.pth".format(activation,n_layers, n_neurons)
+                if regul_L == 'L1':
+                    filename = "nn_parameters_L1/{}_toy_ex_L{}_n{}.pth".format(activation,n_layers, n_neurons)
+                else:
+                    filename = "nn_parameters/{}_toy_ex_L{}_n{}.pth".format(activation,n_layers, n_neurons)
             if True:#os.path.exists(filename):
                 if os.path.exists(filename):
                     ## Se crea la red
-                    net = neural_network(n_neurons,n_layers,activation)
+                    if mnist:
+                        net = neural_network(n_neurons,n_layers,activation)
+                    else:
+                        net = neural_network(n_neurons,n_layers,activation,n_input,n_output)
                     ## Cargar los parámetros de la red
-                    net.load_state_dict(torch.load('nn_parameters/{}_model_weights_L{}_n{}.pth'.format(activation,n_layers, n_neurons)))
+                    net.load_state_dict(torch.load(filename))
                     params = net.state_dict()
                     filtered_params = filter_params(params)
                     ## Se cargan los datos de testeo
@@ -108,23 +144,26 @@ for activation in activation_list:
                         acc = 0
                 else:
                     acc = 0
+                    re_train = False
                 print('\n ===== Capas: ',n_layers,' Neuronas: ',n_neurons,' Activacion: ',activation,'===== \n')
-                while (acc<0.9 and batch_size < 2048 ):
+                while (acc<0.9 and batch_size <= max_batch_size ):
                     print('intento con batch size :',batch_size)
                     ## Se crean los dataloaders para el manejo de los datos durante el entrenamiento
                     train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
-                    test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=256, shuffle=False)
+                    test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=False)
                     ## Se genera el modelo
-                    net = neural_network(n_neurons,n_layers,activation)
+                    if mnist:
+                        net = neural_network(n_neurons,n_layers,activation)
+                    else:
+                        net = neural_network(n_neurons,n_layers,activation,n_input,n_output)
                     if re_train:
-                        net.load_state_dict(torch.load('nn_parameters/{}_model_weights_L{}_n{}.pth'.format(activation,n_layers, n_neurons)))
+                        net.load_state_dict(torch.load(filename))
                     net.to(device)
                     ## Se setea el optimizador
                     if regul_L == 'L1':
                         optimizer = optim.Adam(net.parameters(), lr=learning_rate)
                     else:
                         optimizer = optim.AdamW(net.parameters(), lr=learning_rate, weight_decay = weight_decay)
-                    # optimizer = optim.AdamW(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
                     ## Se entrena la red
                     try:
                         trainer(net, device, train_loader, optimizer, num_epochs, print_loss = print_loss,regul_L = regul_L,L_lambda = weight_decay)
@@ -148,4 +187,5 @@ for activation in activation_list:
                 if not re_train or (re_train and (og_acc < net_dict[(n_layers,n_neurons)][1])):
                     final_net = net_dict[(n_layers,n_neurons)][0]
                     torch.save(final_net.state_dict(), filename)
+                    print('Parametros guardados')
                 batch_size = batch_size_og
