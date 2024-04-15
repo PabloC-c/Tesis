@@ -138,13 +138,15 @@ def read_bounds(apply_bounds,n_layers,n_neurons,activation,bounds_file):
             value = []
             for line in bf:
                 if line.strip() == "":
-                    bounds[layer] = value
+                    if len(value) > 0:
+                        bounds[layer] = value
                     layer += 1
                     value = []
                 else:
                     lb,ub = line.strip().split()
                     value.append((float(lb), float(ub)))
-                bounds[layer] = value
+                if len(value) > 0:
+                    bounds[layer] = value
     return bounds
         
 
@@ -183,12 +185,12 @@ class neural_network(nn.Module):
 ### Funcion que inicializa el modelo de la red, solo genera las variables de input
 ###
 
-def initialize_neuron_model(bounds,add_verif_bounds,tol_distance,image_list,n_input = 2): ######### CAMBIAR A 784 ################
+def initialize_neuron_model(bounds,add_verif_bounds,tol_distance,image_list,n_input = 784): ######### CAMBIAR A 784 ################
     neuron_model = Model()
     neuron_model.data = {}
     if len(bounds) == 0:
         if add_verif_bounds:
-            bounds[-1] = [(-(max(image_list[i]-tol_distance-(tol_distance*0.1),0)),min(image_list[i]+tol_distance+(tol_distance*0.1),1)) for i in range(len(image_list))]
+            bounds[-1] = [(-(max(image_list[i]-tol_distance,0)),min(image_list[i]+tol_distance,1)) for i in range(len(image_list))]
         else:
             bounds[-1] = [(0,1) for i in range(n_input)] 
     ## Tamaño del input
@@ -561,7 +563,7 @@ def add_bounds_vars_by_image(model,sol_dict):
 ###
 ###
 
-def calculate_bounds(params,activation = 'relu',exact = 'no_exact',minutes = 10,add_verif_bounds = False,tol_distance = 0,image_list = [],print_output=False):
+def calculate_bounds(params,activation = 'relu',exact = 'no_exact',minutes = 10,add_verif_bounds = False,tol_distance = 0,image_list = [],print_output=False,n_input = 784):
     ## Contador de cortes multidimensionales añadidos
     mdenv_count = 0
     ## Calcular cantidad de capas
@@ -570,7 +572,7 @@ def calculate_bounds(params,activation = 'relu',exact = 'no_exact',minutes = 10,
     ## Inicia con las cotas del input
     bounds     = OrderedDict()
     ## Se inicializa el modelo
-    neuron_model,bounds,inpt,all_vars = initialize_neuron_model(bounds,add_verif_bounds,tol_distance,image_list)
+    neuron_model,bounds,inpt,all_vars = initialize_neuron_model(bounds,add_verif_bounds,tol_distance,image_list,n_input)
     ## Caso cotas de verificacion
     if add_verif_bounds:
         sol_dict = {}
@@ -1383,10 +1385,18 @@ def cut_verif_model_lp_sol(n_layers,n_neurons,activation,params,bounds,verif_mod
 
 #### Generacion de columnas ########################################################################################################################################################
 
+###
+###
+
+def get_partition(partition,l,i): 
+    for k in range(len(partition)): 
+        if (l,i) in partition[k]:
+            return k
+
 ### Funcion que para una red y una particion, genera todos los modelos de pricing asociados
 ###
 
-def create_pricing_models(n_clusters,partition,edges_p,lambda_params,bounds,params,hat_x,real_label,target_label,eps,activation = 'relu'):
+def create_pricing_models(n_clusters,partition,edges_p,lambda_params,bounds,params,hat_x,real_label,target_label,eps,activation='relu',pricing_models=[],all_vars={},eta=False):
     """
     Parametros
     ----------
@@ -1419,37 +1429,60 @@ def create_pricing_models(n_clusters,partition,edges_p,lambda_params,bounds,para
     all_vars : dict
         LLaves: nombre de todas las variables de los K modelos. Valores: variable correspondiente
     """
-    ## Lista para guardar los modelos de pricing
-    pricing_models = []
-    ## Diccionario para guardar las variables
-    all_vars = {}
-    ## Se recorren los clusters
-    for k in range(n_clusters):
-        ## Se crea el modelo
-        k_model = Model()
+    ## Caso inicial
+    if len(pricing_models) == 0:
+        ## Arreglos para guardar los modelos de pricing
+        pricing_models = []
+        models_dict = {}
+        ## Diccionario para guardar las variables
+        all_vars = {}
         ## Diccionario para guardar las variables x de cada neurona
         x_dict = {}
         ## Diccionario para guardar las variables y duplicadas
         y_dict = {}
-        ## Se recorren las neuronas de la particion
-        for dupla in partition[k]:
-            ## Capa, neurona
-            l,i = dupla
-            ## Se añaden las variables de la neurona
-            k_model,x,y_list,x_dict,y_dict,all_vars = set_dupla_vars(k_model,l,i,edges_p,x_dict,y_dict,all_vars,bounds,hat_x,eps,activation)
-            ## Funcion de activacion
-            if l > -1:
-                k_model,all_vars = set_activfunction_cons(k_model,l,i,x,y_list,all_vars,bounds,params,activation)
-        ## Funcion objetivo
-        k_model = set_partition_objective(k_model,x_dict,y_dict,edges_p,lambda_params,partition[k],real_label,target_label,params)
-        ## Se agrega el modelo a la lista
-        pricing_models.append(k_model)
+        ## Se recorren las capas
+        for l in range(-1,len(bounds)-1):
+            ## Numero de neuronas de la capa
+            n_neurons = len(bounds[l])
+            ## Se recorren las neuronas de la capa
+            for i in range(n_neurons):
+                ## Se determina la particion a la que pertenece
+                k = get_partition(partition,l,i)
+                ## Modelo de la particion
+                if not k in models_dict:
+                    models_dict[k] = Model()        
+                k_model = models_dict[k]
+                ## Se agregan las varaibles de la neurona
+                k_model,x,y_list,x_dict,y_dict,all_vars = set_dupla_vars(k_model,l,i,edges_p,x_dict,y_dict,all_vars,bounds,hat_x,eps,activation,partition[k])
+                ## Restricciones de la funcion de activacion
+                if l > -1:
+                    k_model,all_vars = set_activfunction_cons(k_model,l,i,x,y_list,all_vars,bounds,params,activation)
+        ## Se añaden las funciones objetivo, y se genera la lista de modelos
+        for k in range(n_clusters):
+            ## Modelo k
+            k_model = models_dict[k]
+            ## Funcion objetivo
+            k_model,all_vars = set_partition_objective(k,k_model,x_dict,y_dict,edges_p,lambda_params,partition[k],real_label,target_label,params,all_vars,eta)
+            ## Se agrega el modelo a la lista
+            pricing_models.append(k_model)
+    else:
+        for k in range(n_clusters):
+            k_model = pricing_models[k]
+            k_model.freeTransform()
+            ## Caso eta
+            if eta:
+                ## Se agrega la penalizacion
+                k_model = add_eta_penaltycons(k,k_model,edges_p,lambda_params,partition[k],all_vars)
+                pricing_models[k] = k_model
+            else:
+                ## Se actualiza la funcion objetivo
+                k_model,all_vars = set_partition_objective(k,k_model,{},{},edges_p,lambda_params,partition[k],real_label,target_label,params,all_vars,eta)
     return pricing_models,all_vars
 
 ### Funcion que añade las varibles de una neurona en especifico al modelo de su particion correspondiente
 ###
 
-def set_dupla_vars(k_model,l,i,edges_p,x_dict,y_dict,all_vars,bounds,hat_x,eps,activation):
+def set_dupla_vars(k_model,l,i,edges_p,x_dict,y_dict,all_vars,bounds,hat_x,eps,activation,partition_k = None):
     """
     Parametros
     ----------
@@ -1495,7 +1528,7 @@ def set_dupla_vars(k_model,l,i,edges_p,x_dict,y_dict,all_vars,bounds,hat_x,eps,a
     ## Lista para guardar las variables duplicadas de la capa anterior
     y_list = []
     ## Caso neurona de input
-    if l == -1:
+    if l == -1 and not (l,i) in x_dict:
         ## Se agrega la variable de input
         x = k_model.addVar(lb = max(lb,hat_x[i]-eps),
                            ub = min(ub,hat_x[i]+eps),
@@ -1527,7 +1560,7 @@ def set_dupla_vars(k_model,l,i,edges_p,x_dict,y_dict,all_vars,bounds,hat_x,eps,a
                     if activation == 'relu':
                         ## Se ajustan las cotas correspondientes
                         lb_aux,ub_aux = max(0,lb_aux),max(0,ub_aux)
-                    ## Se agrega las variable duplicadas del input j de la neurona i
+                    ## Se agrega la variable duplicada del input j de la neurona i
                     y = k_model.addVar(lb = lb_aux,
                                        ub = ub_aux,
                                        vtype = 'C',
@@ -1596,7 +1629,7 @@ def set_activfunction_cons(k_model,l,i,x,y_list,all_vars,bounds,params,activatio
     W,b = params[w_name],params[b_name]
     ## Caso ReLU
     if activation == 'relu':
-        ## Se agregan las variables binarias
+        ## Se agrega la variable binaria
         z = k_model.addVar(vtype = 'B',
                            name = 'z^{}_{}'.format(l,i))
         ## Termino lineal de la neurona
@@ -1613,7 +1646,7 @@ def set_activfunction_cons(k_model,l,i,x,y_list,all_vars,bounds,params,activatio
 ### Funcion que agrega la funcion objetivo de la particion k
 ###
 
-def set_partition_objective(k_model,x_dict,y_dict,edges_p,lambda_params,k_partition,real_label,target_label,params):
+def set_partition_objective(k,k_model,x_dict,y_dict,edges_p,lambda_params,k_partition,real_label,target_label,params,all_vars,eta):
     """
     Parametros
     ----------
@@ -1640,15 +1673,46 @@ def set_partition_objective(k_model,x_dict,y_dict,edges_p,lambda_params,k_partit
     -------
     k_model : scip model
         Modelo asociado a la particion k.
-
     """
     ## Cantidad total de capas
     n_layers = int(len(params)/2)
+    ## Se identifican las variables y en caso de ser necesario
+    if len(y_dict) == 0:
+        for (l,i,j) in edges_p:
+            if (l,i) in k_partition:
+                y_dict[(l-1,i,j)] = all_vars[f'y^{l-1},{i}_{j}']
+    ## Se identifican las variables x en caso de ser necesario
+    if len(x_dict) == 0:
+        for (l,i,j) in edges_p:
+            if (l-1,j) in k_partition:
+                x_dict[(l-1,j)] = all_vars[f'x^{l-1}_{j}']
+    if (n_layers-1,real_label) in k_partition:
+        x_dict[(n_layers-1,real_label)] = all_vars[f'x^{n_layers-1}_{real_label}']
+    if (n_layers-1,target_label) in k_partition:
+        x_dict[(n_layers-1,target_label)] = all_vars[f'x^{n_layers-1}_{target_label}']
     ## Termino para la funcion objetivo
+    penalty = 0
     ## Se suman las variables y
-    objective = quicksum(lambda_params[(l,i,j)]*y_dict[(l-1,i,j)] for (l,i,j) in edges_p if (l,i) in k_partition)
+    penalty += quicksum(lambda_params[(l,i,j)]*y_dict[(l-1,i,j)] for (l,i,j) in edges_p if (l,i) in k_partition)
     ## Se suman las variables x
-    objective += quicksum(-lambda_params[(l,i,j)]*x_dict[(l-1,j)] for (l,i,j) in edges_p if (l-1,j) in k_partition)
+    penalty += quicksum(-lambda_params[(l,i,j)]*x_dict[(l-1,j)] for (l,i,j) in edges_p if (l-1,j) in k_partition)
+    ## Funcion objetivo
+    objective = 0
+    ## Caso agregar eta
+    if eta:
+        ## Se agrega la variable eta en caso de ser necesario
+        if not  f'eta_{k}' in all_vars:
+            eta_var = k_model.addVar(lb=None,ub=None,vtype='C',name=f'eta_{k}')
+            all_vars[f'eta_{k}'] = eta_var
+        else:
+            eta_var = all_vars[f'eta_{k}']
+        ## Se añade la restriccion
+        k_model.addCons(eta_var >= penalty ,name = 'eta_penaltycons')
+        ## Funcion objetivo
+        objective += eta_var
+    ## Caso sin eta
+    else:
+        objective += penalty
     ## Se suma el termino de la clase real
     if (n_layers-1,real_label) in k_partition:
         objective += x_dict[(n_layers-1,real_label)]
@@ -1656,8 +1720,35 @@ def set_partition_objective(k_model,x_dict,y_dict,edges_p,lambda_params,k_partit
     if (n_layers-1,target_label) in k_partition:
         objective += -x_dict[(n_layers-1,target_label)]
     ## Se setea la funcion objetivo
+    #print(f'funcion objetivo pricing: {objective}')
     k_model.setObjective(objective,'minimize')
-    return k_model
+    return k_model,all_vars
+
+###
+###
+
+def add_eta_penaltycons(k,k_model,edges_p,lambda_params,k_partition,all_vars):
+    ## Variable eta
+    eta_var = all_vars[f'eta_{k}']
+    ## Se identifican las variables y corrrespondientes
+    y_dict = {}
+    for (l,i,j) in edges_p:
+        if (l,i) in k_partition:
+            y_dict[(l-1,i,j)] = all_vars[f'y^{l-1},{i}_{j}']
+    ## Se identifican las variables x correspondientes
+    x_dict = {}
+    for (l,i,j) in edges_p:
+        if (l-1,j) in k_partition:
+            x_dict[(l-1,j)] = all_vars[f'x^{l-1}_{j}']
+    ## Termino de la penalizacion
+    penalty = 0
+    ## Se suman las variables y
+    penalty += quicksum(lambda_params[(l,i,j)]*y_dict[(l-1,i,j)] for (l,i,j) in edges_p if (l,i) in k_partition)
+    ## Se suman las variables x
+    penalty += quicksum(-lambda_params[(l,i,j)]*x_dict[(l-1,j)] for (l,i,j) in edges_p if (l-1,j) in k_partition)
+    ## Se agrega la restriccion
+    k_model.addCons(eta_var >= penalty ,name='eta_penaltycons')
+    return k_model 
 
 ###
 ###
@@ -1688,35 +1779,77 @@ def get_pricing_column(pricing_models,edges_p):
 ###
 ###
 
-def create_master_model(columns,edges_p,real_label,target_label,params):
+def create_master_model(columns,edges_p,real_label,target_label,params,master_model = None,theta = [],cons_dict = {}):
     ## Numero de capas
     n_layers = int(len(params)/2)
-    ## Se crea el modelo maestro
-    master_model = Model()
-    ## Variables de la combinacion convexa
-    theta = [master_model.addVar(lb = 0, ub = 1, vtype = 'C', name = f'theta_{q}') for q in range(len(columns))]
-    ## Restriccion convexa
-    master_model.addCons(quicksum(theta[q] for q in range(len(columns))) == 1, name = 'convex_comb')
-    ## Diccionario para guardar las restricciones relajadas en el pricing
-    cons_dict = {}
-    ## Restriccion sobre las relaciones relajadas
-    for (l,i,j) in edges_p:
-        ## Nombre de la variable x e y
-        x_name = f'x^{l-1}_{j}'
-        y_name = f'y^{l-1},{i}_{j}'
-        ## Sumatoria de la restriccion
-        cons = quicksum(theta[q]*(columns[q][y_name]-columns[q][x_name]) for q in range(len(columns)))
-        ## Se agrega la restriccion
-        aux_cons = master_model.addCons(cons == 0, name = f'relaxed_cons_{l},{i},{j}')
-        ## Se guarda la restriccion
-        cons_dict[(l,i,j)] = aux_cons
-    ## Nombre de las variables de la funcion objetivo
-    xr_name = f'x^{n_layers-1}_{real_label}'
-    xt_name = f'x^{n_layers-1}_{target_label}'
-    ## Funcion objetivo
-    objective = quicksum(theta[q]*(columns[q][xr_name]-columns[q][xt_name]) for q in range(len(columns)))
-    ## Se setea la funcion objetivo
-    master_model.setObjective(objective,'minimize')
+    ## Caso inicial
+    if master_model == None:
+        ## Se crea el modelo maestro
+        master_model = Model()
+        ## Diccionario para guardar las restricciones
+        cons_dict = {}
+        ## Variables de la combinacion convexa
+        theta = [master_model.addVar(lb = 0, ub = 1, vtype = 'C', name = f'theta_{q}') for q in range(len(columns))]
+        ## Restriccion convexa
+        cons = master_model.addCons(quicksum(theta[q] for q in range(len(columns))) == 1, name = 'convex_comb')
+        cons_dict['conv'] = cons
+        ## Restriccion sobre las relaciones relajadas
+        for (l,i,j) in edges_p:
+            ## Nombre de la variable x e y
+            x_name = f'x^{l-1}_{j}'
+            y_name = f'y^{l-1},{i}_{j}'
+            ## Sumatoria de la restriccion
+            cons_lhs = quicksum(theta[q]*(columns[q][y_name]-columns[q][x_name]) for q in range(len(columns)))
+            ## Se agrega la restriccion
+            cons = master_model.addCons(cons_lhs == 0, name = f'relaxed_cons_{l},{i},{j}')
+            ## Se guarda la restriccion
+            cons_dict[(l,i,j)] = cons
+        ## Nombre de las variables de la funcion objetivo
+        xr_name = f'x^{n_layers-1}_{real_label}'
+        xt_name = f'x^{n_layers-1}_{target_label}'
+        ## Funcion objetivo
+        objective = quicksum(theta[q]*(columns[q][xr_name]-columns[q][xt_name]) for q in range(len(columns)))
+        ## Se setea la funcion objetivo
+        master_model.setObjective(objective,'minimize')
+    ## Caso donde se añade una columna
+    else:
+        ## Se setea el modelo
+        master_model.freeTransform()
+        ## Funcion objetivo
+        obj_function = master_model.getObjective()
+        ## Se recorren las nuevas columnas
+        for q in range(len(master_model.getVars()),len(columns)):
+            ## Se añade la nueva variable
+            new_theta = master_model.addVar(lb = 0, ub = 1, vtype = 'C', name = f'theta_{q}')
+            theta.append(new_theta)
+            ## Se actualiza la restriccion de convexidad
+            cons = cons_dict['conv']
+            master_model.addConsCoeff(cons,new_theta,1)
+            cons_dict['conv'] = master_model.getConss()[0]
+            ## Restricciones de las relaciones relajadas
+            counter = 1
+            for (l,i,j) in edges_p:
+                ## Nombre de la variable x e y
+                x_name = f'x^{l-1}_{j}'
+                y_name = f'y^{l-1},{i}_{j}'
+                ## Coeficiente de la nueva variable
+                coef = columns[q][y_name]-columns[q][x_name]
+                ## Restriccion de la relacion
+                cons = cons_dict[(l,i,j)]
+                ## Se agrega el termino de la nueva columna
+                master_model.addConsCoeff(cons, new_theta, coef)
+                ## Se actualiza el diccionario
+                cons_dict[(l,i,j)] = master_model.getConss()[counter]
+                counter+=1
+            ## Nombre de las variables de la funcion objetivo
+            xr_name = f'x^{n_layers-1}_{real_label}'
+            xt_name = f'x^{n_layers-1}_{target_label}'
+            ## Coeficiente de la nueva variable
+            obj_coef = columns[q][xr_name]-columns[q][xt_name]
+            ## Funcion objetivo actualizada
+            obj_function += new_theta*obj_coef
+        ## Se setea la funcion objetivo
+        master_model.setObjective(obj_function, sense='minimize')
     return master_model,theta,cons_dict
 
 ###
@@ -1757,7 +1890,7 @@ def propagate_input_to_column(ref_input,params,edges_p,activation = 'relu'):
 ###
 ###
 
-def get_master_lambdas(master_model,edges_p,cons_dict,lambda_params = None):
+def get_master_lambdas(master_model,edges_p,cons_dict,columns,n_layers,real_label,target_label,lambda_params = None):
     ## Diccionario para los parametros lambda 
     if lambda_params is None:
         lambda_params = {}
@@ -1768,9 +1901,13 @@ def get_master_lambdas(master_model,edges_p,cons_dict,lambda_params = None):
         ## Restriccion correspondiente
         cons = cons_dict[edge]
         ## Valor dual
-        dual_value = master_model.getDualSolVal(cons)
+        dual_value = master_model.getDualsolLinear(cons)#master_model.getDualSolVal(cons)
         ## Se actualiza lambda
         lambda_params[edge] = -dual_value
+    ## Se reescalan los lambda
+    #print(f'Lambda previos: {lambda_params}')
+    lambda_params = re_scale_lambda(master_model,cons_dict,lambda_params,edges_p,columns,n_layers,real_label,target_label)
+    #print(f'Lambda reescalados: {lambda_params}')
     return lambda_params
 
 ###
@@ -1788,14 +1925,6 @@ def make_theta_solution(master_model,theta,columns):
                 else:
                     sol[vname] += theta_val*columns[q][vname]
     return sol
-
-###
-###
-
-def get_partition(partition,l,i): 
-    for k in range(len(partition)): 
-        if (l,i) in partition[k]:
-            return k
 
 ###
 ###
@@ -1870,62 +1999,6 @@ def propagation_heuristic(sol,params,real_label,target_label,activation = 'relu'
     ## Valor objetivo
     heu_obj = aux_list[real_label]-aux_list[target_label]
     return heu_obj,heu_sol
-
-###
-###
-
-def pricing_prop_heuristic(pricing_models,pricing_vars,partition,params,real_label,target_label,activation = 'relu'):
-    ## Diccionario para la solucion
-    heu_sol = {}
-    ## Numero de capas
-    n_layers = int(len(params)/2)
-    ## Tamaño del input
-    wname,bname = get_w_b_names(0)
-    W = params[wname]
-    n_input = W.size()[1]
-    ## Lista donde guardar las variables asociadas al input
-    input_list = []
-    ## Se recorren las variables de input
-    for i in range(n_input):
-        ## Se identifica a que particion pertenece
-        k = get_partition(partition, -1, i)
-        ## Nombre de la variable
-        var_name = f'x^{-1}_{i}'
-        ## Variable asociada
-        var = pricing_vars[var_name]
-        ## Valor del pricing
-        val = pricing_models[k].getVal(var)
-        ## Se añade el valor
-        input_list.append(val)
-        heu_sol[var_name] = val
-    ## Se recorren las capas
-    for l in range(n_layers):
-        ## Parametros de la capa
-        wname,bname = get_w_b_names(l)
-        W,b = params[wname],params[bname]
-        ## Neuronas de la capa previa
-        n_input = W.size()[1]
-        ## Neuronas de la capa
-        n_neurons = W.size()[0]
-        ## Lista para guardar el output de la capa l
-        aux_list = []
-        ## Se recorren las neuronas de la capa
-        for i in range(n_neurons):
-            ## Evaluacion en la funcion lineal
-            val = float(b[i]) + sum(float(W[i,j])*input_list[j] for j in range(n_input))
-            if activation == 'relu':
-                val = max(0,val)
-            ## Se guarda el output de la neurona
-            aux_list.append(val)
-            heu_sol[f'x^{l}_{i}'] = val
-        ## Se actualiza el input de la siguiente capa   
-        input_list = aux_list
-    ## Valor objetivo
-    heu_obj = aux_list[real_label]-aux_list[target_label]
-    return heu_obj,heu_sol
-
-###
-###
 
 def pricing_zfixed_heuristic(pricing_models,pricing_vars,partition,params,real_label,target_label,activation = 'relu'):
     ## Diccionario para la solucion
@@ -2047,8 +2120,8 @@ def create_disjoint_partition(n_input,n_output,n_neurons,n_layers,n_clusters,par
     elif policy == 'path':
         ## Menor cantidad de neuronas de una capa
         n_min = min(n_input,n_neurons,n_output)
-        ## Cantidad de caminos por particion
-        size = n_min//n_clusters
+        ## Cantidad de neuronas por particion
+        size = (n_min*(n_layers+1))//n_clusters
         ## Grafo
         graph = nx.DiGraph()
         ## Se recorren las capas
@@ -2069,9 +2142,9 @@ def create_disjoint_partition(n_input,n_output,n_neurons,n_layers,n_clusters,par
                 wname,bname = get_w_b_names(l)
                 W,b = params[wname],params[bname]
                 ## Neuronas de la capa
-                n = W.size()[1]
+                n = W.size()[0]
                 ## Neuronas de la capa previa
-                n_prev = W.size(0)
+                n_prev = W.size()[1]
                 ## Se recorren las neuronas
                 for i in range(n):
                     ## Se recorren las neuronas de la capa previa
@@ -2091,11 +2164,14 @@ def create_disjoint_partition(n_input,n_output,n_neurons,n_layers,n_clusters,par
             ## Se encuentra el camino mas largo
             longest_path = nx.dag_longest_path(graph,weight='weight')
             ## Se añaden los vertices a la particion
-            for (l,i) in longest_path[1:-1]:
-                partition[k].append((l,i))
-                graph.remove_node((l,i))
-            if len(partition[k]) >= size*1.1 and k<n_clusters-1:
+            for node in longest_path:
+                if not node in ['s','t']:
+                    (l,i) = node
+                    partition[k].append((l,i))
+                    graph.remove_node((l,i))
+            if len(partition[k]) >= size and k<n_clusters-1:
                 k += 1 
+            
     elif policy == 'greedy':
         ## Se calcula el tamaño de cada particion
         size = (n_input+n_output+(n_layers-1)*n_neurons)//n_clusters
@@ -2171,9 +2247,11 @@ def create_edges_p(partition,n_input,n_neurons,n_layers):
 ###
 ###
 
-def check_feasiblity(sol,params,activation = 'relu',tol = 1E-5):
+def check_feasiblity(sol,params,bounds,activation = 'relu',tol = 1E-5):
     ## Variable que indica si la solucion es factible
     is_feasible = True
+    ## Lista de neuronas que violan o la activacion, o las cotas
+    infactibility = {}
     ## Lista para guardar la entrada de la solucion
     input_list = []
     ## Numero de capas
@@ -2184,7 +2262,14 @@ def check_feasiblity(sol,params,activation = 'relu',tol = 1E-5):
     n_input = W.size()[1]
     ## Se recorren las variables de entrada
     for i in range(n_input):
+        ## Se añade el valor de la variable
         input_list.append(sol[f'x^{-1}_{i}'])
+        ## Cotas de la variable
+        lb,ub = -bounds[-1][i][0],bounds[-1][i][1]
+        ## Se verifican las cotas
+        if sol[f'x^{-1}_{i}'] < lb or sol[f'x^{-1}_{i}'] > ub:
+            infactibility[(-1,i)] = 'bounds'
+            is_feasible = False
     ## Se recorren las capas
     for l in range(n_layers):
         ## Parametros de la capa
@@ -2200,15 +2285,267 @@ def check_feasiblity(sol,params,activation = 'relu',tol = 1E-5):
         for i in range(n_neurons):
             ## Se evalua la funcion lineal
             val = float(b[i]) + sum(float(W[i,j])*input_list[j] for j in range(n_input))
+            ## Cotas de la neurona
+            lb,ub = -bounds[l][i][0],bounds[l][i][1]
             ## Funcion de activacion
             if activation == 'relu':
+                flb,fub = max(0,lb),max(0,ub)
                 val = max(0,val)
+            ## Se verifica si el valor de la solucion cumple las cotas
+            if sol[f'x^{l}_{i}'] < flb or sol[f'x^{l}_{i}'] > fub:
+                infactibility[(l,i)] = ['bounds']
+                is_feasible = False
             ## Se verifica si el valor de la solucion es correcto
             if np.abs(val-sol[f'x^{l}_{i}']) > tol:
+                if (l,i) in infactibility:
+                    infactibility[(l,i)].append('activation')
+                else:
+                    infactibility[(l,i)] = ['activation']
                 is_feasible = False
-                return is_feasible
-            ## Caso valor factible
+            ## Se añade el valor a la lista auxiliar
             aux_list.append(val)
         ## Se actualiza la entrada de la siguiente capa
         input_list = aux_list
-    return is_feasible
+    return is_feasible,infactibility
+
+###
+###
+
+def master_iteration(columns,edges_p,real_label,target_label,params,master_times,master_model,theta,cons_dict):
+    ## Cantidad de capas
+    n_layers = int(len(params)/2)
+    ## Se crea el modelo maestro
+    master_model,theta,cons_dict = create_master_model(columns,edges_p,real_label,target_label,params,master_model,theta,cons_dict)
+    ## Setup del optimizador
+    master_model.setPresolve(SCIP_PARAMSETTING.OFF)
+    master_model.setHeuristics(SCIP_PARAMSETTING.OFF)
+    master_model.disablePropagation()
+    master_model.hideOutput()
+    ## Se optimiza el modelo maestro
+    aux_time = time.time()
+    master_model.optimize()
+    iter_time = time.time()-aux_time
+    ## Se obtiene la solucion objetivo
+    print(' Master Status: ',master_model.getStatus())
+    master_obj = master_model.getObjVal()
+    ## Se obtienen los valores lambda correspondientes
+    lambda_params = get_master_lambdas(master_model,edges_p,cons_dict,columns,n_layers,real_label,target_label,lambda_params = None)
+    ## Solucion que se obtiene a partir del modelo maestro
+    master_sol = make_theta_solution(master_model,theta,columns)
+    ## Se añade el tiempo de la iteracion
+    master_times.append(iter_time)
+    ## Se retorna el modelo maestro, valor objetivo, solucion que implica, los valores lambda
+    return master_model,master_obj,master_sol,lambda_params,theta,cons_dict,master_times
+
+###
+###
+
+def pricing_iteration(n_clusters,partition,edges_p,lambda_params,bounds,params,hat_x,real_label,target_label,eps,pricing_times,activation='relu',pricing_models=[],pricing_vars={},eta=False):
+    ## Se crean los modelos de pricing
+    pricing_models,pricing_vars = create_pricing_models(n_clusters,
+                                                        partition,
+                                                        edges_p,
+                                                        lambda_params,
+                                                        bounds,
+                                                        params,
+                                                        hat_x,
+                                                        real_label,
+                                                        target_label,
+                                                        eps,
+                                                        activation,
+                                                        pricing_models,
+                                                        pricing_vars,
+                                                        eta)
+    ## Tiempo inicial
+    iter_time = 0
+    ## Se resuelven los modelos
+    for model in pricing_models:
+        ## Setup
+        model.hideOutput()
+        model.setPresolve(SCIP_PARAMSETTING.OFF)
+        model.setHeuristics(SCIP_PARAMSETTING.OFF)
+        model.disablePropagation()
+        ## Se optimiza el modelo
+        aux_time = time.time()
+        model.optimize()
+        iter_time += (time.time() - aux_time) 
+    ## Se obtiene la solucion general a partir de los modelos de pricing
+    pricing_obj,pricing_sol = compute_pricing_sol_obj(pricing_models,pricing_vars,partition)
+    ## Se añade el tiempo de la iteracion
+    pricing_times.append(iter_time)
+    ## Se retornan los modelos de pricing, valor objetivo, solucion que implican, variables de los modelos
+    return pricing_models,pricing_obj,pricing_sol,pricing_vars,pricing_times
+
+###
+###
+
+def create_heuristic_sols(heu_methods,all_sols,best_sol,master_sol,master_obj,pricing_sol,pricing_obj,params,bounds,real_label,target_label,pricing_models,pricing_vars,partition,activation = 'relu'):
+    if 'master_prop' in heu_methods:
+        ## Master propagation
+        m_prop_obj,m_prop_sol = propagation_heuristic(master_sol,params,real_label,target_label,activation)
+        ## Se guarda el mejor valor objetivo de la heuristica master prop
+        if len(all_sols['master_prop'])==0: 
+            all_sols['master_prop'].append(m_prop_obj)
+            best_sol['master_prop'] = m_prop_sol
+        else:
+            if m_prop_obj < all_sols['master_prop'][-1]:
+                all_sols['master_prop'].append(m_prop_obj)
+                best_sol['master_prop'] = m_prop_sol
+            else:
+                all_sols['master_prop'].append(all_sols['master_prop'][-1])
+    if 'pricing_prop' in heu_methods:
+        ## Pricing propagation
+        p_prop_obj,p_prop_sol = propagation_heuristic(pricing_sol,params,real_label,target_label,activation)
+        ## Se guarda el valor objetivo de la heuristica pricing propagation
+        if len(all_sols['pricing_prop']) == 0:
+            all_sols['pricing_prop'].append(p_prop_obj)
+            best_sol['pricing_prop'] = p_prop_sol
+        else:
+            if p_prop_obj < all_sols['pricing_prop'][-1]:
+                all_sols['pricing_prop'].append(p_prop_obj)
+            else:
+                all_sols['pricing_prop'].append(all_sols['pricing_prop'][-1])
+    if 'pricing_zfixed' in heu_methods:
+        ## Pricing z fixed
+        p_zfixed_obj,p_zfixed_sol = pricing_zfixed_heuristic(pricing_models,pricing_vars,partition,params,real_label,target_label,activation)
+        ## Se verifica la factibilidad de la solucion
+        is_feasible,infactibility = check_feasiblity(p_zfixed_sol,params,bounds,activation)
+        ## En caso de ser factible
+        if is_feasible:
+            ## Se guarda el valor objetivo de la heuristica pricing z-fixed
+            if len(all_sols['pricing_zfixed']) == 0:
+                all_sols['pricing_zfixed'].append(p_zfixed_obj)
+                best_sol['pricing_zfixed'] = p_zfixed_sol
+            else:
+                if p_zfixed_obj < all_sols['pricing_zfixed'][-1]:
+                    all_sols['pricing_zfixed'].append(p_zfixed_obj)
+                else:
+                    all_sols['pricing_zfixed'].append(all_sols['pricing_zfixed'][-1])
+    return all_sols,best_sol
+
+###
+###
+
+def re_scale_lambda(master_model,cons_dict,lambda_params,edges_p,columns,n_layers,real_label,target_label):
+    ## True si se reescanalan aquellas variables que tienen coeficientes de un solo signo o 0
+    flag = False
+    ## Diccionario para los nuevos lambda
+    new_lambda = {}
+    ## Restriccion convexa
+    dual_conv = master_model.getDualSolVal(cons_dict['conv'])
+    print(f'Dual restriccion conv: {dual_conv}')
+    ## Diccionario para los conjuntos de signos
+    sign_dict = {'+-':[],'+':[],'-':[]}
+    if flag:
+        ## Se identifican los conjuntos
+        for (l,i,j) in lambda_params:
+            ## Nombre de la variable x e y
+            x_name = f'x^{l-1}_{j}'
+            y_name = f'y^{l-1},{i}_{j}'
+            ## Signo de la restriccion
+            sign = ''
+            ## Se recorren las columnas
+            for q in range(len(columns)):
+                ## Coeficiente de la columna
+                coef = columns[q][y_name]-columns[q][x_name]
+                ## Caso variable dual se va a menos infinito
+                if coef > 0:
+                    if sign in ['','-']:
+                        sign = '-'
+                    else:
+                        sign = '+-'
+                        break
+                ## Caso variable dual se va a mas infinito
+                if coef < 0:
+                    if sign in ['','+']:
+                        sign = '+'
+                    else:
+                        sign = '+-'
+                        break
+            if sign == '':
+                sign = '+-'
+            ## Se añade la restriccion a un conjunto
+            sign_dict[sign].append((l,i,j))
+            ## Se setea el valor de la nueva solucion
+            if sign == '+-':
+                new_lambda[(l,i,j)] = -lambda_params[(l,i,j)]
+            else:
+                new_lambda[(l,i,j)] = 0 
+    else:
+        for edge in lambda_params:
+            value = -lambda_params[edge]
+            ## Se verifica si el valor es mas o menos infinito
+            if value + 1 == value:
+                if value > 0:
+                    sign_dict['+'].append(edge)
+                elif value < 0:
+                    sign_dict['-'].append(edge)
+                new_lambda[edge] = 0
+            else:
+                new_lambda[edge] = value
+    #print(sign_dict)
+    ## Se setean las variables duales que se van a mas infinito
+    for (l,i,j) in sign_dict['+']:
+        ## Valores candidatos para la variable dual
+        J_values = []
+        ## Se recorren las variables del primal
+        for q in range(len(columns)):
+            lhs = dual_conv
+            ## Se recorren las restricciones originales
+            for (aux_l,aux_i,aux_j) in lambda_params:
+                ## Nombre de la variable x e y
+                x_name = f'x^{aux_l-1}_{aux_j}'
+                y_name = f'y^{aux_l-1},{aux_i}_{aux_j}'
+                ## Coeficiente de la variable en la restriccion
+                coef = columns[q][y_name]-columns[q][x_name]
+                lhs += coef*new_lambda[(aux_l,aux_i,aux_j)]
+            ## Coeficiente del objetivo de la variable
+            xr_name = f'x^{n_layers-1}_{real_label}'
+            xt_name = f'x^{n_layers-1}_{target_label}'
+            obj_coef = columns[q][xr_name] - columns[q][xt_name]
+            ## Caso en que la restriccion es violada
+            if lhs > obj_coef:
+                ## Coeficiente de la variable primal en la restriccion
+                x_name = f'x^{l-1}_{j}'
+                y_name = f'y^{l-1},{i}_{j}'
+                coef = columns[q][y_name] - columns[q][x_name]
+                if coef < 0:
+                    value = (obj_coef-(lhs))/coef
+                    J_values.append(value)
+        ## Se actualiza el valor de lambda
+        if len(J_values) > 0:
+            new_lambda[(l,i,j)] = max(J_values)
+    ## Se setean las variables duales que se van a menos infinito
+    for (l,i,j) in sign_dict['-']:
+        ## Valores candidatos para la variable dual
+        J_values = []
+        ## Se recorren las variables del primal
+        for q in range(len(columns)):
+            lhs = dual_conv
+            ## Se recorren las restricciones originales
+            for (aux_l,aux_i,aux_j) in lambda_params:
+                ## Nombre de la variable x e y
+                x_name = f'x^{aux_l-1}_{aux_j}'
+                y_name = f'y^{aux_l-1},{aux_i}_{aux_j}'
+                ## Coeficiente de la variable en la restriccion
+                coef = columns[q][y_name]-columns[q][x_name]
+                lhs += coef*new_lambda[(aux_l,aux_i,aux_j)]
+            ## Coeficiente del objetivo de la variable
+            xr_name = f'x^{n_layers-1}_{real_label}'
+            xt_name = f'x^{n_layers-1}_{target_label}'
+            obj_coef = columns[q][xr_name] - columns[q][xt_name]
+            ## Caso en que la restriccion es violada
+            if lhs > obj_coef:
+                ## Coeficiente de la variable primal en la restriccion
+                x_name = f'x^{l-1}_{j}'
+                y_name = f'y^{l-1},{i}_{j}'
+                coef = columns[q][y_name] - columns[q][x_name]
+                if coef > 0:
+                    value = (obj_coef-(lhs))/coef
+                    J_values.append(value)
+        ## Se actualiza el valor de lambda
+        if len(J_values) > 0:
+            new_lambda[(l,i,j)] = min(J_values)
+    for edge in new_lambda:
+        new_lambda[edge] = -new_lambda[edge]
+    return new_lambda
