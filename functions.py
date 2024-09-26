@@ -19,6 +19,7 @@ import matplotlib.pyplot as plt
 import torch.nn.functional as F
 from collections import OrderedDict
 from pyscipopt import Model,quicksum,SCIP_PARAMSETTING,Eventhdlr, SCIP_EVENTTYPE
+from concave_env import *
 
 #### Funciones generales ############################################################################################################################################################
 
@@ -877,10 +878,16 @@ def calculate_inflec_point(activation):
 def get_activ_func(activation):
     if activation == 'relu':
         f = lambda x: (x+np.abs(x))/2
+    elif activation == '-relu':
+        f = lambda x: -(x+np.abs(x))/2
     elif activation == 'softplus':
         f = lambda x: np.log(1 + np.exp(x))
+    elif activation == '-softplus':
+        f = lambda x: -np.log(1 + np.exp(x))
     elif activation == 'sigmoid':
         f = lambda x: 1/(1+np.exp(-x))
+    elif activation == '-sigmoid':
+        f = lambda x: -1/(1+np.exp(-x))
     return f
 
 ###
@@ -889,8 +896,12 @@ def get_activ_func(activation):
 def get_activ_derv(activation):
     if activation == 'sigmoid':
         df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
+    elif activation == '-sigmoid':
+        df = lambda x: -np.exp(-x)/(np.power((1+np.exp(-x)),2))
     elif activation == 'softplus':
         df = lambda x: 1/(1+np.exp(-x))
+    elif activation == '-softplus':
+        df = lambda x: -1/(1+np.exp(-x))
     return df
 
 ### Funcion que calcula el cv point de la funcion. Se requiere que el ub de la cota sea mayor al punto de inflexion de la funcion de activacion.
@@ -1381,6 +1392,67 @@ def cut_verif_model_lp_sol(n_layers,n_neurons,activation,params,bounds,verif_mod
                     verif_model.addCons(a + quicksum(-1*c[k]*layer_inpt[k] for k in range(n_neurons)) - d <= 0, name = 'cc_multidim_env{}_{},{}'.format(n_cuts,l,i))
                 ## Se aumenta la cantidad de cortes multidimensionales que tiene 
                 verif_model.data['multidim_env_count'][(l,i)] += 1
+    return verif_model,mdenv_count
+
+###
+###
+
+def env_cut_verif_model_lp_sol(n_layers,n_neurons,activation,params,bounds,verif_model,all_vars,lp_sol_file):
+    ## Contador de cortes multidimensionales añadidos
+    mdenv_count = 0
+    ## Se recorren las capas
+    for l in range(1,n_layers):
+        ## Output de la capa anterior
+        layer_inpt = [all_vars['a{},{}'.format(l-1,j)] for j in range(n_neurons)]
+        ## Parametros de la capa
+        weight,bias = get_w_b_names(l)
+        W,b = params[weight],params[bias]
+        ## Se recorren las neuronas
+        for i in range(n_neurons):
+            ## Variable de output de la neurona
+            a = all_vars['a{},{}'.format(l,i)]
+            ## Numero de cortes totales de la neurona
+            n_cuts = verif_model.data['multidim_env_count'][(l,i)]
+            ## Parametros de la neurona
+            neuron_w = np.array([float(W[i,k]) for k in range(n_neurons)])
+            neuron_b = b[i] 
+            L = [-bounds[l-1][k][0] for k in range(n_neurons)]
+            U = [bounds[l-1][k][1] for k in range(n_neurons)]
+            ## Solucion a cortar
+            lp_sol = generate_hyperplane_model_lpsol(l,i,n_neurons,activation,lp_sol_file)
+            lp_sol = np.array(lp_sol[:-1])
+            ## Corte envoltura concava
+            ## Pesos re escalados
+            cc_w,cc_b = concave_re_scale_0_1_box(neuron_w,neuron_b,L,U)
+            ## Solucion re escalada
+            rescaled_sol = concave_re_scale_vector(lp_sol,neuron_w,L,U)
+            ## Funcion de activacion y su derivada
+            sigma,sigma_der = get_activ_func(activation),get_activ_func(activation)
+            ## Constante del plano
+            z_env0 = concave_envelope(rescaled_sol, cc_w, cc_b, sigma, sigma_der)
+            ## Derivada de la solucion
+            der = concave_envelope_derivate(rescaled_sol, cc_w, cc_b, sigma, sigma_der)
+            der = concave_scale_der_by_w(der,neuron_w,U,L)
+            ## Restriccion plano cortante de la envoltura concava
+            verif_model.addCons(z_env0+quicksum(der[k]*(layer_inpt[k]-lp_sol[k]) for k in range(n_neurons)) - a >= 0, name = 'cc_env_cut{}_{},{}'.format(n_cuts,l,i))
+            ## Corte envoltura convexa
+            # Pesos re escalados
+            cv_w,cv_b = convex_re_scale_0_1_box(neuron_w,neuron_b,L,U)
+            ## Solucion re escalada
+            rescaled_sol = convex_re_scale_vector(lp_sol,neuron_w,L,U)
+            ## Funcion de activacion y su derivada
+            sigma,sigma_der = get_activ_func('-'+activation),get_activ_func('-'+activation)
+            ## Constante del plano
+            z_env0 = -concave_envelope(rescaled_sol, cv_w, cv_b, sigma, sigma_der)
+            ## Derivada de la solucion
+            der = concave_envelope_derivate(rescaled_sol, cv_w, cv_b, sigma, sigma_der)
+            der = -convex_scale_der_by_w(der,neuron_w,U,L)
+            ## Restriccion plano cortante de la envoltura concava
+            verif_model.addCons(z_env0+quicksum(der[k]*(layer_inpt[k]-lp_sol[k]) for k in range(n_neurons)) - a <= 0, name = 'cv_env_cut{}_{},{}'.format(n_cuts+1,l,i))
+            ## Se aumenta la cantidad de cortes multidimensionales de la neurona 
+            verif_model.data['multidim_env_count'][(l,i)] += 2
+            ## Se aumenta la cantidad de cortes totales
+            mdenv_count += 2
     return verif_model,mdenv_count
 
 #### Generacion de columnas ########################################################################################################################################################
