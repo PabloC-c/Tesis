@@ -134,7 +134,7 @@ for activation in activation_list:
                                             else:
                                                 prev_obj = obj
                                         ## Se obtiene la solucion
-                                        lp_sol = get_bounds_model_lpsol(neuron_l,n_input,n_neurons,bounds_model,all_vars)
+                                        lp_sol = get_bounds_model_lpsol(l,n_input,n_neurons,bounds_model,all_vars)
                                         ## Se libera el modelo
                                         bounds_model.freeTransform()
                                         ## Se intenta añadir cortes
