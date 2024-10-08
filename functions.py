@@ -405,8 +405,6 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,mdenv_count,a
                 neuron_model.addCons(quicksum(float(W[i,k])*inpt[k] for k in range(n_input)) + float(b[i]) == z, name = 'eval{},{}'.format(l,i))
                 ## Variable de evaluacion en la funcion de activacion
                 a = neuron_model.addVar(lb = None, ub = None,vtype = 'C', name = 'a{},{}'.format(l,i))
-                if l == 1 and  i == 0:
-                    print('VARIABLEEEEE',a)
                 all_vars['a{},{}'.format(l,i)] = a
                 ## Se guarda la variable a, para el input de la siguiente capa
                 aux_input.append(a)
@@ -1445,7 +1443,6 @@ def get_bounds_model_lpsol(neuron_l,n_input,n_neurons,bounds_model,all_vars):
     ## Lista para guardar las variables de input para el modelo del hiperplano
     lp_sol = {}
     ## Se recorren las capas
-    print('VALOR DE neuron_l ===============',neuron_l)
     for l in (-1,neuron_l-1):
         ## Caso capa de entrada
         n = n_input
