@@ -442,7 +442,7 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,mdenv_count,a
                     neuron_model.addCons(inter+slope*(quicksum(neuron_w[k]*inpt[k] for k in range(n_input))+neuron_b-cv_b) <= a , name = 'h_cv{},{}'.format(l,i))
                     mdenv_count += 1
                 else:
-                    neuron_model.addCons(sigma(cc_b+np.sum(cc_w)) <= a , name = 'plane_min{},{}'.format(l,i))
+                    neuron_model.addCons(sigma(cv_b+np.sum(cv_w)) <= a , name = 'plane_min{},{}'.format(l,i))
                 neuron_model.data['multidim_env_count'][(l,i)] = 0
     return neuron_model,aux_input,all_vars,mdenv_count
 
