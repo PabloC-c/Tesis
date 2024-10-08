@@ -452,7 +452,7 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,mdenv_count,a
 def solve_neuron_model(neuron_model,sense,params,bounds,l,i,exact = 'no_exact',minutes = 10,print_output = False,tol = 1E-3,feas_tol = 1E-5,digits = 4):
     ## Se calcula la cota con el metodo de propagacion
     propb = calculate_aprox_bound(params,bounds,l,i,sense)
-    if exact in ['exact','no_exact']:
+    if exact in ['exact','no_exact','env_cut']:
         ## Limite de tiempo
         neuron_model.setParam('limits/time', int(60*minutes))
         ## Tolerancia de factibilidad
