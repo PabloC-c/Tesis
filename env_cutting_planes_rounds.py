@@ -177,6 +177,6 @@ for activation in activation_list:
                         bounds_model,inpt,all_vars,h_cuts = update_neuron_model(bounds_model,inpt,all_vars,params,bounds,l,h_cuts,activation,exact)
                         if add_verif_bounds:
                             sol_dict,layer_input = update_bounds_vars_by_image(l,params,sol_dict,layer_input,exact,activation)
-                            accepted = add_bounds_vars_by_image(neuron_model,sol_dict)
+                            accepted = add_bounds_vars_by_image(bounds_model,sol_dict)
                     ## Se actualiza la informacion de la red
                     new_line.append(net_time,net_cuts,h_cuts)
