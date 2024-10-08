@@ -51,19 +51,13 @@ input_example, output_example = next(iter(test_loader))
 ## Se transforma el input en una lista
 image_list = input_example[output_example == real_output][0].view(-1,784).tolist()[0]
 
-print('Hola1')
-
 ## Por cada activacion
 for activation in activation_list:
-    print('Hola2')
     ## Se recorren las capas
     for n_layers in layer_list:
-        print('Hola3')
         ## Se recorren las neuronas 
         for n_neurons in neuron_list:
-            print('Hola4')
             for tol_distance in tols_list:
-                print('Hola5')
                 ## Lista de info a guardar 
                 new_line = [n_layers,n_neurons,tol_distance]
                 for type_cut in type_cuts_list:
@@ -120,8 +114,7 @@ for activation in activation_list:
                                     print('\n === Ronda {} === \n'.format(round_count))
                                     ## Se fija la funcion objetivo
                                     bounds_model = set_objective_function(bounds_model,inpt,params,bounds,l,i,sense)
-                                    ## Se calcula la cota 
-                                    print(bounds)
+                                    ## Se calcula la cota
                                     sol_list,dt = solve_neuron_model(bounds_model,sense,params,bounds,l,i,exact,minutes,print_output)
                                     ## Primera capa oculta
                                     if l == 0 or type_cut == 'R_H':
