@@ -161,7 +161,8 @@ for activation in activation_list:
                                 net_cuts += neuron_cuts
                                 ## Sentido del segundo problema a resolver
                                 sense = 'maximize'
-                        layer_bounds_list.append((neuron_bounds[0],neuron_bounds[1]))
+                            ## Se añaden las cotas de la neurona a las cotas de la capa
+                            layer_bounds_list.append((neuron_bounds[0],neuron_bounds[1]))
                         bounds[l] = layer_bounds_list
                         bounds_model,inpt,all_vars,h_cuts = update_neuron_model(bounds_model,inpt,all_vars,params,bounds,l,h_cuts,activation,exact)
                     ## Se actualiza la informacion de la red
