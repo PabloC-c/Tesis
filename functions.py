@@ -363,7 +363,6 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,mdenv_count,a
                     ## Caso en que la funcion es concava
                     if cc_or_cv == 'cc':
                         ## Se añade la restriccion correspondiente
-
                         neuron_model.addCons(quicksum(c[k]*inpt[k] for k in range(n_input)) + d - a <= 0, name = 'cv_multidim_env0_{},{}'.format(l,i))
                     ## Caso en que la funcion es convexa
                     else:
@@ -373,6 +372,77 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,mdenv_count,a
                 else:
                     ## La neurona tiene 0 cortes multidimensionales
                     neuron_model.data['multidim_env_count'][(l,i)] = 0
+        elif form == 'env_cut':
+            if not 'multidim_env_count' in neuron_model.data:
+                neuron_model.data['multidim_env_count'] = {}
+            if activation == 'relu':
+                ## Variable de la evaluacion del input en la funcion lineal
+                z = neuron_model.addVar(lb = None, ub = None,vtype = 'C', name = 'z{},{}'.format(l,i))
+                all_vars['z{},{}'.format(l,i)] = z
+                ## Variable de la parte positiva de la evaluacion
+                h = neuron_model.addVar(lb = 0, ub = max(0,bounds[l][i][1]), vtype = 'C', name = 'h{},{}'.format(l,i))
+                all_vars['h{},{}'.format(l,i)] = h
+                ## Se guarda la variable h, para el input de la siguiente capa
+                aux_input.append(h)
+                ## Variable de la parte negativa de la evaluacion
+                not_h = neuron_model.addVar(lb = 0, ub = max(0,bounds[l][i][0]), vtype = 'C', name = 'not_h{},{}'.format(l,i))
+                all_vars['not_h{},{}'.format(l,i)] = not_h
+                ## Variable binaria que indica la activacion de la neurona
+                u = neuron_model.addVar(vtype = 'B', name = 'u{},{}'.format(l,i))
+                all_vars['u{},{}'.format(l,i)] = u
+                ## Restriccion de evaluacion con la funcion lineal
+                neuron_model.addCons(quicksum(float(W[i,k])*inpt[k] for k in range(n_input)) + float(b[i]) == z, name = 'eval{},{}'.format(l,i))
+                ## Restriccion de igualdad de variables
+                neuron_model.addCons(z == h - not_h, name = 'vequal{},{}'.format(l,i))
+                ## Restricciones big-M
+                neuron_model.addCons(h <= bounds[l][i][1]*u, name = 'active{},{}'.format(l,i))
+                neuron_model.addCons(not_h <= bounds[l][i][0]*(1-u), name = 'not_active{},{}'.format(l,i))
+            else:
+                ## Variable de la evaluacion del input en la funcion lineal
+                z = neuron_model.addVar(lb = -bounds[l][i][0], ub = bounds[l][i][1],vtype = 'C', name = 'z{},{}'.format(l,i))
+                all_vars['z{},{}'.format(l,i)] = z
+                ## Variable de evaluacion en la funcion de activacion
+                a = neuron_model.addVar(lb = None, ub = None,vtype = 'C', name = 'a{},{}'.format(l,i))
+                all_vars['a{},{}'.format(l,i)] = a
+                ## Se guarda la variable a, para el input de la siguiente capa
+                aux_input.append(a)
+                ## Restriccion H concava
+                ## Funcion y su derivada
+                sigma,sigma_der = get_activ_func(activation),get_activ_derv(activation)
+                ## Parametros
+                neuron_w = np.array([float(W[i,k]) for k in range(n_input)])
+                neuron_b = float(b[i]) 
+                L = [-bounds[l-1][k][0] for k in range(n_input)]
+                U = [bounds[l-1][k][1] for k in range(n_input)]
+                ## Pesos re escalados
+                cc_w,cc_b = concave_re_scale_0_1_box(neuron_w,neuron_b,L,U)
+                ## Calculo de z_hat
+                z_hat = compute_z_hat(cc_b, cc_b+np.sum(cc_w), sigma, sigma_der)
+                ## Caso en que la funcion no es concava
+                if np.abs(z_hat-cc_b) > 1E-05:
+                    slope = (sigma(z_hat)-sigma(cc_b))/(z_hat-cc_b) 
+                    inter = sigma(cc_b)
+                    neuron_model.addCons(inter+slope*(quicksum(neuron_w[k]*inpt[k] for k in range(n_input))+neuron_b-cc_b) >= a , name = 'h_cc{},{}'.format(l,i))
+                    mdenv_count += 1
+                ## Restriccion H convexa
+                ## Funcion y su derivada
+                minus_sigma,minus_sigma_der = get_activ_func('-'+activation),get_activ_derv('-'+activation)
+                ## Parametros
+                neuron_w = np.array([float(W[i,k]) for k in range(n_input)])
+                neuron_b = float(b[i]) 
+                L = [-bounds[l-1][k][0] for k in range(n_input)]
+                U = [bounds[l-1][k][1] for k in range(n_input)]
+                ## Pesos re escalados
+                cv_w,cv_b = convex_re_scale_0_1_box(neuron_w,neuron_b,L,U)
+                ## Calculo de z_hat
+                z_hat = compute_z_hat(cv_b, cv_b+np.sum(cv_w), minus_sigma, minus_sigma_der)
+                ## Caso en que la funcion no es convexa
+                if np.abs(z_hat-cv_b) > 1E-05:
+                    slope = (sigma(z_hat)-sigma(cv_b))/(z_hat-cv_b) 
+                    inter = sigma(cv_b)
+                    neuron_model.addCons(inter+slope*(quicksum(neuron_w[k]*inpt[k] for k in range(n_input))+neuron_b-cv_b) <= a , name = 'h_cv{},{}'.format(l,i))
+                    mdenv_count += 1
+                neuron_model.data['multidim_env_count'][(l,i)] = 0
     return neuron_model,aux_input,all_vars,mdenv_count
 
 
@@ -885,9 +955,9 @@ def get_activ_func(activation):
     elif activation == '-softplus':
         f = lambda x: -np.log(1 + np.exp(x))
     elif activation == 'sigmoid':
-        f = lambda x: 1/(1+np.exp(-x))
+        f = lambda x: 1/(1+np.exp(-x)) if np.abs(x) < 100 else (0.0 if x < 0 else 1.0) 
     elif activation == '-sigmoid':
-        f = lambda x: -1/(1+np.exp(-x))
+        f = lambda x: -1/(1+np.exp(-x)) if np.abs(x) < 100 else (0.0 if x < 0 else -1.0) 
     return f
 
 ###
@@ -895,9 +965,9 @@ def get_activ_func(activation):
 
 def get_activ_derv(activation):
     if activation == 'sigmoid':
-        df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2))
+        df = lambda x: np.exp(-x)/(np.power((1+np.exp(-x)),2)) if np.abs(x) < 100 else 0.0
     elif activation == '-sigmoid':
-        df = lambda x: -np.exp(-x)/(np.power((1+np.exp(-x)),2))
+        df = lambda x: -np.exp(-x)/(np.power((1+np.exp(-x)),2))  if np.abs(x) < 100 else 0.0
     elif activation == 'softplus':
         df = lambda x: 1/(1+np.exp(-x))
     elif activation == '-softplus':
@@ -1364,6 +1434,27 @@ def calculate_hyperplane(l,i,bounds,activation,params,n_input,lp_sol_file):
 ###
 ###
 
+def get_bounds_model_lpsol(neuron_l,n_input,n_neurons,bounds_model,all_vars):
+    ## Lista para guardar las variables de input para el modelo del hiperplano
+    lp_sol = {}
+    ## Se recorren las capas
+    for l in (-1,neuron_l):
+        ## Caso capa de entrada
+        n = n_input
+        name_var = 'h{},{}'
+        ## Resto de capas
+        if l > -1:
+            n = n_neurons
+            name_var = 'a{},{}'
+        ## Se guarda la solucion
+        for i in range(n):
+            lp_sol[(l,i)] = bounds_model.getVal(all_vars[name_var.format(l,i)])
+    return lp_sol
+    
+
+###
+###
+
 def cut_verif_model_lp_sol(n_layers,n_neurons,activation,params,bounds,verif_model,all_vars,lp_sol_file):
     ## Contador de cortes multidimensionales añadidos
     mdenv_count = 0
@@ -1397,13 +1488,19 @@ def cut_verif_model_lp_sol(n_layers,n_neurons,activation,params,bounds,verif_mod
 ###
 ###
 
-def env_cut_verif_model_lp_sol(n_layers,n_neurons,activation,params,bounds,verif_model,all_vars,lp_sol_file):
+def env_cut_verif_model_lp_sol(neuron_l,n_input,n_neurons,activation,params,bounds,model,all_vars,lp_sol,type_cut):
     ## Contador de cortes multidimensionales añadidos
     mdenv_count = 0
     ## Se recorren las capas
-    for l in range(1,n_layers):
-        ## Output de la capa anterior
-        layer_inpt = [all_vars['a{},{}'.format(l-1,j)] for j in range(n_neurons)]
+    for l in range(neuron_l):
+        ## Input de la capa
+        var_name = 'h{},{}'
+        n = n_input
+        if l > 0:
+            var_name = 'a{},{}'
+            n = n_neurons
+        layer_inpt = [all_vars[var_name.format(l-1,j)] for j in range(n)]
+        sol_tocut = np.array([lp_sol[var_name.format(l-1,j)] for j in range(n)]) 
         ## Parametros de la capa
         weight,bias = get_w_b_names(l)
         W,b = params[weight],params[bias]
@@ -1411,49 +1508,68 @@ def env_cut_verif_model_lp_sol(n_layers,n_neurons,activation,params,bounds,verif
         for i in range(n_neurons):
             ## Variable de output de la neurona
             a = all_vars['a{},{}'.format(l,i)]
+            ## Valor a cortar
+            z_tocut = lp_sol['a{},{}'.format(l,i)]
             ## Numero de cortes totales de la neurona
-            n_cuts = verif_model.data['multidim_env_count'][(l,i)]
+            n_cuts = model.data['multidim_env_count'][(l,i)]
             ## Parametros de la neurona
-            neuron_w = np.array([float(W[i,k]) for k in range(n_neurons)])
-            neuron_b = b[i] 
-            L = [-bounds[l-1][k][0] for k in range(n_neurons)]
-            U = [bounds[l-1][k][1] for k in range(n_neurons)]
+            neuron_w = np.array([float(W[i,k]) for k in range(n)])
+            neuron_b = float(b[i]) 
+            L = [-bounds[l-1][k][0] for k in range(n)]
+            U = [bounds[l-1][k][1] for k in range(n)]
             ## Solucion a cortar
-            lp_sol = generate_hyperplane_model_lpsol(l,i,n_neurons,activation,lp_sol_file)
-            lp_sol = np.array(lp_sol[:-1])
+            sigma = get_activ_func(activation)
+            ## Valor de la funcion en la solucion a cortar
+            f_sol_tocut = sigma(sum(neuron_w*sol_tocut)+neuron_b)
             ## Corte envoltura concava
-            ## Pesos re escalados
-            cc_w,cc_b = concave_re_scale_0_1_box(neuron_w,neuron_b,L,U)
-            ## Solucion re escalada
-            rescaled_sol = concave_re_scale_vector(lp_sol,neuron_w,L,U)
-            ## Funcion de activacion y su derivada
-            sigma,sigma_der = get_activ_func(activation),get_activ_func(activation)
-            ## Constante del plano
-            z_env0 = concave_envelope(rescaled_sol, cc_w, cc_b, sigma, sigma_der)
-            ## Derivada de la solucion
-            der = concave_envelope_derivate(rescaled_sol, cc_w, cc_b, sigma, sigma_der)
-            der = concave_scale_der_by_w(der,neuron_w,U,L)
-            ## Restriccion plano cortante de la envoltura concava
-            verif_model.addCons(z_env0+quicksum(der[k]*(layer_inpt[k]-lp_sol[k]) for k in range(n_neurons)) - a >= 0, name = 'cc_env_cut{}_{},{}'.format(n_cuts,l,i))
+            if f_sol_tocut - z_tocut < -1E-01:
+                ## Pesos re escalados
+                cc_w,cc_b = concave_re_scale_0_1_box(neuron_w,neuron_b,L,U)
+                ## Funcion de activacion y su derivada
+                sigma_der = get_activ_derv(activation)
+                ## Solucion re escalada
+                rescaled_sol = concave_re_scale_vector(sol_tocut,neuron_w,L,U)
+                ## Se calcula z_hat
+                z_hat = compute_z_hat(cc_b, cc_b+np.sum(cc_w), sigma, sigma_der)
+                ## Se identifica la region del vector
+                R_f,R_l = vector_in_region(cc_b,cc_b+np.sum(cc_w),np.dot(cc_w,rescaled_sol),cc_b,z_hat)
+                if (type_cut == 'R_H,f' and R_f) or (type_cut == 'R_H,f,i' and not (R_f or R_l)):
+                    ## Constante del plano
+                    z_env0 = concave_envelope(rescaled_sol, cc_w, cc_b, sigma, sigma_der)
+                    ## Derivada de la solucion
+                    der = concave_envelope_derivate(rescaled_sol, cc_w, cc_b, sigma, sigma_der)
+                    der = concave_scale_der_by_w(der,neuron_w,U,L)
+                    ## Restriccion plano cortante de la envoltura concava
+                    model.addCons(z_env0+quicksum(der[k]*(layer_inpt[k]-sol_tocut[k]) for k in range(n)) - a >= -1E-09, name = 'cc_env_cut{}_{},{}'.format(n_cuts,l,i))
+                    ## Se aumenta la cantidad de cortes multidimensionales de la neurona 
+                    model.data['multidim_env_count'][(l,i)] += 1
+                    ## Se aumenta la cantidad de cortes totales
+                    mdenv_count += 1
             ## Corte envoltura convexa
-            # Pesos re escalados
-            cv_w,cv_b = convex_re_scale_0_1_box(neuron_w,neuron_b,L,U)
-            ## Solucion re escalada
-            rescaled_sol = convex_re_scale_vector(lp_sol,neuron_w,L,U)
-            ## Funcion de activacion y su derivada
-            sigma,sigma_der = get_activ_func('-'+activation),get_activ_func('-'+activation)
-            ## Constante del plano
-            z_env0 = -concave_envelope(rescaled_sol, cv_w, cv_b, sigma, sigma_der)
-            ## Derivada de la solucion
-            der = concave_envelope_derivate(rescaled_sol, cv_w, cv_b, sigma, sigma_der)
-            der = -convex_scale_der_by_w(der,neuron_w,U,L)
-            ## Restriccion plano cortante de la envoltura concava
-            verif_model.addCons(z_env0+quicksum(der[k]*(layer_inpt[k]-lp_sol[k]) for k in range(n_neurons)) - a <= 0, name = 'cv_env_cut{}_{},{}'.format(n_cuts+1,l,i))
-            ## Se aumenta la cantidad de cortes multidimensionales de la neurona 
-            verif_model.data['multidim_env_count'][(l,i)] += 2
-            ## Se aumenta la cantidad de cortes totales
-            mdenv_count += 2
-    return verif_model,mdenv_count
+            elif f_sol_tocut - z_tocut > 1E-01:
+                ## Pesos re escalados
+                cv_w,cv_b = convex_re_scale_0_1_box(neuron_w,neuron_b,L,U)
+                ## Funcion de activacion y su derivada
+                sigma,sigma_der = get_activ_func('-'+activation),get_activ_derv('-'+activation)
+                ## Solucion re escalada
+                rescaled_sol = convex_re_scale_vector(sol_tocut,neuron_w,L,U)
+                ## Se calcula z_hat
+                z_hat = compute_z_hat(cv_b, cv_b+np.sum(cv_w), sigma, sigma_der)
+                ## Se identifica la region del vector
+                R_f,R_l = vector_in_region(cv_b,cv_b+np.sum(cv_w),np.dot(cv_w,rescaled_sol),cv_b,z_hat)
+                if (type_cut == 'R_H,f' and R_f) or (type_cut == 'R_H,f,i' and not (R_f or R_l)):
+                    ## Constante del plano
+                    z_env0 = -concave_envelope(rescaled_sol, cv_w, cv_b, sigma, sigma_der)
+                    ## Derivada de la solucion
+                    der = concave_envelope_derivate(rescaled_sol, cv_w, cv_b, sigma, sigma_der)
+                    der = -convex_scale_der_by_w(der,neuron_w,U,L)
+                    ## Restriccion plano cortante de la envoltura concava
+                    model.addCons(z_env0+quicksum(der[k]*(layer_inpt[k]-sol_tocut[k]) for k in range(n)) - a <= 1E-09, name = 'cv_env_cut{}_{},{}'.format(n_cuts,l,i))
+                    ## Se aumenta la cantidad de cortes multidimensionales de la neurona 
+                    model.data['multidim_env_count'][(l,i)] += 1
+                    ## Se aumenta la cantidad de cortes totales
+                    mdenv_count += 1
+    return model,mdenv_count
 
 #### Generacion de columnas ########################################################################################################################################################
 

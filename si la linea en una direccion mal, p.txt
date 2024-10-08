@@ -1,1 +1,15 @@
-si la linea en una direccion mal, parte de un punto donde el envelope en tight, entonces su zcc si o si debe estar en el punto rojo, solo xq la function parte en un lugar tight en el H^cc, en todas esas lineas, si se ve el envelope solo en esa linea, es la secante 
+-Revisar si las funciones de la tabla son convexas, con la segunda derivada.
+
+-rutina de planos cortantes: sobre problema de calculo de cotas
+
+Casos:
+
+1 Caso: solo bandas H
+
+- Para cada neurona: en base a las cotas de la base anterior, se añaden los planos H concavo y convexo.
+
+2 Caso: Bandas H mas planos cortantes de region Rf (de ser posible)
+
+3 Caso: Bandas H y planos cortantes de regiones Rf y Ri 
+
+Si la evaluación de la solución a cortar no se encuentra contenido en los envelopes, añadir el que lo corta

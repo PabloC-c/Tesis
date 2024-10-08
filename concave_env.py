@@ -83,19 +83,24 @@ def minus_sigma_der(z):
     return -np.exp(-z)/np.power((1 + np.exp(-z)),2)
 
 # Function to compute the tie point z_hat for a given interval [L, U]
-def compute_z_hat(L, U, sigma, sigma_der):
+def compute_z_hat(L0, U0, sigma, sigma_der): 
+    L = L0
+    U = U0
     aux_L = L
     aux_U = U
-    if L > U:
-        aux_L = -L
-        aux_U = -U
+    if L0 > U0:
+        L = -L
+        U = -U
+        aux_L = L
+        aux_U = U
     while True:
         z_hat = (aux_L+aux_U)/2
-        der   = sigma_der(z_hat)
-        slope = (sigma(z_hat) - sigma(L))/(z_hat-L)
-        if L > U:
-            der = -sigma_der(z_hat)
-            slope = -(sigma(z_hat) - sigma(-L))/(z_hat+L)
+        if L0 < U0:
+            der   = sigma_der(z_hat)
+            slope = (sigma(z_hat) - sigma(L))/(z_hat-L)
+        else:
+            der = -sigma_der(-z_hat)
+            slope = (sigma(-z_hat) - sigma(-L))/(z_hat-L)
         if np.abs(der - slope) <= 1E-9:
             break
         elif der > slope:
@@ -110,10 +115,20 @@ def compute_z_hat(L, U, sigma, sigma_der):
                 break
             else:
                 aux_U = z_hat
-    if L > U:
+    if L0 > U0:
         z_hat = -z_hat
     return z_hat      
       
+#
+def vector_in_region(L,U,wx,b,z_hat):
+    if L < U:
+        R_f = wx + b >= z_hat
+        R_l = wx + b < z_hat and wx + b*np.linalg.norm(x, ord=np.inf) >= z_hat*np.linalg.norm(x, ord=np.inf)
+    else:
+        R_f = wx + b<= z_hat
+        R_l = wx + b > z_hat and wx + b*np.linalg.norm(x, ord=np.inf) <= z_hat*np.linalg.norm(x, ord=np.inf)
+    return R_f,R_l
+
 # Recursive function for computing the concave envelope
 def concave_envelope(x, w, b, sigma, sigma_der, z_hat = 0, depth=0):
     """
@@ -126,22 +141,20 @@ def concave_envelope(x, w, b, sigma, sigma_der, z_hat = 0, depth=0):
     - z_hat: tie point (scalar) for the function σ over [b, sum(w)+b]
     - depth: recursion depth, initially set to 0
     """
-    # Compute w^T
+    # Compute w^Tx
     wx = np.dot(w, x)
     
     # Define the current interval for this recursive step
     L = b
     U = np.dot(w, np.ones_like(x)) + b
-    # Update z_hat for the current interval
     
+    # Update z_hat for the current interval
+
     z_hat = compute_z_hat(L, U, sigma, sigma_der)
+    
     # Define the regions
-    if L < U:
-        R_f = wx + b >= z_hat
-        R_l = wx + b < z_hat and wx + b*np.linalg.norm(x, ord=np.inf) >= z_hat*np.linalg.norm(x, ord=np.inf)
-    else:
-        R_f = wx + b <= z_hat
-        R_l = wx + b > z_hat and wx + b*np.linalg.norm(x, ord=np.inf) <= z_hat*np.linalg.norm(x, ord=np.inf)
+    R_f,R_l = vector_in_region(L,U,wx,b,z_hat)
+    
     # Region R_f: the envelope equals the function
     if R_f:
         return sigma(wx+b)
@@ -238,11 +251,11 @@ def concave_envelope_derivate(x, w, b, sigma, sigma_der, z_hat = 0, depth=0, j=N
     - depth: recursion depth, initially set to 0
     """
     # Compute w^Tx
-    wx = np.dot(w, x)
+    wx = float(np.dot(w, x))
     
     # Define the current interval for this recursive step
     L = b
-    U = np.dot(w, np.ones_like(x)) + b
+    U = float(np.dot(w, np.ones_like(x))) + b
     # Update z_hat for the current interval
     z_hat = compute_z_hat(L, U, sigma, sigma_der)
     
@@ -257,9 +270,9 @@ def concave_envelope_derivate(x, w, b, sigma, sigma_der, z_hat = 0, depth=0, j=N
     # Region R_f: the envelope equals the function
     if R_f:
         if j == None:
-            return w*sigma_der(wx+b)
+            return w*float(sigma_der(wx+b))
         else:
-            return w[j]*sigma_der(wx+b)
+            return w[j]*float(sigma_der(wx+b))
     
     # Region R_l: the envelope is a linear function
     elif R_l:
@@ -300,47 +313,51 @@ def concave_envelope_derivate(x, w, b, sigma, sigma_der, z_hat = 0, depth=0, j=N
                     der = concave_envelope_derivate(x_minus_i/x[i],w_minus_i,b + w[i], sigma, sigma_der, z_hat, depth + 1, j)
         return der
 
-def concave_env_derivate_plane(x0,x,w,b,sigma,sigma_der):
-    f0   = concave_envelope(x0, w, b, sigma, sigma_der)
-    der  = concave_envelope_derivate(x0, w, b, sigma, sigma_der)
+def concave_env_derivate_plane(x0,x,w,b,og_w,og_b,L,U,sigma,sigma_der):
+    x0_rescaled = concave_re_scale_vector(x0,og_w,L,U)
+    f0   = concave_envelope(x0_rescaled, w, b, sigma, sigma_der)
+    der  = concave_envelope_derivate(x0_rescaled, w, b, sigma, sigma_der)
+    der  = concave_scale_der_by_w(der,og_w,U,L)
     diff = x-x0
     mult = np.dot(diff,der)
     return f0+mult
 
-def concave_check(n_samples,w,b,sigma,sigma_der):
-    samples = np.random.rand(n_samples, len(w))
+def concave_check(n_samples,w,b,og_w,og_b,L,U,sigma,sigma_der):
+    samples = np.random.uniform(L, U, (n, len(L)))
     for i in range(len(samples)):
-        der_plane = concave_env_derivate_plane(samples[i],samples,w,b,sigma,sigma_der)
+        der_plane = concave_env_derivate_plane(samples[i],samples,w,b,og_w,og_b,L,U,sigma,sigma_der)
         env = []
         for j in range(len(samples)):
             env_eval = concave_envelope(samples[j], w, b, sigma, sigma_der)
             env.append(env_eval)
         env = np.array(env)
-        cutting_plane = np.all(der_plane - env >= -1E05)
+        cutting_plane = np.all(der_plane - env >= -1E010)
         if not cutting_plane:
-            idx = np.where((der_plane - env >= -1E05) == False)[0]
+            idx = np.where((der_plane - env >= -1E010) == False)[0]
             return [samples[i],samples,idx,der_plane,env]
     return [True]
 
-def convex_env_derivate_plane(x0,x,w,b,sigma,sigma_der):
-    f0   = -concave_envelope(x0, w, b, sigma, sigma_der)
-    der  = -concave_envelope_derivate(x0, w, b, sigma, sigma_der)
+def convex_env_derivate_plane(x0,x,w,b,og_w,og_b,L,U,sigma,sigma_der):
+    x0_rescaled = convex_re_scale_vector(x0,og_w,L,U)
+    f0   = -concave_envelope(x0_rescaled, w, b, sigma, sigma_der)
+    der  = concave_envelope_derivate(x0_rescaled, w, b, sigma, sigma_der)
+    der  = -convex_scale_der_by_w(der,og_w,U,L)
     diff = x-x0
     mult = np.dot(diff,der)
     return f0+mult
 
-def convex_check(n_samples,w,b,sigma,sigma_der):
+def convex_check(n_samples,w,b,og_w,og_b,L,U,sigma,sigma_der):
     samples = np.random.rand(n_samples, len(w))
     for i in range(len(samples)):
-        der_plane = convex_env_derivate_plane(samples[i],samples,w,b,sigma,sigma_der)
+        der_plane = convex_env_derivate_plane(samples[i],samples,w,b,og_w,og_b,L,U,sigma,sigma_der)
         env = []
         for j in range(len(samples)):
             env_eval = -concave_envelope(samples[j], w, b, sigma, sigma_der)
             env.append(env_eval)
         env = np.array(env)
-        cutting_plane = np.all(env - der_plane >= -1E05)
+        cutting_plane = np.all(env - der_plane >= -1E010)
         if not cutting_plane:
-            idx = np.where((env - der_plane >= -1E05) == False)[0]
+            idx = np.where((env - der_plane >= -1E010) == False)[0]
             return [samples[i],samples,idx,der_plane,env]
     return [True]
 
@@ -349,9 +366,9 @@ if __name__ == '__main__':
     # Interesting to plot: w = [7,7], b = -2.5 | w = [3,3], b = -0.5 | w = [7,3], b = -0.5 | w = [1,1], b = -0.5
 
     b = -0.5
-    w = [-7,3]
-    L = [-1,-1]
-    U = [1,1]
+    w = [3,-7,5]
+    L = [-3,-1,0]
+    U = [1,2,4]
     n = len(w)
     
     ## Parameters rescaling
@@ -387,13 +404,19 @@ if __name__ == '__main__':
     integral_h   = monte_carlo_integration(lambda x:  h(x,w,b,z_hat), n, n_samples)
     t_h = time.time() - aux_t
 
-    outputcc = concave_check(n_samples,w,b,sigma,sigma_der)
+    outputcc = concave_check(n_samples,w,b,og_w,og_b,L,U,sigma,sigma_der)
     if len(outputcc) > 1:
         x0,samples,idx,der_plane,env_cc = outputcc
     else:
         outputcc = outputcc[0]
-    plot_flag = True
-    cutting_plane = False
+    
+    new_w,new_b = convex_re_scale_0_1_box(og_w,og_b,L,U)
+    
+    outputcv = convex_check(n_samples,new_w,new_b,og_w,og_b,L,U,minus_sigma,minus_sigma_der)
+    if len(outputcv) > 1:
+        x0,samples,idx,der_plane,env_cv = outputcv
+    else:
+        outputcv = outputcv[0]     
         
     plot_flag = True
     cutting_plane = False
@@ -416,9 +439,12 @@ if __name__ == '__main__':
         ## Function
         f = np.vectorize(lambda x, y: sigma(np.dot(og_w,np.array([x,y]))+og_b))
         Z = f(X, Y)
-        ax.plot_surface(X, Y, Z, cmap='coolwarm' , edgecolor='none')
+        ax.plot_surface(X, Y, Z, cmap='coolwarm' , edgecolor='none',alpha = 1)
         
         ## Concave env
+        
+        w,b = concave_re_scale_0_1_box(og_w,og_b,L,U)
+        
         if og_w[0] <= 0:
             scaled_x = (x-U[0])/(L[0]-U[0])
         else:
@@ -435,12 +461,6 @@ if __name__ == '__main__':
         
         ## Convex env
         new_w,new_b = convex_re_scale_0_1_box(og_w,og_b,L,U)
-        
-        outputcv = convex_check(n_samples,new_w,new_b,minus_sigma,minus_sigma_der)
-        if len(outputcv) > 1:
-            x0,samples,idx,der_plane,env_cv = outputcv
-        else:
-            outputcv = outputcv[0]
         
         if og_w[0] >= 0:
             scaled_x = (x-U[0])/(L[0]-U[0])

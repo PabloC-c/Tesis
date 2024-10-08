@@ -25,8 +25,8 @@ def convex_sigma_der(z):
 if __name__ == '__main__':
     L = [-1,-1]
     U = [1,1]
-    w = [-7,7]
-    b = -1.5
+    b = -0.5
+    w = [3,7]
     
     fig = plt.figure()
     ax = plt.axes(projection='3d')
@@ -45,8 +45,6 @@ if __name__ == '__main__':
     Z = f(X, Y)
     ax.plot_surface(X, Y, Z, cmap='coolwarm' , edgecolor='none')
     
-    new_w,new_b = convex_re_scale_0_1_box(w,b,L,U)
-    
     if w[0] >= 0:
         x_rescaled = (x-U[0])/(L[0]-U[0])
     else:
@@ -58,6 +56,7 @@ if __name__ == '__main__':
     
     X_rescaled, Y_rescaled = np.meshgrid(x_rescaled, y_rescaled)
     
+    new_w,new_b = convex_re_scale_0_1_box(w,b,L,U)
     env = np.vectorize(lambda x, y: -concave_envelope(np.array([x,y]), new_w, new_b, minus_sigma, minus_sigma_der))
     Z_env = env(X_rescaled,Y_rescaled)
     ax.plot_surface(X, Y, Z_env, cmap='Blues', edgecolor='none', alpha = 0.9)
