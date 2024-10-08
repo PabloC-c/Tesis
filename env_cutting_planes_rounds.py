@@ -124,6 +124,7 @@ for activation in activation_list:
                                         ## Se libera el modelo
                                         bounds_model.freeTransform()
                                     else:
+                                        bounds_model.writeLP('bounds_model')
                                         ## Se verifica si la solucion converge
                                         if prev_obj is None:
                                             prev_obj = bounds_model.getObjVal()
