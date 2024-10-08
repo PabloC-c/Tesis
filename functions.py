@@ -405,6 +405,8 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,mdenv_count,a
                 neuron_model.addCons(quicksum(float(W[i,k])*inpt[k] for k in range(n_input)) + float(b[i]) == z, name = 'eval{},{}'.format(l,i))
                 ## Variable de evaluacion en la funcion de activacion
                 a = neuron_model.addVar(lb = None, ub = None,vtype = 'C', name = 'a{},{}'.format(l,i))
+                if l == 1 and  i == 0:
+                    print('VARIABLEEEEE',a)
                 all_vars['a{},{}'.format(l,i)] = a
                 ## Se guarda la variable a, para el input de la siguiente capa
                 aux_input.append(a)
@@ -1443,7 +1445,8 @@ def get_bounds_model_lpsol(neuron_l,n_input,n_neurons,bounds_model,all_vars):
     ## Lista para guardar las variables de input para el modelo del hiperplano
     lp_sol = {}
     ## Se recorren las capas
-    for l in (-1,neuron_l):
+    print('VALOR DE neuron_l ===============',neuron_l)
+    for l in (-1,neuron_l-1):
         ## Caso capa de entrada
         n = n_input
         name_var = 'h{},{}'
@@ -1505,7 +1508,7 @@ def env_cut_verif_model_lp_sol(neuron_l,n_input,n_neurons,activation,params,boun
             var_name = 'a{},{}'
             n = n_neurons
         layer_inpt = [all_vars[var_name.format(l-1,j)] for j in range(n)]
-        sol_tocut = np.array([lp_sol[var_name.format(l-1,j)] for j in range(n)]) 
+        sol_tocut = np.array([lp_sol[(l-1,j)] for j in range(n)]) 
         ## Parametros de la capa
         weight,bias = get_w_b_names(l)
         W,b = params[weight],params[bias]
@@ -1514,7 +1517,7 @@ def env_cut_verif_model_lp_sol(neuron_l,n_input,n_neurons,activation,params,boun
             ## Variable de output de la neurona
             a = all_vars['a{},{}'.format(l,i)]
             ## Valor a cortar
-            z_tocut = lp_sol['a{},{}'.format(l,i)]
+            z_tocut = lp_sol[(l,i)]
             ## Numero de cortes totales de la neurona
             n_cuts = model.data['multidim_env_count'][(l,i)]
             ## Parametros de la neurona
@@ -1537,7 +1540,7 @@ def env_cut_verif_model_lp_sol(neuron_l,n_input,n_neurons,activation,params,boun
                 ## Se calcula z_hat
                 z_hat = compute_z_hat(cc_b, cc_b+np.sum(cc_w), sigma, sigma_der)
                 ## Se identifica la region del vector
-                R_f,R_l = vector_in_region(cc_b,cc_b+np.sum(cc_w),np.dot(cc_w,rescaled_sol),cc_b,z_hat)
+                R_f,R_l = vector_in_region(cc_b,cc_b+np.sum(cc_w),np.dot(cc_w,rescaled_sol),rescaled_sol,cc_b,z_hat)
                 if (type_cut == 'R_H,f' and R_f) or (type_cut == 'R_H,f,i' and not (R_f or R_l)):
                     ## Constante del plano
                     z_env0 = concave_envelope(rescaled_sol, cc_w, cc_b, sigma, sigma_der)
@@ -1561,7 +1564,7 @@ def env_cut_verif_model_lp_sol(neuron_l,n_input,n_neurons,activation,params,boun
                 ## Se calcula z_hat
                 z_hat = compute_z_hat(cv_b, cv_b+np.sum(cv_w), sigma, sigma_der)
                 ## Se identifica la region del vector
-                R_f,R_l = vector_in_region(cv_b,cv_b+np.sum(cv_w),np.dot(cv_w,rescaled_sol),cv_b,z_hat)
+                R_f,R_l = vector_in_region(cv_b,cv_b+np.sum(cv_w),np.dot(cv_w,rescaled_sol),rescaled_sol,cv_b,z_hat)
                 if (type_cut == 'R_H,f' and R_f) or (type_cut == 'R_H,f,i' and not (R_f or R_l)):
                     ## Constante del plano
                     z_env0 = -concave_envelope(rescaled_sol, cv_w, cv_b, sigma, sigma_der)

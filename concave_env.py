@@ -120,7 +120,7 @@ def compute_z_hat(L0, U0, sigma, sigma_der):
     return z_hat      
       
 #
-def vector_in_region(L,U,wx,b,z_hat):
+def vector_in_region(L,U,x,wx,b,z_hat):
     if L < U:
         R_f = wx + b >= z_hat
         R_l = wx + b < z_hat and wx + b*np.linalg.norm(x, ord=np.inf) >= z_hat*np.linalg.norm(x, ord=np.inf)
