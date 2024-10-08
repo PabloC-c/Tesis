@@ -466,7 +466,9 @@ def solve_neuron_model(neuron_model,sense,params,bounds,l,i,exact = 'no_exact',m
         t0 = time.time()
         try:
             aux_t = time.time()
+            print('optimizando')
             neuron_model.optimize()
+            print('optimizado')
             aux_dt = time.time() - aux_t
             model_status = neuron_model.getStatus()
         except:
