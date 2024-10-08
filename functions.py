@@ -427,7 +427,8 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,mdenv_count,a
                     neuron_model.addCons(inter+slope*(quicksum(neuron_w[k]*inpt[k] for k in range(n_input))+neuron_b-cc_b) >= a , name = 'h_cc{},{}'.format(l,i))
                     mdenv_count += 1
                 else:
-                    neuron_model.addCons(sigma(cc_b+np.sum(cc_w)) >= a , name = 'plane_max{},{}'.format(l,i))
+                    max_value = sigma(cc_b+np.sum(cc_w))
+                    neuron_model.addCons( a <= max_value , name = 'plane_max{},{}'.format(l,i))
                 ## Restriccion H convexa
                 ## Funcion y su derivada
                 minus_sigma,minus_sigma_der = get_activ_func('-'+activation),get_activ_derv('-'+activation)
@@ -442,7 +443,8 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,mdenv_count,a
                     neuron_model.addCons(inter+slope*(quicksum(neuron_w[k]*inpt[k] for k in range(n_input))+neuron_b-cv_b) <= a , name = 'h_cv{},{}'.format(l,i))
                     mdenv_count += 1
                 else:
-                    neuron_model.addCons(sigma(cv_b+np.sum(cv_w)) <= a , name = 'plane_min{},{}'.format(l,i))
+                    min_value = sigma(cv_b+np.sum(cv_w))
+                    neuron_model.addCons( a >= min_value, name = 'plane_min{},{}'.format(l,i))
                 neuron_model.data['multidim_env_count'][(l,i)] = 0
     return neuron_model,aux_input,all_vars,mdenv_count
 
