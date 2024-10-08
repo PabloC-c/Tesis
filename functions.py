@@ -398,6 +398,11 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,mdenv_count,a
                 neuron_model.addCons(h <= bounds[l][i][1]*u, name = 'active{},{}'.format(l,i))
                 neuron_model.addCons(not_h <= bounds[l][i][0]*(1-u), name = 'not_active{},{}'.format(l,i))
             else:
+                ## Variable de la evaluacion del input en la funcion lineal
+                z = neuron_model.addVar(lb = -bounds[l][i][0], ub = bounds[l][i][1],vtype = 'C', name = 'z{},{}'.format(l,i))
+                all_vars['z{},{}'.format(l,i)] = z
+                ## Restriccion de evaluacion con la funcion lineal
+                neuron_model.addCons(quicksum(float(W[i,k])*inpt[k] for k in range(n_input)) + float(b[i]) == z, name = 'eval{},{}'.format(l,i))
                 ## Variable de evaluacion en la funcion de activacion
                 a = neuron_model.addVar(lb = None, ub = None,vtype = 'C', name = 'a{},{}'.format(l,i))
                 all_vars['a{},{}'.format(l,i)] = a
