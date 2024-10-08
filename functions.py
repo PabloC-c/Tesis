@@ -1511,6 +1511,7 @@ def env_cut_verif_model_lp_sol(neuron_l,n_input,n_neurons,activation,params,boun
         W,b = params[weight],params[bias]
         ## Se recorren las neuronas
         for i in range(n_neurons):
+            print('neurona {},{}'.format(l,i))
             ## Variable de output de la neurona
             a = all_vars['a{},{}'.format(l,i)]
             ## Valor a cortar

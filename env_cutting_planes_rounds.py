@@ -141,6 +141,7 @@ for activation in activation_list:
                                         if add_verif_bounds:
                                             accepted = add_bounds_vars_by_image(bounds_model,sol_dict)
                                         ## Se intenta añadir cortes
+                                        print('Añadiendo cortes')
                                         bounds_model,mdenv_count = env_cut_verif_model_lp_sol(l,n_input,n_neurons,activation,params,bounds,bounds_model,all_vars,lp_sol,type_cut)
                                         ## Caso en que no se añadieron mas cortes
                                         if mdenv_count == 0:
