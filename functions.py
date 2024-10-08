@@ -424,11 +424,6 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,mdenv_count,a
                 ## Restriccion H convexa
                 ## Funcion y su derivada
                 minus_sigma,minus_sigma_der = get_activ_func('-'+activation),get_activ_derv('-'+activation)
-                ## Parametros
-                neuron_w = np.array([float(W[i,k]) for k in range(n_input)])
-                neuron_b = float(b[i]) 
-                L = [-bounds[l-1][k][0] for k in range(n_input)]
-                U = [bounds[l-1][k][1] for k in range(n_input)]
                 ## Pesos re escalados
                 cv_w,cv_b = convex_re_scale_0_1_box(neuron_w,neuron_b,L,U)
                 ## Calculo de z_hat
