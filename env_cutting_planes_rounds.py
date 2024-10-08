@@ -81,6 +81,11 @@ for activation in activation_list:
                     bounds = OrderedDict()
                     ## Se inicializa el modelo de verificacion
                     bounds_model,bounds,inpt,all_vars = initialize_neuron_model(bounds,add_verif_bounds,tol_distance,image_list,n_input)
+                    ## Cotas de verificacion
+                    if add_verif_bounds:
+                        sol_dict = {}
+                        sol_dict,layer_input = update_bounds_vars_by_image(-1,params,sol_dict,image_list,exact,activation)
+                        accepted = add_bounds_vars_by_image(bounds_model,sol_dict)
                     ## Tiempo y cortes de la red
                     net_time = 0
                     net_cuts = 0
@@ -124,6 +129,8 @@ for activation in activation_list:
                                         done = True
                                         ## Se libera el modelo
                                         bounds_model.freeTransform()
+                                        if add_verif_bounds:
+                                            accepted = add_bounds_vars_by_image(bounds_model,sol_dict)
                                     else:
                                         ## Se verifica si la solucion converge
                                         if prev_obj is None:
@@ -138,6 +145,8 @@ for activation in activation_list:
                                         lp_sol = get_bounds_model_lpsol(l,n_input,n_neurons,bounds_model,all_vars)
                                         ## Se libera el modelo
                                         bounds_model.freeTransform()
+                                        if add_verif_bounds:
+                                            accepted = add_bounds_vars_by_image(bounds_model,sol_dict)
                                         ## Se intenta añadir cortes
                                         bounds_model,mdenv_count = env_cut_verif_model_lp_sol(l,n_input,n_neurons,activation,params,bounds,bounds_model,all_vars,lp_sol)
                                         ## Caso en que no se añadieron mas cortes
@@ -166,5 +175,8 @@ for activation in activation_list:
                             layer_bounds_list.append((neuron_bounds[0],neuron_bounds[1]))
                         bounds[l] = layer_bounds_list
                         bounds_model,inpt,all_vars,h_cuts = update_neuron_model(bounds_model,inpt,all_vars,params,bounds,l,h_cuts,activation,exact)
+                        if add_verif_bounds:
+                            sol_dict,layer_input = update_bounds_vars_by_image(l,params,sol_dict,layer_input,exact,activation)
+                            accepted = add_bounds_vars_by_image(neuron_model,sol_dict)
                     ## Se actualiza la informacion de la red
                     new_line.append(net_time,net_cuts,h_cuts)
