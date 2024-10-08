@@ -178,7 +178,7 @@ for activation in activation_list:
                         if add_verif_bounds:
                             sol_dict,layer_input = update_bounds_vars_by_image(l,params,sol_dict,layer_input,exact,activation)
                             accepted = add_bounds_vars_by_image(bounds_model,sol_dict)
-                        if i == 9:
+                        if i == 4:
                             bounds_model.writeLP()
                     ## Se actualiza la informacion de la red
                     new_line.append(net_time,net_cuts,h_cuts)
