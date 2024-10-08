@@ -121,6 +121,7 @@ def compute_z_hat(L0, U0, sigma, sigma_der):
       
 #
 def vector_in_region(L,U,x,wx,b,z_hat):
+    
     if L < U:
         R_f = wx + b >= z_hat
         R_l = wx + b < z_hat and wx + b*np.linalg.norm(x, ord=np.inf) >= z_hat*np.linalg.norm(x, ord=np.inf)
@@ -153,7 +154,7 @@ def concave_envelope(x, w, b, sigma, sigma_der, z_hat = 0, depth=0):
     z_hat = compute_z_hat(L, U, sigma, sigma_der)
     
     # Define the regions
-    R_f,R_l = vector_in_region(L,U,wx,b,z_hat)
+    R_f,R_l = vector_in_region(L,U,x,wx,b,z_hat)
     
     # Region R_f: the envelope equals the function
     if R_f:

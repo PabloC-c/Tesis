@@ -1540,7 +1540,7 @@ def env_cut_verif_model_lp_sol(neuron_l,n_input,n_neurons,activation,params,boun
                 ## Se calcula z_hat
                 z_hat = compute_z_hat(cc_b, cc_b+np.sum(cc_w), sigma, sigma_der)
                 ## Se identifica la region del vector
-                R_f,R_l = vector_in_region(cc_b,cc_b+np.sum(cc_w),np.dot(cc_w,rescaled_sol),rescaled_sol,cc_b,z_hat)
+                R_f,R_l = vector_in_region(cc_b,cc_b+np.sum(cc_w),rescaled_sol,np.dot(cc_w,rescaled_sol),cc_b,z_hat)
                 if (type_cut == 'R_H,f' and R_f) or (type_cut == 'R_H,f,i' and not (R_f or R_l)):
                     ## Constante del plano
                     z_env0 = concave_envelope(rescaled_sol, cc_w, cc_b, sigma, sigma_der)
@@ -1564,7 +1564,7 @@ def env_cut_verif_model_lp_sol(neuron_l,n_input,n_neurons,activation,params,boun
                 ## Se calcula z_hat
                 z_hat = compute_z_hat(cv_b, cv_b+np.sum(cv_w), sigma, sigma_der)
                 ## Se identifica la region del vector
-                R_f,R_l = vector_in_region(cv_b,cv_b+np.sum(cv_w),np.dot(cv_w,rescaled_sol),rescaled_sol,cv_b,z_hat)
+                R_f,R_l = vector_in_region(cv_b,cv_b+np.sum(cv_w),rescaled_sol,np.dot(cv_w,rescaled_sol),cv_b,z_hat)
                 if (type_cut == 'R_H,f' and R_f) or (type_cut == 'R_H,f,i' and not (R_f or R_l)):
                     ## Constante del plano
                     z_env0 = -concave_envelope(rescaled_sol, cv_w, cv_b, sigma, sigma_der)
