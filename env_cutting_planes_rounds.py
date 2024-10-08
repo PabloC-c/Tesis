@@ -141,8 +141,10 @@ for activation in activation_list:
                                         bounds_model,mdenv_count = env_cut_verif_model_lp_sol(l,n_input,n_neurons,activation,params,bounds,bounds_model,all_vars,lp_sol)
                                         ## Caso en que no se añadieron mas cortes
                                         if mdenv_count == 0:
+                                            print('{} cortes añadidos'.format(mdenv_count))
                                             done = True
                                         else:
+                                            print('{} cortes añadidos'.format(mdenv_count))
                                             neuron_cuts += mdenv_count
                                     ## Se actualiza el tiempo
                                     neuron_time += dt
@@ -161,7 +163,6 @@ for activation in activation_list:
                                 sense = 'maximize'
                         layer_bounds_list.append((neuron_bounds[0],neuron_bounds[1]))
                         bounds[l] = layer_bounds_list
-                        bounds_model,inpt,all_vars,mdenv_count = update_neuron_model(bounds_model,inpt,all_vars,params,bounds,l,mdenv_count,activation,exact)
-                        h_cuts += mdenv_count
+                        bounds_model,inpt,all_vars,h_cuts = update_neuron_model(bounds_model,inpt,all_vars,params,bounds,l,h_cuts,activation,exact)
                     ## Se actualiza la informacion de la red
                     new_line.append(net_time,net_cuts,h_cuts)
