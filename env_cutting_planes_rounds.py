@@ -115,8 +115,6 @@ for activation in activation_list:
                                     print('\n === Ronda {} === \n'.format(round_count))
                                     ## Se fija la funcion objetivo
                                     bounds_model = set_objective_function(bounds_model,inpt,params,bounds,l,i,sense)
-                                    if l == 1:
-                                        bounds_model.writeLP()
                                     ## Se calcula la cota 
                                     sol_list,dt = solve_neuron_model(bounds_model,sense,params,bounds,l,i,exact,minutes,print_output)
                                     ## Primera capa oculta
