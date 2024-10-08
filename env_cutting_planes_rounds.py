@@ -116,6 +116,7 @@ for activation in activation_list:
                                     ## Se fija la funcion objetivo
                                     bounds_model = set_objective_function(bounds_model,inpt,params,bounds,l,i,sense)
                                     ## Se calcula la cota 
+                                    print(bounds)
                                     sol_list,dt = solve_neuron_model(bounds_model,sense,params,bounds,l,i,exact,minutes,print_output)
                                     ## Primera capa oculta
                                     if l == 0 or type_cut == 'R_H':
