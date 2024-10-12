@@ -239,6 +239,11 @@ for activation in activation_list:
                     ## Se guardan las cotas
                     bounds_file = 'nn_bounds/{}_bounds_L{}_n{}_{}_cut_rounds_{}_minutes_{}_.txt'.format(activation,n_layers,n_neurons,type_cut,max_rounds,minutes)
                     bounds_writen = write_bounds(bounds,n_layers,n_neurons,activation,bounds_file)
+                print('header',header)
+                print(len(header))
+                print('new line',new_line)
+                print(len(new_line))
+                time.sleep(600)
                 df = df._append(pd.Series(new_line), ignore_index=True)
                 if save_results:
                     writen = False
