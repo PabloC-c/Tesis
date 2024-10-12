@@ -236,6 +236,9 @@ for activation in activation_list:
                     if n_layers < max(layer_list):
                         for k in range(max(layer_list)-n_layers):
                             new_line += ['-','-','-','-']
+                    ## Se guardan las cotas
+                    bounds_file = 'nn_bounds/{}_bounds_L{}_n{}_{}_cut_rounds_{}_minutes_{}_.txt'.format(activation,n_layers,n_neurons,type_cut,max_rounds,minutes)
+                    bounds_writen = write_bounds(bounds,n_layers,n_neurons,activation,bounds_file)
                 df.loc[len(df)] = new_line
                 if save_results:
                     writen = False
