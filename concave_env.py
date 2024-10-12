@@ -83,16 +83,14 @@ def minus_sigma_der(z):
     return -np.exp(-z)/np.power((1 + np.exp(-z)),2)
 
 # Function to compute the tie point z_hat for a given interval [L, U]
-def compute_z_hat(L0, U0, sigma, sigma_der): 
+def compute_z_hat(L0, U0, sigma, sigma_der):
     L = L0
     U = U0
-    aux_L = L
-    aux_U = U
     if L0 > U0:
         L = -L
         U = -U
-        aux_L = L
-        aux_U = U
+    aux_L = min(U,max(L,0))
+    aux_U = U
     while True:
         z_hat = (aux_L+aux_U)/2
         if L0 < U0:
@@ -101,17 +99,15 @@ def compute_z_hat(L0, U0, sigma, sigma_der):
         else:
             der = -sigma_der(-z_hat)
             slope = (sigma(-z_hat) - sigma(-L))/(z_hat-L)
-        if np.abs(der - slope) <= 1E-9:
+        if np.abs(der - slope) <= 1E-10:
             break
         elif der > slope:
-            if np.abs(z_hat-U) <= 1E-9:
-                z_hat = U
+            if np.abs(z_hat-aux_U) <= 1E-10:
                 break
             else:
                 aux_L = z_hat
         else:
-            if np.abs(z_hat-L) <= 1E-9:
-                z_hat = L
+            if np.abs(z_hat-aux_L) <= 1E-10:
                 break
             else:
                 aux_U = z_hat
@@ -150,7 +146,6 @@ def concave_envelope(x, w, b, sigma, sigma_der, z_hat = 0, depth=0):
     U = np.dot(w, np.ones_like(x)) + b
     
     # Update z_hat for the current interval
-
     z_hat = compute_z_hat(L, U, sigma, sigma_der)
     
     # Define the regions
@@ -251,22 +246,19 @@ def concave_envelope_derivate(x, w, b, sigma, sigma_der, z_hat = 0, depth=0, j=N
     - z_hat: tie point (scalar) for the function σ over [b, sum(w)+b]
     - depth: recursion depth, initially set to 0
     """
+    
     # Compute w^Tx
     wx = float(np.dot(w, x))
     
     # Define the current interval for this recursive step
     L = b
     U = float(np.dot(w, np.ones_like(x))) + b
+    
     # Update z_hat for the current interval
     z_hat = compute_z_hat(L, U, sigma, sigma_der)
     
     # Define the regions
-    if L < U:
-        R_f = wx + b >= z_hat
-        R_l = wx + b < z_hat and wx + b*np.linalg.norm(x, ord=np.inf) >= z_hat*np.linalg.norm(x, ord=np.inf)
-    else:
-        R_f = wx + b <= z_hat
-        R_l = wx + b > z_hat and wx + b*np.linalg.norm(x, ord=np.inf) <= z_hat*np.linalg.norm(x, ord=np.inf)
+    R_f,R_l = vector_in_region(L,U,x,wx,b,z_hat)
     
     # Region R_f: the envelope equals the function
     if R_f:
@@ -294,15 +286,10 @@ def concave_envelope_derivate(x, w, b, sigma, sigma_der, z_hat = 0, depth=0, j=N
         
         if j == None:
             der = np.zeros(len(x))
-            for j in range(len(x)):
-                if j == i:
-                    der_minus_i = concave_envelope_derivate(x_minus_i/x[i],w_minus_i,b + w[i], sigma, sigma_der, z_hat, depth + 1)
-                    der[i] = f_minus_i-sigma(b)-(1/x[i])*np.dot(der_minus_i,x_minus_i)
-                else:
-                    if j > i:
-                        der[j] = concave_envelope_derivate(x_minus_i/x[i],w_minus_i,b + w[i], sigma, sigma_der, z_hat, depth + 1, j-1)
-                    else:
-                        der[j] = concave_envelope_derivate(x_minus_i/x[i],w_minus_i,b + w[i], sigma, sigma_der, z_hat, depth + 1, j)
+            der_minus_i = concave_envelope_derivate(x_minus_i/x[i],w_minus_i,b + w[i], sigma, sigma_der, z_hat, depth + 1)
+            der[:i] = der_minus_i[:i]
+            der[i] = f_minus_i-sigma(b)-(1/x[i])*np.dot(der_minus_i,x_minus_i)
+            der[i+1:] = der_minus_i[i:]
         else:
             if j == i:
                 der_minus_i = concave_envelope_derivate(x_minus_i/x[i],w_minus_i,b + w[i], sigma, sigma_der, z_hat, depth + 1)
@@ -367,9 +354,9 @@ if __name__ == '__main__':
     # Interesting to plot: w = [7,7], b = -2.5 | w = [3,3], b = -0.5 | w = [7,3], b = -0.5 | w = [1,1], b = -0.5
 
     b = -0.5
-    w = [3,-7,5]
-    L = [-3,-1,0]
-    U = [1,2,4]
+    w = [3,-7]
+    L = [-3,-1]
+    U = [1,2]
     n = len(w)
     
     ## Parameters rescaling
