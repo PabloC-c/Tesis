@@ -1535,9 +1535,13 @@ def env_cut_verif_model_lp_sol(neuron_l,activation,params,bounds,model,all_vars,
             neuron_b = float(b[i])
             ## Solucion a cortar
             sigma = get_activ_func(activation)
-            ## Cotas de la capa anteior
-            L = [sigma(-bounds[l-1][k][0]) for k in range(n_input)]
-            U = [sigma(bounds[l-1][k][1]) for k in range(n_input)]
+            ## Cotas de la capa anterior
+            if l == 0:
+                L = [-bounds[l-1][k][0] for k in range(n_input)]
+                U = [bounds[l-1][k][1] for k in range(n_input)]
+            else:
+                L = [sigma(-bounds[l-1][k][0]) for k in range(n_input)]
+                U = [sigma(bounds[l-1][k][1]) for k in range(n_input)]
             ## Valor de la funcion en la solucion a cortar
             f_sol_tocut = sigma(sum(neuron_w*sol_tocut)+neuron_b)
             ## Corte envoltura concava

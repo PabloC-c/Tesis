@@ -5,8 +5,8 @@ from torchvision import datasets, transforms
 from functions import *
 
 activation_list = ['sigmoid']
-layer_list = [2]
-neuron_list = [5]
+layer_list = [2,3,4]
+neuron_list = [5,10]
 exact = 'env_cut'      # multidim_env   exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
 apply_bounds = True
 type_cuts_list = ['R_H','R_H,f','R_H,f,i']
@@ -59,7 +59,7 @@ for activation in activation_list:
     header = ['L','n']
     for k in type_cuts_list:
         for l in range(max(layer_list)):
-            header += ['time','rounds','cuts','lb gap [%]','ub gap [%]']
+            header += ['{}:time'.format(l),'{}:rounds'.format(l),'{}:cuts'.format(l),'{}:lb gap [%]'.format(l),'{}:ub gap [%]'.format(l)]
     if os.path.exists(file_name) and save_results:
         read = False
         while not read:
@@ -253,7 +253,7 @@ for activation in activation_list:
                 print(len(header))
                 print('new line',new_line)
                 print(len(new_line))
-                df = df._append(pd.Series(new_line), ignore_index=True)
+                df.loc[len(df)] = new_line
                 if save_results:
                     writen = False
                     while not writen:
