@@ -14,7 +14,7 @@ minutes = 10
 save_image = False
 apply_softmax = False
 tols_list = [0.01,0.05]
-max_rounds = 10
+max_rounds = 20
 
 root_node_only = False
 add_verif_bounds = False
