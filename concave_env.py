@@ -117,13 +117,18 @@ def compute_z_hat(L0, U0, sigma, sigma_der):
       
 #
 def vector_in_region(L,U,x,wx,b,z_hat):
-    
     if L < U:
         R_f = wx + b >= z_hat
-        R_l = wx + b < z_hat and wx + b*np.linalg.norm(x, ord=np.inf) >= z_hat*np.linalg.norm(x, ord=np.inf)
+        R_l = wx + b < z_hat and wx + b*np.linalg.norm(x, ord=np.inf) + 1E-09 >= z_hat*np.linalg.norm(x, ord=np.inf)
     else:
         R_f = wx + b<= z_hat
-        R_l = wx + b > z_hat and wx + b*np.linalg.norm(x, ord=np.inf) <= z_hat*np.linalg.norm(x, ord=np.inf)
+        R_l = wx + b > z_hat and wx + b*np.linalg.norm(x, ord=np.inf) - 1E-09 <= z_hat*np.linalg.norm(x, ord=np.inf)
+    if not (R_f or R_l) and len(x) == 1:
+        print('L',L)
+        print('U',U)
+        print('z_hat',z_hat)
+        print('wx+b',wx+b)
+        print(x)
     return R_f,R_l
 
 # Recursive function for computing the concave envelope
@@ -150,6 +155,11 @@ def concave_envelope(x, w, b, sigma, sigma_der, z_hat = 0, depth=0):
     
     # Define the regions
     R_f,R_l = vector_in_region(L,U,x,wx,b,z_hat)
+    
+    # Case 0
+    if np.linalg.norm(x, ord=np.inf) < 1E-03:
+        R_f = False
+        R_l = True
     
     # Region R_f: the envelope equals the function
     if R_f:
@@ -247,6 +257,10 @@ def concave_envelope_derivate(x, w, b, sigma, sigma_der, z_hat = 0, depth=0, j=N
     - depth: recursion depth, initially set to 0
     """
     
+    if min(x) < 0:
+        print('Warning xi <0')
+        x = np.maximum(x,0)
+    
     # Compute w^Tx
     wx = float(np.dot(w, x))
     
@@ -259,6 +273,11 @@ def concave_envelope_derivate(x, w, b, sigma, sigma_der, z_hat = 0, depth=0, j=N
     
     # Define the regions
     R_f,R_l = vector_in_region(L,U,x,wx,b,z_hat)
+    
+    # Case 0
+    #if np.linalg.norm(x, ord=np.inf) < 1E-03:
+    #    R_f = False
+    #    R_l = True
     
     # Region R_f: the envelope equals the function
     if R_f:
@@ -280,6 +299,12 @@ def concave_envelope_derivate(x, w, b, sigma, sigma_der, z_hat = 0, depth=0, j=N
         i = np.argmax(x)
         x_minus_i = np.delete(x, i)
         w_minus_i = np.delete(w, i)
+        
+        if np.linalg.norm(x, ord=np.inf) <= 1E-01:
+            print('x',x)
+            print('x_minus_i',x_minus_i)
+            print(x_minus_i/x[i])
+            print(i)
         
         # Recursive call for lower-dimensional function
         f_minus_i = concave_envelope(x_minus_i/x[i],w_minus_i, b + w[i], sigma, sigma_der, z_hat, depth + 1)

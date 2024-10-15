@@ -1549,6 +1549,9 @@ def env_cut_verif_model_lp_sol(neuron_l,activation,params,bounds,model,all_vars,
                 sigma_der = get_activ_derv(activation)
                 ## Solucion re escalada
                 rescaled_sol = concave_re_scale_vector(sol_tocut,neuron_w,L,U)
+                if min(rescaled_sol) < 0:
+                    print('Patching numerical error')
+                    rescaled_sol = np.maximum(rescaled_sol,0)
                 ## Se calcula z_hat
                 z_hat = compute_z_hat(cc_b, cc_b+np.sum(cc_w), sigma, sigma_der)
                 ## Envelope en la solucion a cortar
@@ -1584,6 +1587,9 @@ def env_cut_verif_model_lp_sol(neuron_l,activation,params,bounds,model,all_vars,
                 sigma,sigma_der = get_activ_func('-'+activation),get_activ_derv('-'+activation)
                 ## Solucion re escalada
                 rescaled_sol = convex_re_scale_vector(sol_tocut,neuron_w,L,U)
+                if min(rescaled_sol) < 0:
+                    print('Patching numerical error')
+                    rescaled_sol = np.maximum(rescaled_sol,0)
                 ## Se calcula z_hat
                 z_hat = compute_z_hat(cv_b, cv_b+np.sum(cv_w), sigma, sigma_der)
                 ## Envelope en la solucion a cortar

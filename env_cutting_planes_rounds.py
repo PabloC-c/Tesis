@@ -5,8 +5,8 @@ from torchvision import datasets, transforms
 from functions import *
 
 activation_list = ['sigmoid']
-layer_list = [2,3,4]
-neuron_list = [5,10]
+layer_list = [2]
+neuron_list = [5]
 exact = 'env_cut'      # multidim_env   exact{exact: exacto, no_exact: formulaciones alternas o envolturas, prop: modelo para calcular las cotas solo con propagacion}
 apply_bounds = True
 type_cuts_list = ['R_H','R_H,f','R_H,f,i']
@@ -59,7 +59,7 @@ for activation in activation_list:
     header = ['L','n']
     for k in type_cuts_list:
         for l in range(max(layer_list)):
-            header += ['time','rounds','cuts','widths']
+            header += ['time','rounds','cuts','lb gap [%]','ub gap [%]']
     if os.path.exists(file_name) and save_results:
         read = False
         while not read:
@@ -82,6 +82,7 @@ for activation in activation_list:
             for tol_distance in tols_list_range:
                 ## Lista de info a guardar 
                 new_line = [n_layers,n_neurons]
+                bounds_list = []
                 for type_cut in type_cuts_list:
                     print('Tolerancia: {} '.format(tol_distance))
                     print('Tipo de corte ',type_cut)
@@ -108,7 +109,8 @@ for activation in activation_list:
                     layers_times = []
                     layers_rounds = []
                     layers_cuts = []
-                    layers_widths = []
+                    layers_lb_gaps = []
+                    layers_ub_gaps = []
                     ## Capa de la red
                     for l in range(n_layers):
                         ## Parametros capa l
@@ -122,7 +124,8 @@ for activation in activation_list:
                         layer_time = 0
                         layer_rounds = 0
                         layer_cuts = 0 
-                        layer_widths = 0
+                        layer_lb_gap = 0
+                        layer_ub_gap = 0
                         ## Neurona de la red
                         for i in range(layer_neurons):
                             ## Lista para las cotas de la neurona
@@ -217,7 +220,12 @@ for activation in activation_list:
                             ## Se añaden las cotas de la neurona a las cotas de la capa
                             layer_bounds_list.append((neuron_bounds[0],neuron_bounds[1]))
                             ## Se actualizan los datos de la capa
-                            layer_widths += neuron_bounds[0] + neuron_bounds[1]
+                            if len(bounds_list) == 0:
+                                layer_lb_gap += 0
+                                layer_ub_gap += 0
+                            else:
+                                layer_lb_gap += np.abs(bounds_list[0][l][i][0] - neuron_bounds[0])/np.abs(bounds_list[0][l][i][0])
+                                layer_ub_gap += np.abs(bounds_list[0][l][i][1] - neuron_bounds[1])/np.abs(bounds_list[0][l][i][1])
                         ## Se guardan las cotas de la capa
                         bounds[l] = layer_bounds_list 
                         ## Se actualiza el modelo
@@ -229,21 +237,22 @@ for activation in activation_list:
                         layers_times.append(layer_time/layer_neurons)
                         layers_rounds.append(layer_rounds/layer_neurons)
                         layers_cuts.append(layer_cuts/layer_neurons)
-                        layers_widths.append(layer_widths/layer_neurons)
+                        layers_lb_gaps.append(100*layer_lb_gap/layer_neurons)
+                        layers_ub_gaps.append(100*layer_ub_gap/layer_neurons)
                         ## Se actualiza la fila del df
-                        new_line += [layers_times[-1],layers_rounds[-1],layers_cuts[-1],layers_widths[-1]]
+                        new_line += [layers_times[-1],layers_rounds[-1],layers_cuts[-1],layers_lb_gaps[-1],layers_ub_gaps[-1]]
                     ## Se actualiza la informacion de la red
                     if n_layers < max(layer_list):
                         for k in range(max(layer_list)-n_layers):
-                            new_line += ['-','-','-','-']
+                            new_line += ['-','-','-','-','-']
                     ## Se guardan las cotas
                     bounds_file = 'nn_bounds/{}_bounds_L{}_n{}_{}_cut_rounds_{}_minutes_{}_.txt'.format(activation,n_layers,n_neurons,type_cut,max_rounds,minutes)
                     bounds_writen = write_bounds(bounds,n_layers,n_neurons,activation,bounds_file)
+                    bounds_list.append(bounds)
                 print('header',header)
                 print(len(header))
                 print('new line',new_line)
                 print(len(new_line))
-                time.sleep(600)
                 df = df._append(pd.Series(new_line), ignore_index=True)
                 if save_results:
                     writen = False
