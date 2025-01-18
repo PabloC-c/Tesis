@@ -63,22 +63,22 @@ def calculate_accuracy(test_loader,model):
     return acc
 
 ## Configuración del entrenamiento
-batch_size = 64
+batch_size = 16
 max_batch_size = 512
-learning_rate = 0.05
-num_epochs = 100      ##ESTABA EN 50
-weight_decay = 0.0001 ##ESTABA EN 0.005
+learning_rate = 0.01
+num_epochs = 80     ##ESTABA EN 50
+weight_decay = 0.005 ##ESTABA EN 0.005
 print_loss = False
 regul_L = 'L2'
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 ## Redes a entrenar
-neuron_list = [2]
-layer_list  = [2]
+neuron_list = [5]
+layer_list  = [5,6]
 activation_list = ['relu']
 
 ## Se descargan los datos de MNIST
-mnist = False
+mnist = True
 if mnist:
     train_dataset = datasets.MNIST(root='./data', train=True, transform=transforms.ToTensor(), download=True)
     test_dataset = datasets.MNIST(root='./data', train=False, transform=transforms.ToTensor())
@@ -133,8 +133,9 @@ for activation in activation_list:
                     test_dataset = datasets.MNIST(root='./data', train=False, transform=transforms.ToTensor())
                     test_loader  = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=256, shuffle=False)
                     acc = calculate_accuracy(test_loader, net)
-                    if acc >= 0.95:
-                        break
+                    if acc >= 0.89:
+                        print('Accuracy:',acc)
+                        continue
                     elif acc > 0.55:
                         og_acc = acc
                         re_train = True
@@ -146,7 +147,9 @@ for activation in activation_list:
                     acc = 0
                     re_train = False
                 print('\n ===== Capas: ',n_layers,' Neuronas: ',n_neurons,' Activacion: ',activation,'===== \n')
-                while (acc<0.9 and batch_size <= max_batch_size ):
+                print('Re train',re_train)
+                print('Accuracy',acc)
+                while (acc<0.89 and batch_size <= max_batch_size ):
                     print('intento con batch size :',batch_size)
                     ## Se crean los dataloaders para el manejo de los datos durante el entrenamiento
                     train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
@@ -168,21 +171,21 @@ for activation in activation_list:
                     try:
                         trainer(net, device, train_loader, optimizer, num_epochs, print_loss = print_loss,regul_L = regul_L,L_lambda = weight_decay)
                         acc = tester(net, device, test_loader)
-                        if acc > 0.9:
-                            break
-                        trained = True
+                        if acc > 0.89:
+                            trained = True
                     except:
                         print('\n \t Siguiente size  \t')
                         trained = False
                         acc = 0
                     if not (n_layers,n_neurons) in net_dict:
+                        print('a guardar')
                         net_dict[(n_layers,n_neurons)] = (net,acc)                        
                     elif acc > net_dict[(n_layers,n_neurons)][1]:
                             net_dict[(n_layers,n_neurons)] = (net,acc)
                     ## Se mueve el modelo a la CPU
                     net = net.to("cpu")
                     batch_size = batch_size * 2
-                print('\t Precisión en el conjunto de prueba: {} %'.format(100 * acc))
+                print('\t Precisión en el conjunto de prueba: {} %'.format(100 *  net_dict[(n_layers,n_neurons)][1]))
                 # Guardar los parámetros de la red
                 if not re_train or (re_train and (og_acc < net_dict[(n_layers,n_neurons)][1])):
                     final_net = net_dict[(n_layers,n_neurons)][0]
