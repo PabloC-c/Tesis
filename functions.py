@@ -491,51 +491,55 @@ def update_neuron_model(neuron_model,inpt,all_vars,params,bounds,l,mdenv_count,a
                 all_vars['a{},{}'.format(l,i)] = a
                 ## Se guarda la variable a, para el input de la siguiente capa
                 aux_input.append(a)
-                ## Restriccion H concava
-                ## Parametros
-                neuron_w = np.array([float(W[i,k]) for k in range(n_input)])
-                neuron_b = float(b[i])
-                ## Cotas de la capa anterior
-                if l == 0:
-                    L = [-bounds[l-1][k][0] for k in range(n_input)]
-                    U = [bounds[l-1][k][1] for k in range(n_input)]
+                ## Caso ReLU: neurona activa
+                if activation == 'relu' and -bounds[l][i][0] >= 0:
+                    neuron_model.addCons(quicksum(float(W[i,k])*inpt[k] for k in range(n_input)) + float(b[i]) == a, name = 'eval{},{}'.format(l,i))
                 else:
-                    L = [sigma(-bounds[l-1][k][0]) for k in range(n_input)]
-                    U = [sigma(bounds[l-1][k][1]) for k in range(n_input)]
-                ## Pesos re escalados
-                cc_w,cc_b = concave_re_scale_0_1_box(neuron_w,neuron_b,L,U)
-                ## Calculo de z_hat
-                z_hat = compute_z_hat(cc_b, cc_b+np.sum(cc_w), activation, sigma, sigma_der)
-                ## Caso en que la funcion es concava
-                if True:#np.abs(z_hat-cc_b) <= 1E-05:
-                    max_value = sigma(cc_b+np.sum(cc_w))
-                    neuron_model.addCons( a <= max_value , name = 'plane_max{},{}'.format(l,i))
-                    if np.abs(z_hat-cc_b) <= 1E-05:
-                        z_hat = cc_b + 1E-05
-                slope = (sigma(z_hat)-sigma(cc_b))/(z_hat-cc_b) 
-                inter = sigma(cc_b)
-                neuron_model.addCons(inter+slope*(quicksum(neuron_w[k]*inpt[k] for k in range(n_input))+neuron_b-cc_b) - a >= -1E-05 , name = 'h_cc{},{}'.format(l,i))                    
-                ## Restriccion H convexa
-                ## Funcion y su derivada
-                minus_sigma,minus_sigma_der = get_activ_func('-'+activation),get_activ_derv('-'+activation)
-                ## Pesos re escalados
-                cv_w,cv_b = convex_re_scale_0_1_box(neuron_w,neuron_b,L,U)
-                ## Calculo de z_hat
-                z_hat = compute_z_hat(cv_b, cv_b+np.sum(cv_w), '-'+activation, minus_sigma, minus_sigma_der)
-                ## Caso en que la funcion es convexa
-                if True:#np.abs(cv_b-z_hat) <= 1E-05:
-                    min_value = sigma(cv_b+np.sum(cv_w))
-                    neuron_model.addCons( a >= min_value, name = 'plane_min{},{}'.format(l,i))
-                    if np.abs(cv_b-z_hat) <= 1E-05:
-                        z_hat = cv_b - 1E-05
-                slope = (sigma(z_hat)-sigma(cv_b))/(z_hat-cv_b) 
-                inter = sigma(cv_b)
-                neuron_model.addCons(inter+slope*(quicksum(neuron_w[k]*inpt[k] for k in range(n_input))+neuron_b-cv_b) - a <= 1E-05 , name = 'h_cv{},{}'.format(l,i))
-                neuron_model.data['multidim_env_count'][(l,i)] = 0
-                mdenv_count += 2
-                print('Optimization bounds: [{},{}]'.format(-bounds[l][i][0],bounds[l][i][1]))
-                print('Algorithm bounds   : [{},{}]'.format(min_value,max_value))
-                uuuu = input()
+                    ## Restriccion H concava
+                    ## Parametros
+                    neuron_w = np.array([float(W[i,k]) for k in range(n_input)])
+                    neuron_b = float(b[i])
+                    ## Cotas de la capa anterior
+                    if l == 0:
+                        L = [-bounds[l-1][k][0] for k in range(n_input)]
+                        U = [bounds[l-1][k][1] for k in range(n_input)]
+                    else:
+                        L = [sigma(-bounds[l-1][k][0]) for k in range(n_input)]
+                        U = [sigma(bounds[l-1][k][1]) for k in range(n_input)]
+                    ## Pesos re escalados
+                    cc_w,cc_b = concave_re_scale_0_1_box(neuron_w,neuron_b,L,U)
+                    ## Calculo de z_hat
+                    z_hat = compute_z_hat(cc_b, cc_b+np.sum(cc_w), activation, sigma, sigma_der)
+                    ## Caso en que la funcion es concava
+                    if True:#np.abs(z_hat-cc_b) <= 1E-05:
+                        max_value = sigma(cc_b+np.sum(cc_w))
+                        neuron_model.addCons( a <= max_value + 1E-04 , name = 'plane_max{},{}'.format(l,i))
+                        if np.abs(z_hat-cc_b) <= 1E-05:
+                            z_hat = cc_b + 1E-05
+                    slope = (sigma(z_hat)-sigma(cc_b))/(z_hat-cc_b) 
+                    inter = sigma(cc_b)
+                    neuron_model.addCons(inter+slope*(quicksum(neuron_w[k]*inpt[k] for k in range(n_input))+neuron_b-cc_b) - a >= -1E-04 , name = 'h_cc{},{}'.format(l,i))                    
+                    ## Restriccion H convexa
+                    ## Funcion y su derivada
+                    minus_sigma,minus_sigma_der = get_activ_func('-'+activation),get_activ_derv('-'+activation)
+                    ## Pesos re escalados
+                    cv_w,cv_b = convex_re_scale_0_1_box(neuron_w,neuron_b,L,U)
+                    ## Calculo de z_hat
+                    z_hat = compute_z_hat(cv_b, cv_b+np.sum(cv_w), '-'+activation, minus_sigma, minus_sigma_der)
+                    ## Caso en que la funcion es convexa
+                    if True:#np.abs(cv_b-z_hat) <= 1E-05:
+                        min_value = sigma(cv_b+np.sum(cv_w))
+                        neuron_model.addCons( a >= min_value - 1E-04, name = 'plane_min{},{}'.format(l,i))
+                        if np.abs(cv_b-z_hat) <= 1E-05:
+                            z_hat = cv_b - 1E-05
+                    slope = (sigma(z_hat)-sigma(cv_b))/(z_hat-cv_b) 
+                    inter = sigma(cv_b)
+                    neuron_model.addCons(inter+slope*(quicksum(neuron_w[k]*inpt[k] for k in range(n_input))+neuron_b-cv_b) - a <= 1E-04 , name = 'h_cv{},{}'.format(l,i))
+                    neuron_model.data['multidim_env_count'][(l,i)] = 0
+                    mdenv_count += 2
+                    print('Optimization bounds: [{},{}]'.format(-bounds[l][i][0],bounds[l][i][1]))
+                    print('Algorithm bounds   : [{},{}]'.format(min_value,max_value))
+                    uuuu = input()
     return neuron_model,aux_input,all_vars,mdenv_count
 
 
